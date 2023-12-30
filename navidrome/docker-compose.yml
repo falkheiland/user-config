@@ -1,0 +1,5 @@
+version: "3"
+services:
+  navidrome:
+    volumes:
+      - /nfs/music:/music:ro

@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+
+  immich:
+    volumes:
+      - /nfs/tipi/immich:/usr/src/app/upload
+    labels:
+      # Main
+      traefik.http.routers.immich.middlewares: authentik@docker
+
+  immich-microservices:
+    volumes:
+      - /nfs/tipi/immich:/usr/src/app/upload
+
+  immich-machine-learning:
+    volumes:
+      - /nfs/tipi/immich:/usr/src/app/upload
