@@ -1,5 +1,16 @@
 version: "3.7"
 
 services:
+  joplin:
+    environment:
+      - MAILER_ENABLED=1
+      - MAILER_HOST=${MAILER_HOST}
+      - MAILER_PORT=587
+      - MAILER_SECURITY=starttls
+      - MAILER_AUTH_USER=${MAILER_AUTH_USER}
+      - MAILER_AUTH_PASSWORD=${MAILER_AUTH_PASSWORD}
+      - MAILER_NOREPLY_NAME=joplin
+      - MAILER_NOREPLY_EMAIL=noreply@${APP_DOMAIN}
+
   db-joplin:
     image: postgres:15
