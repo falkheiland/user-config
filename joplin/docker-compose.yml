@@ -10,7 +10,7 @@ services:
       - MAILER_AUTH_USER=${MAILER_AUTH_USER}
       - MAILER_AUTH_PASSWORD=${MAILER_AUTH_PASSWORD}
       - MAILER_NOREPLY_NAME=joplin
-      - MAILER_NOREPLY_EMAIL=noreply@${APP_DOMAIN}
+      - MAILER_NOREPLY_EMAIL=noreply.joplin@${APP_DOMAIN}
 
   db-joplin:
     image: postgres:15
