@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  linkwarden:
+    environment:
+      # https://docs.linkwarden.app/self-hosting/environment-variables
+      #- PAGINATION_TAKE_COUNT=
+      #- STORAGE_FOLDER=
+      #- AUTOSCROLL_TIMEOUT=
+      #- NEXT_PUBLIC_CREDENTIALS_ENABLED=
+      #- DISABLE_NEW_SSO_USERS=
+      #- RE_ARCHIVE_LIMIT=
+      #- NEXT_PUBLIC_MAX_FILE_SIZE=
+      #- MAX_LINKS_PER_USER=
+      #- ARCHIVE_TAKE_COUNT=
+      #- BROWSER_TIMEOUT=
+      # https://github.com/linkwarden/linkwarden/issues/381#issuecomment-1872982427
+      - IGNORE_UNAUTHORIZED_CA=true
