@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  vaultwarden:
+    environment:
+      - DISABLE_ADMIN_TOKEN=false # true will disable the built in ADMIN_TOKEN used for authentication while also enabling the admin panel 
+      - SHOW_PASSWORD_HINT=false
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=465
+      - SMTP_SECURITY=force_tls
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_FROM=noreply.vaultwarden@${APP_DOMAIN}
+      - SMTP_FROM_NAME=vaultwarden
+      - LOG_FILE=/data/vaultwarden.log
+      - LOG_LEVEL=warn # options are: "trace", "debug", "info", "warn", "error" or "off".
+      - EXTENDED_LOGGING=false
