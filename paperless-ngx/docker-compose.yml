@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  paperless-ngx:
+    volumes:
+      - /nfs/tipi/paperlessngx/media:/usr/src/paperless/media
+      - /nfs/tipi/paperlessngx/export:/usr/src/paperless/export
+      - /nfs/scan:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_TIME_ZONE: ${PAPERLESS_TIME_ZONE}
+      PAPERLESS_OCR_LANGUAGE: ${PAPERLESS_OCR_LANGUAGE}
+
+  db:
+    image: docker.io/library/postgres:15
