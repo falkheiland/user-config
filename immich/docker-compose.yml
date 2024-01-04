@@ -5,9 +5,6 @@ services:
   immich:
     volumes:
       - /nfs/tipi/immich:/usr/src/app/upload
-    labels:
-      # Main
-      traefik.http.routers.immich.middlewares: authentik@docker
 
   immich-microservices:
     volumes:

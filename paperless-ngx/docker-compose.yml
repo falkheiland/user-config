@@ -8,6 +8,9 @@ services:
     environment:
       PAPERLESS_TIME_ZONE: ${PAPERLESS_TIME_ZONE}
       PAPERLESS_OCR_LANGUAGE: ${PAPERLESS_OCR_LANGUAGE}
+    labels:
+      # Websecure
+      traefik.http.routers.paperless-ngx.middlewares: authentik@docker
 
   db:
     image: docker.io/library/postgres:15
