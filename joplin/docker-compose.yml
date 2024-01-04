@@ -1,0 +1,5 @@
+version: "3.7"
+
+services:
+  db-joplin:
+    image: postgres:15
