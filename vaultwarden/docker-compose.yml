@@ -3,6 +3,8 @@ version: '3.7'
 services:
   vaultwarden:
     environment:
+      - SIGNUPS_ALLOWED=false # Change to false after first login
+      - INVITATIONS_ALLOWED=false # Send invitation using admin page
       - DISABLE_ADMIN_TOKEN=false # true will disable the built in ADMIN_TOKEN used for authentication while also enabling the admin panel 
       - SHOW_PASSWORD_HINT=false
       - SMTP_HOST=${SMTP_HOST}
