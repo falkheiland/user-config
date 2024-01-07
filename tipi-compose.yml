@@ -1,0 +1,7 @@
+version: '3.7'
+
+services:
+  tipi-reverse-proxy:
+    volumes:
+      - ./app-data/traefik:/root/.config
+      - ./app-data/traefik/shared:/shared
