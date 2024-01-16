@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  dbbackup:
+    image: tiredofit/db-backup:4.0.34
+    container_name: wekan-db-backup
+    environment:
+      - DEFAULT_COMPRESSION=${DEFAULT_COMPRESSION}
+      - DB01_TYPE=${DB01_TYPE}
+      - DB01_HOST=${DB01_HOST}
+      - DB01_NAME=${DB01_NAME}
+      - CONTAINER_ENABLE_MONITORING=${CONTAINER_ENABLE_MONITORING}
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${APP_DATA_DIR}/data/db-backup:/backup
+    depends_on:
+      - wekan-db
+    networks:
+      - backend
