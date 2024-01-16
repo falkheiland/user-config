@@ -17,4 +17,4 @@ services:
     depends_on:
       - wekan-db
     networks:
-      - backend
+      - backend_network
