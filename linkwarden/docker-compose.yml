@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   linkwarden:
+    image: ghcr.io/linkwarden/linkwarden:v2.4.9
     environment:
       # https://docs.linkwarden.app/self-hosting/environment-variables
       #- PAGINATION_TAKE_COUNT=
