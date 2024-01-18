@@ -2,6 +2,8 @@ version: '3.7'
 
 services:
   tipi-reverse-proxy:
+    ports:
+      - 8080:8080
     volumes:
       - ./app-data/traefik:/root/.config
       - ./app-data/traefik/shared:/shared

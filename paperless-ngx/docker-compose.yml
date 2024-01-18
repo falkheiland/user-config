@@ -11,7 +11,7 @@ services:
       PAPERLESS_CONSUMER_POLLING: ${PAPERLESS_CONSUMER_POLLING}
     labels:
       # Websecure
-      traefik.http.routers.paperless-ngx.middlewares: authentik@docker
+      traefik.http.routers.paperless-ngx.middlewares: authentik@file
 
   db:
     image: docker.io/library/postgres:15
