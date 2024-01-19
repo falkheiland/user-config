@@ -1,0 +1,34 @@
+version: "2.1"
+
+services:
+  nocodb:
+    labels:
+      # Websecure
+      traefik.http.routers.nocodb.middlewares: authentik@file
+
+  nocodb-db:
+    networks:
+      - backend_network
+
+  dbbackup:
+    image: tiredofit/db-backup:4.0.34
+    container_name: nocodb-db-backup
+    environment:
+      - DEFAULT_COMPRESSION=GZ
+      - DB01_TYPE=pgsql
+      - DB01_HOST=nocodb-db
+      - DB01_NAME=nocodb
+      - DB01_USER=postgres
+      - DB01_PASS=${NOCODB_DB_PASSWORD}
+      - CONTAINER_ENABLE_MONITORING=FALSE
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${APP_DATA_DIR}/data/db-backup:/backup
+    depends_on:
+      - nocodb-db
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
