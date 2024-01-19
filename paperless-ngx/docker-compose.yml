@@ -12,6 +12,30 @@ services:
     labels:
       # Websecure
       traefik.http.routers.paperless-ngx.middlewares: authentik@file
-
   db:
     image: docker.io/library/postgres:15
+    networks:
+      - backend_network
+
+  dbbackup:
+    image: tiredofit/db-backup:4.0.34
+    container_name: paperless-ngx-db-backup
+    environment:
+      - DEFAULT_COMPRESSION=${DEFAULT_COMPRESSION}
+      - DB01_TYPE=${DB01_TYPE}
+      - DB01_HOST=${DB01_HOST}
+      - DB01_NAME=${DB01_NAME}
+      - DB01_USER=${DB01_USER}
+      - DB01_PASS=${DB01_PASS}
+      - CONTAINER_ENABLE_MONITORING=${CONTAINER_ENABLE_MONITORING}
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${APP_DATA_DIR}/data/db-backup:/backup
+    depends_on:
+      - db
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
