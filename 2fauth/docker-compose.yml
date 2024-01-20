@@ -1,4 +1,6 @@
 version: "3.7"
 services:
   2fauth:
-    image: 2fauth/2fauth:5.0.2
+    environment:
+      - ASSET_URL=https://2fauth.${LOCAL_DOMAIN}
+      - APP_URL=https://2fauth.${LOCAL_DOMAIN}
