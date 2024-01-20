@@ -21,6 +21,7 @@ services:
       - DB01_USER=postgres
       - DB01_PASS=${NOCODB_DB_PASSWORD}
       - CONTAINER_ENABLE_MONITORING=FALSE
+      - DEFAULT_CLEANUP_TIME=1440
     restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro

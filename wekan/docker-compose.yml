@@ -15,6 +15,7 @@ services:
       - DB01_HOST=${DB01_HOST}
       - DB01_NAME=${DB01_NAME}
       - CONTAINER_ENABLE_MONITORING=${CONTAINER_ENABLE_MONITORING}
+      - DEFAULT_CLEANUP_TIME=1440
     restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro
