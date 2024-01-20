@@ -16,6 +16,9 @@ services:
       #- BROWSER_TIMEOUT=
       # https://github.com/linkwarden/linkwarden/issues/381#issuecomment-1872982427
       - IGNORE_UNAUTHORIZED_CA=true
+    labels:
+      # Websecure
+      traefik.http.routers.linkwarden.middlewares: authentik@file
 
   linkwarden-db:
     networks:
