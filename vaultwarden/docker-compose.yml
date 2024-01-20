@@ -17,3 +17,6 @@ services:
       - LOG_FILE=/data/vaultwarden.log
       - LOG_LEVEL=warn # options are: "trace", "debug", "info", "warn", "error" or "off".
       - EXTENDED_LOGGING=false
+    labels:
+      # Websecure
+      traefik.http.routers.vaultwarden.middlewares: authentik@file
