@@ -4,12 +4,12 @@ services:
 
   immich:
     volumes:
-      - /nfs/tipi/immich:/usr/src/app/upload
+      - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
 
   immich-microservices:
     volumes:
-      - /nfs/tipi/immich:/usr/src/app/upload
+      - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
 
   immich-machine-learning:
     volumes:
-      - /nfs/tipi/immich:/usr/src/app/upload
+      - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload

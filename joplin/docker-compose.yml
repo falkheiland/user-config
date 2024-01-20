@@ -14,3 +14,29 @@ services:
 
   db-joplin:
     image: postgres:15
+    networks:
+      - backend_network
+
+  dbbackup:
+    image: tiredofit/db-backup:4.0.34
+    container_name: joplin-db-backup
+    environment:
+      - DEFAULT_COMPRESSION=GZ
+      - DB01_TYPE=pgsql
+      - DB01_HOST=db-joplin
+      - DB01_NAME=joplin
+      - DB01_USER=tipi
+      - DB01_PASS=${JOPLIN_DB_PASSWORD}
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      - DEFAULT_CLEANUP_TIME=1440
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${APP_DATA_DIR}/data/db-backup:/backup
+    depends_on:
+      - db-joplin
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
