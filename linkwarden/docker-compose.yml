@@ -16,3 +16,31 @@ services:
       #- BROWSER_TIMEOUT=
       # https://github.com/linkwarden/linkwarden/issues/381#issuecomment-1872982427
       - IGNORE_UNAUTHORIZED_CA=true
+
+  linkwarden-db:
+    networks:
+      - backend_network
+
+  dbbackup:
+    image: tiredofit/db-backup:4.0.34
+    container_name: linkwarden-db-backup
+    environment:
+      - DEFAULT_COMPRESSION=GZ
+      - DB01_TYPE=pgsql
+      - DB01_HOST=linkwarden-db
+      - DB01_NAME=linkwarden
+      - DB01_USER=tipi
+      - DB01_PASS=${LINKWARDEN_DB_PASSWORD}
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      - DEFAULT_CLEANUP_TIME=1440
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${APP_DATA_DIR}/data/db-backup:/backup
+    depends_on:
+      - linkwarden-db
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
