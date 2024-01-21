@@ -16,9 +16,14 @@ services:
       #- BROWSER_TIMEOUT=
       # https://github.com/linkwarden/linkwarden/issues/381#issuecomment-1872982427
       - IGNORE_UNAUTHORIZED_CA=true
-    labels:
-      # Websecure
-      traefik.http.routers.linkwarden.middlewares: authentik@file
+      # https://docs.linkwarden.app/self-hosting/sso-oauth#authentik
+      - NEXT_PUBLIC_AUTHENTIK_ENABLED=true
+      - AUTHENTIK_ISSUER=${AUTHENTIK_ISSUER}
+      - AUTHENTIK_CLIENT_ID=${AUTHENTIK_CLIENT_ID}
+      - AUTHENTIK_CLIENT_SECRET=${AUTHENTIK_CLIENT_SECRET}
+    # labels:
+    #   # Websecure
+    #   traefik.http.routers.linkwarden.middlewares: authentik@file
 
   linkwarden-db:
     networks:
