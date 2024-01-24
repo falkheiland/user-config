@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  freshrss:
+    image: freshrss/freshrss:1.23.1
+    environment:
+    # https://goauthentik.io/integrations/services/freshrss/
+    # https://freshrss.github.io/FreshRSS/en/admins/16_OpenID-Connect.html
+    # https://freshrss.github.io/FreshRSS/en/admins/16_OpenID-Connect-Authentik.html
+      - TRUSTED_PROXY=172.16.0.1/12 # internal Docker traefik IP address, could use 172.18.0.1/24 instead to allow the entire internal Docker network to proxy
+      - OIDC_ENABLED=1 #Activates OIDC support
+      - OIDC_PROVIDER_METADATA_URL=${OIDC_PROVIDER_METADATA_URL} #The config URL. Usually looks like: <issuer>/.well-known/openid-configuration
+      - OIDC_CLIENT_ID=${OIDC_CLIENT_ID} #The OIDC client id from your issuer.
+      - OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET} #The OIDC client secret issuer.
+      #- OIDC_CLIENT_CRYPTO_KEY= #An opaque key used for internal encryption.
+      - OIDC_REMOTE_USER_CLAIM=preferred_username #The claim to use as the username within FreshRSS. Defaults to preferred_username. Depending on what you choose here, and your identity provider, you’ll need to adjust the scopes you request so that this claim will be accessible. Refer to your identity provider’s documentation.
+      - OIDC_SCOPES=openid email profile #The OIDC scopes to request separated by an empty space. Defaults to openid. As mentioned previously, make sure the scopes you pick contain whatever OIDC_REMOTE_USER_CLAIM you chose. For example, Authelia would require setting this value to openid profile to make preferred_username accessible.
+      - OIDC_X_FORWARDED_HEADERS=X-Forwarded-Port X-Forwarded-Proto X-Forwarded-Host #Optional, but required when running FreshRSS behind a reverse proxy so that the OIDC module can determine what hostname, port and protocol were used to access FreshRSS, in order to generate a return URL for the OIDC authorization flow. Must be one or more of Forwarded, X-Forwarded-Host, X-Forwarded-Port or X-Forwarded-Proto (separate multiple values with a space). See mod_auth_openidc’s documentation for details.
+    labels:
+      # https://github.com/FreshRSS/FreshRSS/blob/edge/Docker/freshrss/docker-compose-proxy.yml
+      # Main
+      traefik.http.middlewares.freshrssM1.compress: true
+      traefik.http.middlewares.freshrssM2.headers.browserXssFilter: true
+      traefik.http.middlewares.freshrssM2.headers.forceSTSHeader: true
+      traefik.http.middlewares.freshrssM2.headers.frameDeny: true
+      traefik.http.middlewares.freshrssM2.headers.referrerPolicy: no-referrer-when-downgrade
+      traefik.http.middlewares.freshrssM2.headers.stsSeconds: 31536000
+
+      # Websecure
+      traefik.http.routers.freshrss.middlewares: freshrssM1,freshrssM2
+
+      # Local domain secure
+      traefik.http.routers.freshrss-local.middlewares: freshrssM1,freshrssM2
