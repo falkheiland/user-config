@@ -4,6 +4,8 @@ services:
   freshrss:
     image: freshrss/freshrss:1.23.1
     environment:
+      - TZ=${TZ_CUSTOM}
+      - CRON_MIN=5,20,35,50
     # https://goauthentik.io/integrations/services/freshrss/
     # https://freshrss.github.io/FreshRSS/en/admins/16_OpenID-Connect.html
     # https://freshrss.github.io/FreshRSS/en/admins/16_OpenID-Connect-Authentik.html
