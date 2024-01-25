@@ -2,9 +2,19 @@ version: "3.7"
 
 services:
   wekan:
-    labels:
-      # Websecure
-      traefik.http.routers.wekan.middlewares: authentik@file
+    environment:
+      - OAUTH2_ENABLED=true
+      - OAUTH2_LOGIN_STYLE=redirect
+      - OAUTH2_CLIENT_ID=${OAUTH2_CLIENT_ID}
+      - OAUTH2_SERVER_URL=${OAUTH2_SERVER_URL}
+      - OAUTH2_AUTH_ENDPOINT=/application/o/authorize/
+      - OAUTH2_USERINFO_ENDPOINT=/application/o/userinfo/
+      - OAUTH2_TOKEN_ENDPOINT=/application/o/token/
+      - OAUTH2_SECRET=${OAUTH2_SECRET}
+      - OAUTH2_FULLNAME_MAP=given_name
+      - OAUTH2_EMAIL_MAP=email
+      - OAUTH2_ID_MAP=sub
+      - OAUTH2_USERNAME_MAP=email
 
   dbbackup:
     image: tiredofit/db-backup:4.0.34
