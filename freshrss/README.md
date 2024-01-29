@@ -1,5 +1,7 @@
 # freshrss
 
+using the original image, since linuxserver one, does not support headers used for OIDC.
+
 https://hub.docker.com/r/freshrss/freshrss
 
 
