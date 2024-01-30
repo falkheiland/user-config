@@ -5,4 +5,4 @@ services:
       - '/etc/localtime:/etc/localtime:ro'
     labels:
       # Websecure
-      traefik.http.routers.uptime-kuma.middlewares: authentik@file
+      traefik.http.routers.uptime-kuma.middlewares: authentik@file, geoblock@file
