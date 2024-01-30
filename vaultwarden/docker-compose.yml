@@ -19,4 +19,4 @@ services:
       - EXTENDED_LOGGING=false
     labels:
       # Websecure
-      traefik.http.routers.vaultwarden.middlewares: authentik@file
+      traefik.http.routers.vaultwarden.middlewares: authentik@file, geoblock@file

@@ -11,7 +11,8 @@ services:
       PAPERLESS_CONSUMER_POLLING: 300
     labels:
       # Websecure
-      traefik.http.routers.paperless-ngx.middlewares: authentik@file
+      traefik.http.routers.paperless-ngx.middlewares: authentik@file, geoblock@file
+
   db:
     image: docker.io/library/postgres:15
     networks:

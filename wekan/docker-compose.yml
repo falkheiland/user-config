@@ -15,6 +15,9 @@ services:
       - OAUTH2_EMAIL_MAP=email
       - OAUTH2_ID_MAP=sub
       - OAUTH2_USERNAME_MAP=email
+    labels:
+      # Websecure
+      traefik.http.routers.wekan.middlewares: geoblock@file
 
   dbbackup:
     image: tiredofit/db-backup:4.0.34

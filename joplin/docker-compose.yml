@@ -11,6 +11,9 @@ services:
       - MAILER_AUTH_PASSWORD=${MAILER_AUTH_PASSWORD}
       - MAILER_NOREPLY_NAME=joplin
       - MAILER_NOREPLY_EMAIL=noreply.joplin@${APP_DOMAIN}
+    labels:
+      # Websecure
+      traefik.http.routers.joplin.middlewares: geoblock@file
 
   db-joplin:
     image: postgres:15

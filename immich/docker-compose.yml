@@ -5,6 +5,9 @@ services:
   immich:
     volumes:
       - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
+    labels:
+      # Websecure
+      traefik.http.routers.immich.middlewares: geoblock@file
 
   immich-microservices:
     volumes:

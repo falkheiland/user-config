@@ -1,6 +1,11 @@
 version: "3.7"
 
 services:
+  authentik:
+    labels:
+      # Websecure
+      traefik.http.routers.authentik.middlewares: geoblock@file
+
   authentik-db:
     networks:
       - backend_network

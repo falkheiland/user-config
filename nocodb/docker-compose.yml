@@ -4,7 +4,7 @@ services:
   nocodb:
     labels:
       # Websecure
-      traefik.http.routers.nocodb.middlewares: authentik@file
+      traefik.http.routers.nocodb.middlewares: authentik@file, geoblock@file
 
   nocodb-db:
     networks:

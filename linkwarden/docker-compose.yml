@@ -21,9 +21,9 @@ services:
       - AUTHENTIK_ISSUER=${AUTHENTIK_ISSUER}
       - AUTHENTIK_CLIENT_ID=${AUTHENTIK_CLIENT_ID}
       - AUTHENTIK_CLIENT_SECRET=${AUTHENTIK_CLIENT_SECRET}
-    # labels:
-    #   # Websecure
-    #   traefik.http.routers.linkwarden.middlewares: authentik@file
+    labels:
+      # Websecure
+      traefik.http.routers.linkwarden.middlewares: geoblock@file
 
   linkwarden-db:
     networks:
