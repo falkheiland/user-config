@@ -8,3 +8,4 @@ services:
     volumes:
       - ./app-data/traefik:/root/.config
       - ./app-data/traefik/shared:/shared
+      - ./app-data/traefik/plugins:/plugins-local
