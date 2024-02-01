@@ -1,6 +1,20 @@
 version: '3.7'
 
 services:
+  tipi-worker:
+    labels:
+      # Local ip
+      traefik.http.routers.worker.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
+      # Websecure
+      traefik.http.routers.worker-secure.middlewares: geoblock@file
+
+  tipi-dashboard:
+    labels:
+      # Local ip
+      traefik.http.routers.dashboard.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
+      # Websecure
+      traefik.http.routers.dashboard-secure.middlewares: authentik@file, geoblock@file
+
   tipi-reverse-proxy:
     image: traefik:v2.11
     ports:
