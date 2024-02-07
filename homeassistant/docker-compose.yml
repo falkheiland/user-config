@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  homeassistant:
+    labels:
+      # Websecure
+      traefik.http.routers.homeassistant.middlewares: authentik@file, geoblock@file
