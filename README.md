@@ -22,6 +22,65 @@ start tipi
 
 ## traefik
 
+```
+user@tipi:~/runtipi/user-config$ tree -L 5 a /home/user/runtipi/app-data/traefik
+a  [error opening dir]
+/home/user/runtipi/app-data/traefik
+├── dynamic
+│   └── dynamic.yml
+├── plugins
+│   └── src
+│       └── github.com
+│           └── nscuro
+│               └── traefik-plugin-geoblock
+├── shared
+│   └── acme.json
+├── tls
+│   ├── cert.pem
+│   ├── tipi.example.com.txt
+│   ├── key.pem
+│   └── tipi.lan.txt
+└── traefik.yml
+```
+
+### logrotate
+
+user-config/tipi-compose.yml:
+
+```
+  tipi-reverse-proxy:
+    volumes:
+      - /var/log/traefik/:/var/log/
+```
+
+app-data/traefik/traefik.yml:
+
+```
+log:
+  filePath: "/var/log/traefik.log"
+  level: ERROR
+
+accessLog:
+  filePath: "/var/log/access.log"
+```
+sudo mkdir /var/log/traefik
+sudo vim /etc/logrotate.d/traefik
+```
+
+/etc/logrotate.d/traefik:
+
+```
+/var/log/traefik/*.log {
+        daily
+        compress
+        delaycompress
+        logrotate 7
+        postrotate
+        docker kill --signal="USR1" tipi-reverse-proxy
+        endscript
+}
+```
+
 ### traefik-plugin-geoblock
 
 https://github.com/nscuro/traefik-plugin-geoblock/releases/
@@ -88,4 +147,34 @@ http:
           # allowedIPBlocks: ["66.249.64.0/19"]
           # Add CIDR to be blacklisted, even if in an allowed country or IP block
           # blockedIPBlocks: ["66.249.64.5/32"]
+```
+
+### prometheus
+
+app-data/traefik/traefik.yml:
+
+```
+metrics:
+  prometheus:
+    manualRouting: true
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
+```
+
+### tls options
+
+```
+tls:
+  options:
+    default:
+      minVersion: VersionTLS13
+      cipherSuites:
+        - TLS_AES_128_GCM_SHA256
+        - TLS_AES_256_GCM_SHA384
+        - TLS_CHACHA20_POLY1305_SHA256
+      curvePreferences:
+        - CurveP521
+        - CurveP384
+      sniStrict: true
 ```
