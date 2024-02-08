@@ -23,8 +23,7 @@ start tipi
 ## traefik
 
 ```
-user@tipi:~/runtipi/user-config$ tree -L 5 a /home/user/runtipi/app-data/traefik
-a  [error opening dir]
+user@tipi:~/runtipi/user-config$ tree -L 5 -a /home/user/runtipi/app-data/traefik
 /home/user/runtipi/app-data/traefik
 ├── dynamic
 │   └── dynamic.yml
@@ -68,6 +67,7 @@ sudo vim /etc/logrotate.d/traefik
 ```
 
 /etc/logrotate.d/traefik:
+```
 
 ```
 /var/log/traefik/*.log {
