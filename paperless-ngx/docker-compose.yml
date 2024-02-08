@@ -9,6 +9,8 @@ services:
       PAPERLESS_TIME_ZONE: Europe/Berlin
       PAPERLESS_OCR_LANGUAGE: deu+eng
       PAPERLESS_CONSUMER_POLLING: 300
+      PAPERLESS_ENABLE_HTTP_REMOTE_USER: TRUE
+      PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME: HTTP_X_AUTHENTIK_USERNAME
     labels:
       # Websecure
       traefik.http.routers.paperless-ngx.middlewares: authentik@file, geoblock@file
