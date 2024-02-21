@@ -16,11 +16,12 @@ services:
       traefik.http.routers.dashboard-secure.middlewares: authentik@file, geoblock@file
 
   tipi-reverse-proxy:
-    image: traefik:v2.11
+    #image: traefik:v2.11
     ports:
       - 8080:8080
     volumes:
-      - ./app-data/traefik:/root/.config
+      - ./app-data/traefik:/etc/traefik
+      #- ./app-data/traefik:/root/.config
       - ./app-data/traefik/shared:/shared
-      - ./app-data/traefik/plugins:/plugins-local
+      #- ./app-data/traefik/plugins:/plugins-local
       - /var/log/traefik/:/var/log/
