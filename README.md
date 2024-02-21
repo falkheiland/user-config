@@ -319,7 +319,7 @@ tls:
         - CurveP384
       sniStrict: true
   certificates:
-    - certFile: /root/.config/tls/cert.pem
-      keyFile: /root/.config/tls/key.pem
+    - certFile: /etc/traefik/tls/cert.pem
+      keyFile: /etc/traefik/tls/key.pem
 
 ```
