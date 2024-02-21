@@ -106,9 +106,8 @@ version: '3.7'
 services:
   tipi-reverse-proxy:
     volumes:
-      - ./app-data/traefik:/root/.config
+      - ./app-data/traefik:/etc/traefik
       - ./app-data/traefik/shared:/shared
-      - ./app-data/traefik/plugins:/plugins-local
 ```
 app-data/traefik/traefik.yml:
 
@@ -131,8 +130,7 @@ http:
           # Enable this plugin?
           enabled: true
           # Path to ip2location database file
-          #databaseFilePath: /plugins-storage/sources/gop-1769341418/src/github.com/nscuro/traefik-plugin-geoblock/IP2LOCATION-LITE-DB1.IPV6.BIN
-          databaseFilePath:  /plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/IP2LOCATION-LITE-DB1.IPV6.BIN
+          databaseFilePath:  /etc/traefik/plugins/src/github.com/nscuro/traefik-plugin-geoblock/IP2LOCATION-LITE-DB1.IPV6.BIN
           # Whitelist of countries to allow (ISO 3166-1 alpha-2)
           allowedCountries: [ "DE" ]
           # Blocklist of countries to block (ISO 3166-1 alpha-2)
@@ -193,7 +191,7 @@ providers:
     watch: true
     exposedByDefault: false
   file:
-    directory: /root/.config/dynamic
+    directory: /etc/traefik/dynamic
     watch: true
 
 entryPoints:
