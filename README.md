@@ -5,7 +5,7 @@
 stop tipi
 
 ```
- ./runtipi-cli stop
+sudo  ./runtipi-cli stop
 ```
 
 stop all containers (in case above command hangs )
@@ -17,7 +17,13 @@ docker stop $(docker ps -a -q)
 start tipi
 
 ```
- ./runtipi-cli start
+sudo ./runtipi-cli start
+```
+
+restart tipi
+
+```
+sudo ./runtipi-cli restart
 ```
 
 ## traefik
