@@ -197,6 +197,14 @@ http:
 tls:
   options:
     sniStrictFalse:
+      minVersion: VersionTLS13 #VersionTLS12
+      cipherSuites:
+        - TLS_AES_128_GCM_SHA256
+        - TLS_AES_256_GCM_SHA384
+        - TLS_CHACHA20_POLY1305_SHA256
+      curvePreferences:
+        - CurveP521
+        - CurveP384
       sniStrict: false
 ```
 
@@ -397,6 +405,14 @@ tls:
         - CurveP384
       sniStrict: true
     sniStrictFalse:
+      minVersion: VersionTLS13 #VersionTLS12
+      cipherSuites:
+        - TLS_AES_128_GCM_SHA256
+        - TLS_AES_256_GCM_SHA384
+        - TLS_CHACHA20_POLY1305_SHA256
+      curvePreferences:
+        - CurveP521
+        - CurveP384
       sniStrict: false
   certificates:
     - certFile: /etc/traefik/tls/cert.pem
