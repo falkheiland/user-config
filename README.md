@@ -52,7 +52,7 @@ user@tipi:~/runtipi/user-config$ tree -L 5 -a /home/user/runtipi/app-data/traefi
 
 user-config/tipi-compose.yml:
 
-```
+```yml
   tipi-reverse-proxy:
     volumes:
       - /var/log/traefik/:/var/log/
@@ -60,7 +60,7 @@ user-config/tipi-compose.yml:
 
 app-data/traefik/traefik.yml:
 
-```
+```yml
 log:
   filePath: "/var/log/traefik.log"
   level: ERROR
@@ -153,11 +153,58 @@ http:
           # blockedIPBlocks: ["66.249.64.5/32"]
 ```
 
+### non-tipi-app
+
+if you want to use traefik to expose a non-tipi-app, f.i. the GUI of a switch or a NAS in your internal network:
+
+app-data/traefik/dynamic/dynamic.yml:
+
+```yml
+http:
+  middlewares:
+    default-https-redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  routers:
+    non-tipi-app:
+      entryPoints:
+        - "web"
+      rule: "Host(`non-tipi-app.example.com`)"
+      middlewares:
+       - default-https-redirect@file
+      service: non-tipi-app
+    non-tipi-app-secure:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`non-tipi-app.example.com`)"
+      middlewares:
+        - geoblock@file
+      tls:
+        options: sniStrictFalse@file
+        certresolver: myresolver
+      service: non-tipi-app
+
+  services:
+    non-tipi-app:
+      loadBalancer:
+        serversTransport: insecuretransport
+        servers:
+          - url: "https://192.168.0.100:1234"
+        passHostHeader: true
+
+tls:
+  options:
+    sniStrictFalse:
+      sniStrict: false
+```
+
 ### prometheus
 
 app-data/traefik/traefik.yml:
 
-```
+```yml
 metrics:
   prometheus:
     manualRouting: true
@@ -168,7 +215,7 @@ metrics:
 
 ### tls options
 
-```
+```yml
 tls:
   options:
     default:
@@ -185,7 +232,7 @@ tls:
 
 ## complete traefik.yml
 
-```
+```yml
 api:
   dashboard: true
   insecure: true
@@ -241,7 +288,7 @@ experimental:
 
 ## complete dynamic.yml
 
-```
+```yml
 http:
   serversTransports:
     insecuretransport:
@@ -252,6 +299,10 @@ http:
     # echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g
     #
     # Also note that dollar signs should NOT be doubled when they not evaluated (e.g. Ansible docker_container module).
+    default-https-redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
     default-auth:
       basicAuth:
         users:
@@ -306,6 +357,33 @@ http:
           # Add CIDR to be blacklisted, even if in an allowed country or IP block
           # blockedIPBlocks: ["66.249.64.5/32"]
 
+  routers:
+    non-tipi-app:
+      entryPoints:
+        - "web"
+      rule: "Host(`non-tipi-app.example.com`)"
+      middlewares:
+       - default-https-redirect@file
+      service: non-tipi-app
+    non-tipi-app-secure:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`non-tipi-app.example.com`)"
+      middlewares:
+        - geoblock@file
+      tls:
+        options: sniStrictFalse@file
+        certresolver: myresolver
+      service: non-tipi-app
+
+  services:
+    non-tipi-app:
+      loadBalancer:
+        serversTransport: insecuretransport
+        servers:
+          - url: "https://192.168.0.100:1234"
+        passHostHeader: true
+
 tls:
   options:
     default:
@@ -318,6 +396,8 @@ tls:
         - CurveP521
         - CurveP384
       sniStrict: true
+    sniStrictFalse:
+      sniStrict: false
   certificates:
     - certFile: /etc/traefik/tls/cert.pem
       keyFile: /etc/traefik/tls/key.pem
