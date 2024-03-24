@@ -53,7 +53,7 @@ user@tipi:~/runtipi/user-config$ tree -L 5 -a /home/user/runtipi/app-data/traefi
 user-config/tipi-compose.yml:
 
 ```yml
-  tipi-reverse-proxy:
+  runtipi-reverse-proxy:
     volumes:
       - /var/log/traefik/:/var/log/
 ```
@@ -82,7 +82,7 @@ sudo vim /etc/logrotate.d/traefik
         delaycompress
         logrotate 7
         postrotate
-        docker kill --signal="USR1" tipi-reverse-proxy
+        docker kill --signal="USR1" runtipi-reverse-proxy
         endscript
 }
 ```
@@ -110,7 +110,7 @@ user-config/tipi-compose.yml:
 version: '3.7'
 
 services:
-  tipi-reverse-proxy:
+  runtipi-reverse-proxy:
     volumes:
       - ./app-data/traefik:/etc/traefik
       - ./app-data/traefik/shared:/shared
