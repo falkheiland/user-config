@@ -1,21 +1,35 @@
-version: '3.7'
+version: '3.9'
 
+# works with runtipi >= v3.1.1
 services:
-  tipi-worker:
+  runtipi:
     labels:
-      # Local ip
-      traefik.http.routers.worker.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
-      # Websecure
-      traefik.http.routers.worker-secure.middlewares: geoblock@file
+      # Dashboard Local ip
+      traefik.http.routers.dashboard-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
+      # Dashboard Exposed
+      traefik.http.routers.dashboard-exposed.rule: Host(`${DOMAIN}`) && PathPrefix(`/`)
+      traefik.http.routers.dashboard-exposed.entrypoints: websecure
+      traefik.http.routers.dashboard-exposed.tls.certresolver: myresolver
+      traefik.http.routers.dashboard-exposed.service: dashboard
+      traefik.http.routers.dashboard-exposed.middlewares: authentik@file, geoblock@file
 
-  tipi-dashboard:
-    labels:
-      # Local ip
-      traefik.http.routers.dashboard.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
-      # Websecure
-      traefik.http.routers.dashboard-secure.middlewares: authentik@file, geoblock@file
+      # Worker Local ip
+      traefik.http.routers.worker-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
+      # Worker Exposed
+      traefik.http.routers.worker-exposed.rule: Host(`${DOMAIN}`) && PathPrefix(`/worker`)
+      traefik.http.routers.worker-exposed.entrypoints: websecure
+      traefik.http.routers.worker-exposed.service: worker
+      traefik.http.routers.worker-exposed.middlewares: authentik@file, geoblock@file
 
-  tipi-reverse-proxy:
+      # Worker API Local ip
+      traefik.http.routers.worker-api-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker-api`)
+      # Worker API Exposed
+      traefik.http.routers.worker-api-exposed.rule: Host(`${DOMAIN}`) && PathPrefix(`/worker-api`)
+      traefik.http.routers.worker-api-exposed.entrypoints: websecure
+      traefik.http.routers.worker-api-exposed.service: worker
+      traefik.http.routers.worker-api-exposed.middlewares: authentik@file, geoblock@file
+
+  runtipi-reverse-proxy:
     ports:
       - 8080:8080
     volumes:
