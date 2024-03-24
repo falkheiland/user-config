@@ -1,5 +1,7 @@
 # user-config
 
+required runtipi version: >= v3.1.1
+
 ## misc
 
 stop tipi
