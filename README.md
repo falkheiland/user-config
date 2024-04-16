@@ -91,6 +91,19 @@ sudo vim /etc/logrotate.d/traefik
 
 ### traefik-plugin-geoblock
 
+
+https://traefik.io/blog/using-private-plugins-in-traefik-proxy-2-5/
+
+```bash
+~/runtipi/app-data/traefik
+mkdir -p plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/
+cd plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/
+wget https://github.com/nscuro/traefik-plugin-geoblock/releases/download/v0.14.0/traefik-plugin-geoblock-0.14.0.tar.gz
+tar -xzvf traefik-plugin-geoblock-0.14.0.tar.gz
+```
+
+
+
 https://github.com/nscuro/traefik-plugin-geoblock/releases/
 
 manual installation required:
