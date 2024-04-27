@@ -2,7 +2,7 @@ version: "3.7"
 services:
   uptime-kuma:
     volumes:
-      - '/etc/localtime:/etc/localtime:ro'
+      - /etc/localtime:/etc/localtime:ro
     labels:
       # Websecure
       traefik.http.routers.uptime-kuma.middlewares: authentik@file, geoblock@file

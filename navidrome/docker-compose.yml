@@ -2,4 +2,4 @@ version: "3"
 services:
   navidrome:
     volumes:
-      - ${APP_USER_DATA_DIR}:/music:ro
+      - ${APP_USER_DATA_DIR}/music:/music:ro

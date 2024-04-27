@@ -3,15 +3,15 @@ version: '3.7'
 services:
   ntfy:
     environment:
-      - TZ=${TIMEZONE}
+      - TZ=Europe/Berlin
       - NTFY_CACHE_FILE=/var/cache/ntfy/cache.db
       - NTFY_AUTH_FILE=/etc/ntfy/user.db
       - NTFY_AUTH_DEFAULT_ACCESS=deny-all
       - NTFY_BEHIND_PROXY=true
       - NTFY_ATTACHMENT_CACHE_DIR=/var/cache/ntfy/attachments
     volumes:
-      - '/etc/localtime:/etc/localtime:ro'
-    user: ${USERID}:${GROUPID}
+      - /etc/localtime:/etc/localtime:ro
+    user: 1000:1000
     labels:
       # Websecure
       traefik.http.routers.ntfy.middlewares: default-auth@file, geoblock@file

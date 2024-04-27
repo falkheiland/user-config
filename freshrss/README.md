@@ -16,13 +16,7 @@ https://hub.docker.com/r/freshrss/freshrss
 
 # app.env
 
-```
-TIMEZONE=Europe/Berlin
-OIDC_PROVIDER_METADATA_URL=https://auth.example.com/application/o/freshrss/.well-known/openid-configuration
-OIDC_CLIENT_ID=1KEIHJfCsXmf56GDuOICazBlNKOK8rfGHtM4HCFO
-OIDC_CLIENT_SECRET=5DPQS4JCVWHnsY1JTejh56Z9RmRTj9AIM3hK7c2uwGfla5ylfehr9k5IOHIXbGzRcezo98hR4aICyHuzg2a30NUaNmjGhJMxH29iGal88BzcDzYfXCyDBUMi87W1Q6zF
-```
-
+copy app.env.example to app.env and edit the values
 
 ## docs
 

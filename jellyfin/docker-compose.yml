@@ -2,5 +2,5 @@ version: "3.7"
 services:
   jellyfin:
     volumes:
-      - /nfs/music/:/media/music
-      - /nfs/video/:/media/video
+      - ${APP_USER_DATA_DIR}/music/:/media/music
+      - ${APP_USER_DATA_DIR}/video/:/media/video

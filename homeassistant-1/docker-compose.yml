@@ -2,7 +2,6 @@ version: '3'
 
 services:
   homeassistant-1:
-    image: ghcr.io/home-assistant/home-assistant:2024.3.3
     labels:
       # Websecure
       traefik.http.routers.homeassistant.middlewares: authentik@file, geoblock@file

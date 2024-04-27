@@ -2,9 +2,9 @@ version: '3.7'
 services:
   paperless-ngx:
     volumes:
-      - /nfs/tipi/paperlessngx/media:/usr/src/paperless/media
-      - /nfs/tipi/paperlessngx/export:/usr/src/paperless/export
-      - /nfs/scan:/usr/src/paperless/consume
+      - ${APP_USER_DATA_DIR}/tipi/paperlessngx/media:/usr/src/paperless/media
+      - ${APP_USER_DATA_DIR}/tipi/paperlessngx/export:/usr/src/paperless/export
+      - ${APP_USER_DATA_DIR}/scan:/usr/src/paperless/consume
     environment:
       PAPERLESS_TIME_ZONE: Europe/Berlin
       PAPERLESS_OCR_LANGUAGE: deu+eng
