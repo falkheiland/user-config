@@ -1,0 +1,6 @@
+version: "3.7"
+services:
+  jellyfin:
+    volumes:
+      - /nfs/music/:/media/music
+      - /nfs/video/:/media/video

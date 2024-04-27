@@ -1,0 +1,8 @@
+version: "3.7"
+
+services:
+  metube:
+    volumes:
+      - /nfs/video/youtube/:/downloads
+    environment:
+      - DOWNLOAD_DIRS_INDEXABLE=true

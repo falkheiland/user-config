@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  pinchflat:
+    volumes:
+      - /nfs/video/youtube/:/downloads
+    labels:
+      # Websecure
+      traefik.http.routers.pinchflat.middlewares: authentik@file, geoblock@file
