@@ -7,6 +7,7 @@ services:
     ports:
       - 8080:8080
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - ./app-data/traefik/etc:/etc/traefik
       - ./app-data/traefik/plugins-local:/plugins-local
       - ./app-data/traefik/shared:/shared
@@ -18,13 +19,13 @@ services:
 
       # ---- Dashboard ----- #
       # Local ip
-      traefik.http.routers.dashboard.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
+      traefik.http.routers.dashboard.rule: (Host(`${INTERNAL_IP}`) || Host(`${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
       # Websecure
       traefik.http.routers.dashboard-secure.middlewares: authentik@file, geoblock@file
 
       # ---- Worker ----- #
       # Local ip
-      traefik.http.routers.worker.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
+      traefik.http.routers.worker.rule: (Host(`${INTERNAL_IP}`) || Host(`${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
       # Websecure
       traefik.http.routers.worker-insecure.rule: Host(`${DOMAIN}`) && PathPrefix(`/worker`)
       traefik.http.routers.worker-secure.rule: Host(`${DOMAIN}`) && PathPrefix(`/worker`)
@@ -33,8 +34,8 @@ services:
       traefik.http.routers.worker-api-secure.rule: Host(`${DOMAIN}`) && PathPrefix(`/worker-api`)
       traefik.http.routers.worker-api-secure.middlewares: authentik@file, geoblock@file
       # Local domain
-      traefik.http.routers.worker-local-insecure.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
-      traefik.http.routers.worker-api-local-insecure.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker-api`)
+      traefik.http.routers.worker-local-insecure.rule: (Host(`${INTERNAL_IP}`) || Host(`${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
+      traefik.http.routers.worker-api-local-insecure.rule: (Host(`${INTERNAL_IP}`) || Host(`${LOCAL_DOMAIN}`)) && PathPrefix(`/worker-api`)
       # Secure
-      traefik.http.routers.worker-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
-      traefik.http.routers.worker-api-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker-api`)
+      traefik.http.routers.worker-local.rule: (Host(`${INTERNAL_IP}`) || Host(`${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
+      traefik.http.routers.worker-api-local.rule: (Host(`${INTERNAL_IP}`) || Host(`${LOCAL_DOMAIN}`)) && PathPrefix(`/worker-api`)

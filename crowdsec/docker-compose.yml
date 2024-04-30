@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  crowdsec:
+    environment:
+      - COLLECTIONS=
+        crowdsecurity/linux
+        crowdsecurity/traefik
+        crowdsecurity/http-cve
+        crowdsecurity/whitelist-good-actors
+        crowdsecurity/sshd
+        firix/authentik
