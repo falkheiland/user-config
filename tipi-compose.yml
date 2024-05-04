@@ -20,6 +20,7 @@ services:
       # ---- Dashboard ----- #
       # Local ip
       traefik.http.routers.dashboard.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
+      traefik.http.routers.dashboard.middlewares: local-ipallowlist@file
       # Websecure
       traefik.http.routers.dashboard-secure.middlewares: authentik@file, geoblock@file
       # Secure
