@@ -116,8 +116,6 @@ user-config/tipi-compose.yml:
   runtipi:
     labels:
     # ---- Dashboard ----- #
-      # Local ip
-      traefik.http.routers.dashboard.middlewares: local-ipallowlist@file
       # Secure
       traefik.http.routers.dashboard-local.middlewares: local-ipallowlist@file
 
