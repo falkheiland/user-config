@@ -20,3 +20,5 @@ services:
     labels:
       # Websecure
       traefik.http.routers.vaultwarden.middlewares: authentik@file, geoblock@file
+      # Local domain secure
+      traefik.http.routers.vaultwarden-local.middlewares: local-ipallowlist@file

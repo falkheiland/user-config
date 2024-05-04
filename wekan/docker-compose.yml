@@ -18,6 +18,8 @@ services:
     labels:
       # Websecure
       traefik.http.routers.wekan.middlewares: geoblock@file
+      # Local domain secure
+      traefik.http.routers.wekan-local.middlewares: local-ipallowlist@file
 
   dbbackup:
     image: tiredofit/db-backup:4.0.34

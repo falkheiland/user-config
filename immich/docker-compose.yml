@@ -8,6 +8,8 @@ services:
     labels:
       # Websecure
       traefik.http.routers.immich.middlewares: geoblock@file
+      # Local domain secure
+      traefik.http.routers.immich-local.middlewares: local-ipallowlist@file
 
   immich-microservices:
     volumes:

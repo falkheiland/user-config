@@ -24,6 +24,8 @@ services:
     labels:
       # Websecure
       traefik.http.routers.linkwarden.middlewares: geoblock@file
+      # Local domain secure
+      traefik.http.routers.linkwarden-local.middlewares: local-ipallowlist@file
 
   linkwarden-db:
     networks:

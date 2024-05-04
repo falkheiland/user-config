@@ -14,6 +14,8 @@ services:
     labels:
       # Websecure
       traefik.http.routers.joplin.middlewares: geoblock@file
+      # Local domain secure
+      traefik.http.routers.joplin-local.middlewares: local-ipallowlist@file
 
   db-joplin:
     image: postgres:15

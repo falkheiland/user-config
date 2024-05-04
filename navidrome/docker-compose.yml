@@ -3,3 +3,6 @@ services:
   navidrome:
     volumes:
       - ${APP_USER_DATA_DIR}/music:/music:ro
+    labels:
+      # Local domain secure
+      traefik.http.routers.navidrome-local.middlewares: local-ipallowlist@file

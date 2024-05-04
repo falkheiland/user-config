@@ -3,10 +3,9 @@ version: "3.8"
 services:
   crowdsec:
     environment:
-      - COLLECTIONS=
-        crowdsecurity/linux
-        crowdsecurity/traefik
-        crowdsecurity/http-cve
-        crowdsecurity/whitelist-good-actors
-        crowdsecurity/sshd
-        firix/authentik
+      - COLLECTIONS= crowdsecurity/linux crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/sshd firix/authentik
+
+  crowdsec-dashboard:
+    labels:
+      # Local domain secure
+      traefik.http.routers.crowdsec-local.middlewares: local-ipallowlist@file
