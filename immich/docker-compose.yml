@@ -3,6 +3,7 @@ version: "3.7"
 services:
 
   immich:
+    command: [ "start.sh" ]
     volumes:
       - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
     labels:
