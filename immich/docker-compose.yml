@@ -3,7 +3,6 @@ version: "3.7"
 services:
 
   immich:
-    command: [ "start.sh" ]
     volumes:
       - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
     labels:
@@ -11,10 +10,6 @@ services:
       traefik.http.routers.immich.middlewares: geoblock@file
       # Local domain secure
       traefik.http.routers.immich-local.middlewares: local-ipallowlist@file
-
-  immich-microservices:
-    volumes:
-      - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
 
   immich-machine-learning:
     volumes:
