@@ -5,5 +5,7 @@ services:
       - ${APP_USER_DATA_DIR}/music/:/media/music
       - ${APP_USER_DATA_DIR}/video/:/media/video
     labels:
+      # Websecure
+      traefik.http.routers.jellyfin.middlewares: geoblock@file
       # Local domain secure
       traefik.http.routers.jellyfin-local.middlewares: local-ipallowlist@file

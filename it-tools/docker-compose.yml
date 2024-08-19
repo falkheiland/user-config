@@ -3,5 +3,7 @@ version: "3"
 services:
   it-tools:
     labels:
+      # Websecure
+      traefik.http.routers.it-tools.middlewares: geoblock@file
       # Local domain secure
       traefik.http.routers.it-tools-local.middlewares: local-ipallowlist@file

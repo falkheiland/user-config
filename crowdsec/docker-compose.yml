@@ -7,5 +7,7 @@ services:
 
   crowdsec-dashboard:
     labels:
+      # Websecure
+      traefik.http.routers.crowdsec.middlewares: geoblock@file
       # Local domain secure
       traefik.http.routers.crowdsec-local.middlewares: local-ipallowlist@file
