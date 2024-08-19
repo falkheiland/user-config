@@ -31,7 +31,6 @@ services:
       traefik.http.middlewares.freshrssM2.headers.stsSeconds: 31536000
 
       # Websecure
-      #traefik.http.routers.freshrss.middlewares: freshrssM1, freshrssM2, geoblock@file
       traefik.http.routers.freshrss.middlewares: freshrssM1, freshrssM2, geoblock@file, authentik@file
 
       # Local domain secure
