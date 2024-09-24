@@ -22,6 +22,8 @@ services:
       traefik.http.routers.dashboard.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
       # Websecure
       traefik.http.routers.dashboard-secure.middlewares: authentik@file, geoblock@file
+      # Secure
+      traefik.http.routers.dashboard-local.middlewares: local-ipallowlist@file
 
       # ---- Worker ----- #
       # Local ip
@@ -39,3 +41,5 @@ services:
       # Secure
       traefik.http.routers.worker-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
       traefik.http.routers.worker-api-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker-api`)
+      traefik.http.routers.worker-local.middlewares: local-ipallowlist@file
+      traefik.http.routers.worker-api-local.middlewares: local-ipallowlist@file

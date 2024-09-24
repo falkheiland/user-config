@@ -6,3 +6,8 @@ services:
       - ${APP_USER_DATA_DIR}/video/youtube/:/downloads
     environment:
       - DOWNLOAD_DIRS_INDEXABLE=true
+    labels:
+      # Websecure
+      traefik.http.routers.metube.middlewares: geoblock@file
+      # Local domain secure
+      traefik.http.routers.metube-local.middlewares: local-ipallowlist@file

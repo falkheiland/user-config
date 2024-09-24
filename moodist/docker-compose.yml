@@ -5,3 +5,5 @@ services:
     labels:
       # Websecure
       traefik.http.routers.moodist.middlewares: authentik@file, geoblock@file
+      # Local domain secure
+      traefik.http.routers.moodist-local.middlewares: local-ipallowlist@file

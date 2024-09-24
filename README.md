@@ -89,6 +89,42 @@ sudo vim /etc/logrotate.d/traefik
 }
 ```
 
+### traefik middleware ipAllowList
+
+As a default, runtipis configuration of traefik makes any app accessible from the internet!
+Adding a traefik middleware ipAllowList restricts access to local routers to specified networks only.
+
+app-data/traefik/dynamic/dynamic.yml:
+
+```yml
+http:
+  middlewares:
+    local-ipallowlist:
+      ipAllowList:
+        sourceRange:
+          - "192.168.1.0/24" # local IP Range
+          #- "10.0.0.0/8" # 1/3 all private IP ranges
+          #- "172.16.0.0/12" # 2/3 all private IP ranges
+          #- "192.168.0.0/16" # 3/3 all private IP ranges
+```
+
+example runtipi dashboard / api / worker:
+
+user-config/tipi-compose.yml:
+
+```yml
+  runtipi:
+    labels:
+    # ---- Dashboard ----- #
+      # Secure
+      traefik.http.routers.dashboard-local.middlewares: local-ipallowlist@file
+
+      # ---- Worker ----- #
+      # Secure
+      traefik.http.routers.worker-local.middlewares: local-ipallowlist@file
+      traefik.http.routers.worker-api-local.middlewares: local-ipallowlist@file
+```
+
 ### traefik-plugin-geoblock
 
 
@@ -379,6 +415,13 @@ http:
           # allowedIPBlocks: ["66.249.64.0/19"]
           # Add CIDR to be blacklisted, even if in an allowed country or IP block
           # blockedIPBlocks: ["66.249.64.5/32"]
+    local-ipallowlist:
+      ipAllowList:
+        sourceRange:
+          - "192.168.1.0/24" # local IP Range
+          #- "10.0.0.0/8" # 1/3 all private IP ranges
+          #- "172.16.0.0/12" # 2/3 all private IP ranges
+          #- "192.168.0.0/16" # 3/3 all private IP ranges
 
   routers:
     non-tipi-app:

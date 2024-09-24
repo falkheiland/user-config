@@ -5,6 +5,8 @@ services:
     labels:
       # Websecure
       traefik.http.routers.nocodb.middlewares: authentik@file, geoblock@file
+      # Local domain secure
+      traefik.http.routers.nocodb-local.middlewares: local-ipallowlist@file
 
   nocodb-db:
     networks:
