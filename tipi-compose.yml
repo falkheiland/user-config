@@ -1,9 +1,9 @@
-version: '3.9'
+version: "3.9"
 
 # tested with runtipi v3.1.3
 services:
-
   runtipi-reverse-proxy:
+    image: traefik:v3.1.4
     ports:
       - 8080:8080
     volumes:
