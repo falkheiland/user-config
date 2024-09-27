@@ -9,6 +9,7 @@ services:
       traefik.http.routers.nocodb-local.middlewares: local-ipallowlist@file
 
   nocodb-db:
+    image: postgres:16-alpine
     networks:
       - backend_network
 
