@@ -21,6 +21,8 @@ services:
       - AUTHENTIK_ISSUER=${AUTHENTIK_ISSUER}
       - AUTHENTIK_CLIENT_ID=${AUTHENTIK_CLIENT_ID}
       - AUTHENTIK_CLIENT_SECRET=${AUTHENTIK_CLIENT_SECRET}
+    networks:
+      - backend_network
     labels:
       # Websecure
       traefik.http.routers.linkwarden.middlewares: geoblock@file
@@ -28,11 +30,11 @@ services:
       traefik.http.routers.linkwarden-local.middlewares: local-ipallowlist@file
 
   linkwarden-db:
-    networks:
+    networks: !override
       - backend_network
 
   dbbackup:
-    image: tiredofit/db-backup:4.0.34
+    image: tiredofit/db-backup:4.1.8
     container_name: linkwarden-db-backup
     environment:
       - DEFAULT_COMPRESSION=GZ
