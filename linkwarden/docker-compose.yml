@@ -21,8 +21,6 @@ services:
       - AUTHENTIK_ISSUER=${AUTHENTIK_ISSUER}
       - AUTHENTIK_CLIENT_ID=${AUTHENTIK_CLIENT_ID}
       - AUTHENTIK_CLIENT_SECRET=${AUTHENTIK_CLIENT_SECRET}
-    networks:
-      - backend_network
     labels:
       # Websecure
       traefik.http.routers.linkwarden.middlewares: geoblock@file
@@ -30,7 +28,7 @@ services:
       traefik.http.routers.linkwarden-local.middlewares: local-ipallowlist@file
 
   linkwarden-db:
-    networks: !override
+    networks:
       - backend_network
 
   dbbackup:
