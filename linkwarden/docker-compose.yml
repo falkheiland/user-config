@@ -28,7 +28,6 @@ services:
       traefik.http.routers.linkwarden-local.middlewares: local-ipallowlist@file
 
   linkwarden-db:
-    #image: postgres:16-alpine
     networks:
       - backend_network
 
