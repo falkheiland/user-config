@@ -23,7 +23,7 @@ services:
       - backend_network
 
   dbbackup:
-    image: tiredofit/db-backup:4.0.34
+    image: tiredofit/db-backup:4.1.9
     container_name: paperless-ngx-db-backup
     environment:
       - DEFAULT_COMPRESSION=GZ

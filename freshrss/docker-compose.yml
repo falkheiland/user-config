@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   freshrss:
-    image: freshrss/freshrss:1.24.2
+    image: freshrss/freshrss:1.24.3
     environment:
       - TZ=${TIMEZONE}
       - CRON_MIN=5,20,35,50
@@ -32,6 +32,5 @@ services:
 
       # Websecure
       traefik.http.routers.freshrss.middlewares: freshrssM1, freshrssM2, geoblock@file, authentik@file
-
-      # Local domain secure
-      traefik.http.routers.freshrss-local.middlewares: freshrssM1, freshrssM2, local-ipallowlist@file
+      # # Local domain secure
+      # traefik.http.routers.freshrss-local.middlewares: freshrssM1, freshrssM2, local-ipallowlist@file

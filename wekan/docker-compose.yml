@@ -24,7 +24,7 @@ services:
       traefik.http.routers.wekan-local.middlewares: local-ipallowlist@file
 
   dbbackup:
-    image: tiredofit/db-backup:4.0.34
+    image: tiredofit/db-backup:4.1.9
     container_name: wekan-db-backup
     environment:
       - DEFAULT_COMPRESSION=GZ

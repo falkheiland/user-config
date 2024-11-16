@@ -1,27 +1,25 @@
-version: "3.7"
-
 services:
-  authentik:
+  bookstack:
+    networks:
+      - backend_network
     labels:
       # Websecure
-      traefik.http.routers.authentik.middlewares: geoblock@file
-      # Local domain secure
-      traefik.http.routers.authentik-local.middlewares: local-ipallowlist@file
+      traefik.http.routers.bookstack.middlewares: geoblock@file
 
-  authentik-db:
-    networks:
+  bookstack-db:
+    networks: !override
       - backend_network
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
-    container_name: authentik-db-backup
+    container_name: bookstack-db-backup
     environment:
       - DEFAULT_COMPRESSION=GZ
-      - DB01_TYPE=pgsql
-      - DB01_HOST=authentik-db
-      - DB01_NAME=authentik
-      - DB01_USER=authentik
-      - DB01_PASS=${AUTHENTIK_DB_PASSWORD}
+      - DB01_TYPE=mysql
+      - DB01_HOST=bookstack-db
+      - DB01_NAME=bookstackapp
+      - DB01_USER=tipi
+      - DB01_PASS=${BOOKSTACK_DB_PASS}
       - CONTAINER_ENABLE_MONITORING=FALSE
       - DEFAULT_CLEANUP_TIME=1440
     restart: unless-stopped
@@ -29,7 +27,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ${APP_DATA_DIR}/data/db-backup:/backup
     depends_on:
-      - authentik-db
+      - bookstack-db
     networks:
       - backend_network
 

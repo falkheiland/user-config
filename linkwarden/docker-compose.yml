@@ -32,7 +32,7 @@ services:
       - backend_network
 
   dbbackup:
-    image: tiredofit/db-backup:4.1.8
+    image: tiredofit/db-backup:4.1.9
     container_name: linkwarden-db-backup
     environment:
       - DEFAULT_COMPRESSION=GZ

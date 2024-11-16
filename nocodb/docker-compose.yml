@@ -13,7 +13,7 @@ services:
       - backend_network
 
   dbbackup:
-    image: tiredofit/db-backup:4.0.34
+    image: tiredofit/db-backup:4.1.9
     container_name: nocodb-db-backup
     environment:
       - DEFAULT_COMPRESSION=GZ

@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  ddns-updater:
+    volumes:
+      - ${APP_DATA_DIR}/data:/updater/data
+    labels:
+      # Websecure
+      traefik.http.routers.ddns-updater.middlewares: geoblock@file
+      # Local domain secure
+      traefik.http.routers.ddns-updater-local.middlewares: local-ipallowlist@file

@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   vaultwarden:
+    image: vaultwarden/server:1.32.4
     environment:
       - SIGNUPS_ALLOWED=false # Change to false after first login
       - INVITATIONS_ALLOWED=false # Send invitation using admin page

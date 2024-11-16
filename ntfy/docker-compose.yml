@@ -15,6 +15,5 @@ services:
     labels:
       # Websecure
       traefik.http.routers.ntfy.middlewares: default-auth@file, geoblock@file
-
-      # Local domain secure
-      traefik.http.routers.ntfy-local.middlewares: default-auth@file, local-ipallowlist@file
+      # # Local domain secure
+      # traefik.http.routers.ntfy-local.middlewares: default-auth@file, local-ipallowlist@file
