@@ -1,0 +1,8 @@
+services:
+  dozzle:
+    image: amir20/dozzle:v8.8.1
+    # labels:
+    #   # Websecure
+    #   traefik.http.routers.dozzle.middlewares: geoblock@file
+    #   # Local domain secure
+    #   traefik.http.routers.dozzle-local.middlewares: local-ipallowlist@file

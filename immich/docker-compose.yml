@@ -14,3 +14,24 @@ services:
   immich-machine-learning:
     volumes:
       - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
+
+  immich-db-backup:
+    image: tiredofit/db-backup:4.1.9
+    container_name: immich-db-backup
+    environment:
+      - DEFAULT_COMPRESSION=GZ
+      - DB01_TYPE=pgsql
+      - DB01_HOST=immich-db
+      - DB01_NAME=immich
+      - DB01_USER=tipi
+      - DB01_PASS=${DB_PASSWORD}
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      - DEFAULT_CLEANUP_TIME=1440
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${APP_DATA_DIR}/data/db-backup:/backup
+    depends_on:
+      - immich-db
+    networks:
+      - tipi_main_network

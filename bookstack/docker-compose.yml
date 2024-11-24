@@ -1,14 +1,8 @@
 services:
   bookstack:
-    networks:
-      - backend_network
     labels:
       # Websecure
-      traefik.http.routers.bookstack.middlewares: geoblock@file
-
-  bookstack-db:
-    networks: !override
-      - backend_network
+      traefik.http.routers.bookstack.middlewares: authentik@file, geoblock@file
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
@@ -28,8 +22,3 @@ services:
       - ${APP_DATA_DIR}/data/db-backup:/backup
     depends_on:
       - bookstack-db
-    networks:
-      - backend_network
-
-networks:
-  backend_network:
