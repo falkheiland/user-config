@@ -20,4 +20,4 @@ services:
       - EXTENDED_LOGGING=false
     labels:
       # Local domain secure
-      traefik.http.routers.vaultwarden-local.middlewares: local-ipallowlist@file, vaultwarden@file
+      traefik.http.routers.vaultwarden-local.middlewares: local-ipallowlist@file
