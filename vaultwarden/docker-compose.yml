@@ -7,7 +7,7 @@ services:
       - INVITATIONS_ALLOWED=false # Send invitation using admin page
       - DISABLE_ADMIN_TOKEN=false # true will disable the built in ADMIN_TOKEN used for authentication while also enabling the admin panel 
       - SHOW_PASSWORD_HINT=false
-      - DOMAIN=${APP_PROTOCOL:-http}://${APP_DOMAIN}
+      - DOMAIN=${APP_PROTOCOL:-http}://vaultwarden.${LOCAL_DOMAIN}
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_PORT=465
       - SMTP_SECURITY=force_tls
@@ -19,7 +19,5 @@ services:
       - LOG_LEVEL=warn # options are: "trace", "debug", "info", "warn", "error" or "off".
       - EXTENDED_LOGGING=false
     labels:
-      # Websecure
-      traefik.http.routers.vaultwarden.middlewares: authentik@file, geoblock@file, vaultwarden@file
       # Local domain secure
       traefik.http.routers.vaultwarden-local.middlewares: local-ipallowlist@file
