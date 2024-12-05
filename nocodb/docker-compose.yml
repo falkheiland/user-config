@@ -2,6 +2,9 @@ version: "2.1"
 
 services:
   nocodb:
+    image: "nocodb/nocodb:0.258.3"
+    environment:
+      - NC_DISABLE_TELE=true
     labels:
       # Websecure
       traefik.http.routers.nocodb.middlewares: authentik@file, geoblock@file
