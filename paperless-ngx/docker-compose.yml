@@ -28,6 +28,7 @@ services:
           }
         }
       PAPERLESS_REDIRECT_LOGIN_TO_SSO: true
+      PAPERLESS_DISABLE_REGULAR_LOGIN: true
     labels:
       # Websecure
       traefik.http.routers.paperless-ngx.middlewares: authentik@file, geoblock@file
