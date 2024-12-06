@@ -9,8 +9,25 @@ services:
       PAPERLESS_TIME_ZONE: Europe/Berlin
       PAPERLESS_OCR_LANGUAGE: deu+eng
       PAPERLESS_CONSUMER_POLLING: 300
-      PAPERLESS_ENABLE_HTTP_REMOTE_USER: TRUE
-      PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME: HTTP_X_AUTHENTIK_USERNAME
+      PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
+      PAPERLESS_SOCIALACCOUNT_PROVIDERS: >
+        {
+          "openid_connect": {
+            "APPS": [
+              {
+                "provider_id": "authentik",
+                "name": "Authentik",
+                "client_id": "${OAUTH2_CLIENT_ID}",
+                "secret": "${OAUTH2_SECRET}",
+                "settings": {
+                  "server_url": "${OAUTH2_SERVER_URL}/application/o/paperless-ngx/.well-known/openid-configuration"
+                }
+              }
+            ],
+            "OAUTH_PKCE_ENABLED": "True"
+          }
+        }
+      PAPERLESS_REDIRECT_LOGIN_TO_SSO: true
     labels:
       # Websecure
       traefik.http.routers.paperless-ngx.middlewares: authentik@file, geoblock@file
