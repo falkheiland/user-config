@@ -1,6 +1,5 @@
 services:
   dozzle:
-    image: amir20/dozzle:v8.8.2
     labels:
       # Local domain secure
       traefik.http.routers.dozzle-local.middlewares: local-ipallowlist@file, authentik@file
