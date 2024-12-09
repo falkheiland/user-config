@@ -2,8 +2,10 @@ version: '3'
 
 services:
   homeassistant-1:
+    ports: !reset []
     labels:
-      # Websecure
-      traefik.http.routers.homeassistant.middlewares: authentik@file, geoblock@file
+      # Local domain
+      traefik.http.routers.homeassistant-local-insecure.rule: Host(`homeassistant-1.${LOCAL_DOMAIN}`)
       # Local domain secure
+      traefik.http.routers.homeassistant-local.rule: Host(`homeassistant-1.${LOCAL_DOMAIN}`)
       traefik.http.routers.homeassistant-local.middlewares: local-ipallowlist@file
