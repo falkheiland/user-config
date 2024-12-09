@@ -3,5 +3,9 @@ version: "3.7"
 services:
   moodist:
     labels:
+      # Web
+      traefik.http.routers.moodist-insecure.entrypoints: web
       # Websecure
-      traefik.http.routers.moodist.middlewares: authentik@file, geoblock@file
+      traefik.http.routers.moodist.service: moodist
+      #traefik.http.routers.moodist.middlewares: geoblock@file, crowdsec-bouncer@file, authentik@file
+      traefik.http.routers.moodist.middlewares: geoblock@file, authentik@file
