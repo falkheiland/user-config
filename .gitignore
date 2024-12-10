@@ -1,1 +1,9 @@
 app.env
+dynamic.yml
+traefik.yml
+acme.json
+
+traefik/etc/tls/*
+traefik/plugins-local/*/
+
+!.gitkeep

@@ -1,12 +1,14 @@
 version: "3.7"
 services:
   jellyfin:
-    ports: !reset []
     volumes:
       - ${APP_USER_DATA_DIR}/music/:/media/music
       - ${APP_USER_DATA_DIR}/video/:/media/video
     labels:
+      # Web
+      traefik.http.routers.jellyfin-insecure.entrypoints: web
       # Websecure
+      traefik.http.routers.jellyfin.service: jellyfin
       traefik.http.routers.jellyfin.middlewares: geoblock@file, authentik@file
       # Local domain secure
       traefik.http.routers.jellyfin-local.middlewares: local-ipallowlist@file
