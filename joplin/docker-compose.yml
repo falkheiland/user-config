@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   joplin:
+    ports: !reset []
     environment:
       - MAILER_ENABLED=1
       - MAILER_HOST=${MAILER_HOST}
@@ -15,7 +16,7 @@ services:
       # Websecure
       traefik.http.routers.joplin.middlewares: geoblock@file
       # Local domain secure
-      traefik.http.routers.joplin-local.middlewares: local-ipallowlist@file
+      traefik.http.routers.joplin-local.middlewares: ipallowlist-none@file
 
   db-joplin:
     image: postgres:15
