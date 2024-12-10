@@ -1,9 +1,7 @@
 version: '3'
-
 services:
   wallos:
+    ports: !reset []
     labels:
-      # Websecure
-      traefik.http.routers.wallos.middlewares: geoblock@file
       # Local domain secure
       traefik.http.routers.wallos-local.middlewares: local-ipallowlist@file
