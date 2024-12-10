@@ -1,8 +1,11 @@
 services:
   bookstack:
     labels:
+      # Web
+      traefik.http.routers.bookstack-insecure.entrypoints: web
       # Websecure
-      traefik.http.routers.bookstack.middlewares: authentik@file, geoblock@file
+      traefik.http.routers.bookstack.service: bookstack
+      traefik.http.routers.bookstack.middlewares: geoblock@file, authentik@file
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
