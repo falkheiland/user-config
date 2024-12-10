@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   paperless-ngx:
+    ports: !reset []
     volumes:
       - ${APP_USER_DATA_DIR}/tipi/paperlessngx/media:/usr/src/paperless/media
       - ${APP_USER_DATA_DIR}/tipi/paperlessngx/export:/usr/src/paperless/export
