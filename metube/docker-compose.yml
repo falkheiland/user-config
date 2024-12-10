@@ -2,12 +2,16 @@ version: "3.7"
 
 services:
   metube:
+    image: ghcr.io/alexta69/metube:2024-12-08
+    ports: !reset []
     volumes:
       - ${APP_USER_DATA_DIR}/video/youtube/:/downloads
     environment:
       - DOWNLOAD_DIRS_INDEXABLE=true
+      - DELETE_FILE_ON_TRASHCAN=true
     labels:
+      # Web
+      traefik.http.routers.metube-insecure.entrypoints: web
       # Websecure
-      traefik.http.routers.metube.middlewares: geoblock@file
-      # Local domain secure
-      traefik.http.routers.metube-local.middlewares: local-ipallowlist@file
+      traefik.http.routers.metube.service: metube
+      traefik.http.routers.metube.middlewares: geoblock@file, authentik@file
