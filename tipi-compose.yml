@@ -1,17 +1,15 @@
-version: "3.9"
-
-# tested with runtipi v3.1.3
 services:
   runtipi-reverse-proxy:
     image: traefik:v3.2.2
+    #environment:
+      #TRAEFIK_CERTIFICATESRESOLVERS_myresolver_ACME_EMAIL: ${ACME_EMAIL}
     ports:
       - 8080:8080
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./app-data/traefik/etc:/etc/traefik
+      - ./user-config/traefik/etc:/etc/traefik
       - ./app-data/traefik/plugins-local:/plugins-local
       - ./app-data/traefik/shared:/shared
-      - /var/log/traefik/:/var/log/
 
   runtipi:
     labels:
@@ -21,25 +19,19 @@ services:
       # Local ip
       traefik.http.routers.dashboard.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
       # Websecure
-      traefik.http.routers.dashboard-secure.middlewares: authentik@file, geoblock@file
+      traefik.http.routers.dashboard-secure.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
       # Secure
-      traefik.http.routers.dashboard-local.middlewares: local-ipallowlist@file
+      traefik.http.routers.dashboard-local.middlewares: ipAllowList-local@file
 
-      # ---- Worker ----- #
+      # ---- Socket ----- #
       # Local ip
-      traefik.http.routers.worker.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
+      traefik.http.routers.socket.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/api/socket.io`)
       # Websecure
-      traefik.http.routers.worker-insecure.rule: Host(`${DOMAIN}`) && PathPrefix(`/worker`)
-      traefik.http.routers.worker-secure.rule: Host(`${DOMAIN}`) && PathPrefix(`/worker`)
-      traefik.http.routers.worker-secure.middlewares: authentik@file, geoblock@file
-      traefik.http.routers.worker-api-insecure.rule: Host(`${DOMAIN}`) && PathPrefix(`/worker-api`)
-      traefik.http.routers.worker-api-secure.rule: Host(`${DOMAIN}`) && PathPrefix(`/worker-api`)
-      traefik.http.routers.worker-api-secure.middlewares: authentik@file, geoblock@file
+      traefik.http.routers.socket-insecure.rule: Host(`${DOMAIN}`) && PathPrefix(`/api/socket.io`)
+      traefik.http.routers.socket-secure.rule: Host(`${DOMAIN}`) && PathPrefix(`/api/socket.io`)
+      traefik.http.routers.socket-secure.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
       # Local domain
-      traefik.http.routers.worker-local-insecure.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
-      traefik.http.routers.worker-api-local-insecure.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker-api`)
+      traefik.http.routers.socket-local-insecure.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/api/socket.io`)
       # Secure
-      traefik.http.routers.worker-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker`)
-      traefik.http.routers.worker-api-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/worker-api`)
-      traefik.http.routers.worker-local.middlewares: local-ipallowlist@file
-      traefik.http.routers.worker-api-local.middlewares: local-ipallowlist@file
+      traefik.http.routers.socket-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/api/socket.io`)
+      traefik.http.routers.socket-local.middlewares: ipAllowList-local@file

@@ -32,9 +32,9 @@ services:
       PAPERLESS_DISABLE_REGULAR_LOGIN: true
     labels:
       # Websecure
-      traefik.http.routers.paperless-ngx.middlewares: authentik@file, geoblock@file
+      traefik.http.routers.paperless-ngx.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
       # Local domain secure
-      traefik.http.routers.paperless-ngx-local.middlewares: local-ipallowlist@file
+      traefik.http.routers.paperless-ngx-local.middlewares: ipAllowList-local@file
 
   db:
     image: docker.io/library/postgres:15

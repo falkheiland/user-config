@@ -3,7 +3,7 @@
 ## added
 
 - localtime
-- forwardAuth - middlewares: authentik@file
+- forwardAuth - middlewares: forwardAuth-authentik@file
 - geoblock - middlewares: geoblok@file
 
 ## docs

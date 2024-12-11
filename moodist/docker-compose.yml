@@ -4,4 +4,4 @@ services:
   moodist:
     labels:
       # Websecure
-      traefik.http.routers.moodist.middlewares: geoblock@file, authentik@file
+      traefik.http.routers.moodist.middlewares: plugin-geoblock@file, forwardAuth-authentik@file

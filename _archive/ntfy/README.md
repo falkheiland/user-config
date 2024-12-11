@@ -28,12 +28,12 @@ http:
     # echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g
     #
     # Also note that dollar signs should NOT be doubled when they not evaluated (e.g. Ansible docker_container module).
-    default-auth:
+    basicAuth-default:
       basicAuth:
         users:
           - "username:$apr1$f.TtPFg.$KS4TRp7n7Nn8Q56guHf.h/"
 ```
-middlewares: default-auth@file
+middlewares: basicAuth-default@file
 
 #### container
 

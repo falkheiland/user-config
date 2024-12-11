@@ -117,12 +117,12 @@ user-config/tipi-compose.yml:
     labels:
     # ---- Dashboard ----- #
       # Secure
-      traefik.http.routers.dashboard-local.middlewares: local-ipallowlist@file
+      traefik.http.routers.dashboard-local.middlewares: ipAllowList-local@file
 
       # ---- Worker ----- #
       # Secure
-      traefik.http.routers.worker-local.middlewares: local-ipallowlist@file
-      traefik.http.routers.worker-api-local.middlewares: local-ipallowlist@file
+      traefik.http.routers.worker-local.middlewares: ipAllowList-local@file
+      traefik.http.routers.worker-api-local.middlewares: ipAllowList-local@file
 ```
 
 ### traefik-plugin-geoblock
@@ -231,7 +231,7 @@ http:
         - "websecure"
       rule: "Host(`non-tipi-app.example.com`)"
       middlewares:
-        - geoblock@file
+        - plugin-geoblock@file
       tls:
         options: sniStrictFalse@file
         certresolver: myresolver
@@ -362,7 +362,7 @@ http:
       redirectScheme:
         scheme: https
         permanent: true
-    default-auth:
+    basicAuth-default:
       basicAuth:
         users:
           - "user:$apr1$f.TtPBq.$KSde9T457Nn8Q9hUuHf.k/"
@@ -436,7 +436,7 @@ http:
         - "websecure"
       rule: "Host(`non-tipi-app.example.com`)"
       middlewares:
-        - geoblock@file
+        - plugin-geoblock@file
       tls:
         options: sniStrictFalse@file
         certresolver: myresolver

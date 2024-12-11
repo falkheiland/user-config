@@ -2,7 +2,7 @@ services:
   bookstack:
     labels:
       # Websecure
-      traefik.http.routers.bookstack.middlewares: geoblock@file, authentik@file
+      traefik.http.routers.bookstack.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9

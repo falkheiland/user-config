@@ -11,4 +11,4 @@ services:
       - DELETE_FILE_ON_TRASHCAN=true
     labels:
       # Websecure
-      traefik.http.routers.metube.middlewares: geoblock@file, authentik@file
+      traefik.http.routers.metube.middlewares: plugin-geoblock@file, forwardAuth-authentik@file

@@ -1,0 +1,49 @@
+api:
+  dashboard: true
+  insecure: true
+  debug: false
+
+providers:
+  docker:
+    endpoint: 'unix:///var/run/docker.sock'
+    watch: true
+    exposedByDefault: false
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+
+entryPoints:
+  web:
+    address: ':80'
+
+  websecure:
+    address: ':443'
+    http:
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - forwardauth-crowdsec-bouncer@file
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: changeme@example.com
+      storage: /shared/acme.json
+      httpChallenge:
+        entryPoint: web
+
+log:
+  level: INFO
+
+metrics:
+  prometheus:
+    manualRouting: true
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
+
+experimental:
+  plugins:
+    traefik-plugin-geoblock:
+      moduleName: "github.com/nscuro/traefik-plugin-geoblock"
+      version: "v0.14.0"

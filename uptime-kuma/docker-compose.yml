@@ -6,6 +6,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
     labels:
       # Websecure
-      traefik.http.routers.uptime-kuma.middlewares: geoblock@file, authentik@file
+      traefik.http.routers.uptime-kuma.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
       # Local domain secure
-      traefik.http.routers.uptime-kuma-local.middlewares: ipallowlist-none@file
+      traefik.http.routers.uptime-kuma-local.middlewares: ipAllowList-none@file

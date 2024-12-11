@@ -6,6 +6,6 @@ services:
       - ${APP_USER_DATA_DIR}/video/youtube/:/downloads
     labels:
       # Websecure
-      traefik.http.routers.pinchflat.middlewares: geoblock@file, authentik@file
+      traefik.http.routers.pinchflat.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
       # Local domain secure
-      traefik.http.routers.pinchflat-local.middlewares: ipallowlist-none@file
+      traefik.http.routers.pinchflat-local.middlewares: ipAllowList-none@file

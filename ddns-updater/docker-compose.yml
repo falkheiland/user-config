@@ -9,6 +9,6 @@ services:
     ports: !reset []
     labels:
       # # Websecure
-      # traefik.http.routers.ddns-updater.middlewares: geoblock@file, authentik@file
+      # traefik.http.routers.ddns-updater.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
       # Local domain secure
-      traefik.http.routers.ddns-updater-local.middlewares: local-ipallowlist@file, authentik@file
+      traefik.http.routers.ddns-updater-local.middlewares: ipAllowList-local@file, forwardAuth-authentik@file
