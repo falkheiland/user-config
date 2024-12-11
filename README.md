@@ -1,3 +1,13 @@
+# ToDos
+
+## network segregation
+
+- have separate networks fro front- and backends
+- with docker version v28+ there will be the option to set gateway priorities for attached networks:
+
+  https://github.com/moby/moby/pull/48936
+
+
 # user-config
 
 required runtipi version: >= v3.1.1

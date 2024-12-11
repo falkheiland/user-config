@@ -20,8 +20,6 @@ services:
 
   db-joplin:
     image: postgres:15
-    networks:
-      - backend_network
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
@@ -42,7 +40,4 @@ services:
     depends_on:
       - db-joplin
     networks:
-      - backend_network
-
-networks:
-  backend_network:
+      - tipi_main_network

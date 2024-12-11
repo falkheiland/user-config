@@ -8,10 +8,6 @@ services:
       # Local domain secure
       traefik.http.routers.authentik-local.middlewares: ipAllowList-local@file
 
-  authentik-db:
-    networks:
-      - backend_network
-
   dbbackup:
     image: tiredofit/db-backup:4.1.9
     container_name: authentik-db-backup
@@ -31,7 +27,4 @@ services:
     depends_on:
       - authentik-db
     networks:
-      - backend_network
-
-networks:
-  backend_network:
+      - tipi_main_network
