@@ -3,8 +3,5 @@ version: "3"
 services:
   it-tools:
     labels:
-      # Web
-      traefik.http.routers.it-tools-insecure.entrypoints: web
       # Websecure
-      traefik.http.routers.it-tools.service: it-tools
       traefik.http.routers.it-tools.middlewares: geoblock@file, authentik@file

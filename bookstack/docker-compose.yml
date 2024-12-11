@@ -1,10 +1,7 @@
 services:
   bookstack:
     labels:
-      # Web
-      traefik.http.routers.bookstack-insecure.entrypoints: web
       # Websecure
-      traefik.http.routers.bookstack.service: bookstack
       traefik.http.routers.bookstack.middlewares: geoblock@file, authentik@file
 
   dbbackup:

@@ -10,8 +10,5 @@ services:
       - DOWNLOAD_DIRS_INDEXABLE=true
       - DELETE_FILE_ON_TRASHCAN=true
     labels:
-      # Web
-      traefik.http.routers.metube-insecure.entrypoints: web
       # Websecure
-      traefik.http.routers.metube.service: metube
       traefik.http.routers.metube.middlewares: geoblock@file, authentik@file
