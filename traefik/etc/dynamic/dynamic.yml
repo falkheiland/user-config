@@ -12,10 +12,11 @@ http:
     # echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g
     #
     # Also note that dollar signs should NOT be doubled when they not evaluated (e.g. Ansible docker_container module).
+    # When used in .env file with go templating, dollar signs HAVE TO be doubled
     basicAuth-default:
       basicAuth:
         users:
-          - "tipi:$apr1$f.TtPDq.$KS4PGp7n5Nf8Q6hBuHf.h/"
+          - '{{env "BASICAUTH_DEFAULT_USER01"}}'
     forwardauth-crowdsec-bouncer:
       forwardauth:
         address: http://crowdsec-bouncer-traefik:8080/api/v1/forwardAuth
@@ -44,7 +45,8 @@ http:
           # Path to ip2location database file
           databaseFilePath: /plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/IP2LOCATION-LITE-DB1.IPV6.BIN
           # Whitelist of countries to allow (ISO 3166-1 alpha-2)
-          allowedCountries: [ "DE" ]
+          # allowedCountries: [ "DE" ]
+          allowedCountries: [ '{{env "PLUGIN_GEOBLOCK_ALLOWEDCOUNTRIES"}}' ]
           # Blocklist of countries to block (ISO 3166-1 alpha-2)
           # blockedCountries: [ "RU" ]
           # Default allow indicates that if an IP is in neither block list nor allow lists, it should be allowed.
@@ -60,41 +62,41 @@ http:
     ipAllowList-local:
       ipAllowList:
         sourceRange:
-          - "192.168.1.0/24"
+          - '{{env "IPALLOWLIST_LOCAL_SOURCERANGE01"}}'
     ipAllowList-none:
       ipAllowList:
         sourceRange:
-          - "192.168.1.1/32"
+          - '{{env "IPALLOWLIST_NONE_SOURCERANGE01"}}'
         ipStrategy:
           excludedIPs:
-            - "192.168.1.1/32"
+            - '{{env "IPALLOWLIST_NONE_EXCLUDEDIPS"}}'
 
   routers:
-    device01:
+    service01:
       entryPoints:
         - "web"
-      rule: "Host(`device01.example.com`)"
+      rule: 'Host(`{{env "SERVICE01_FQDN"}}`)'
       middlewares:
         - redirectScheme-default@file
-      service: device01
-    device01secure:
+      service: service01
+    service01secure:
       entryPoints:
         - "websecure"
-      rule: "Host(`device01.example.com`)"
+      rule: 'Host(`{{env "SERVICE01_FQDN"}}`)'
       middlewares:
         - plugin-geoblock@file
         - forwardAuth-authentik@file
       tls:
         options: sniStrictFalse@file
         certresolver: myresolver
-      service: device01
+      service: service01
 
   services:
-    device01:
+    service01:
       loadBalancer:
         serversTransport: insecuretransport
         servers:
-          - url: "https://192.168.1.100"
+          - url: '{{env "SERVICE01_URL"}}'
         passHostHeader: true
 
 tls:

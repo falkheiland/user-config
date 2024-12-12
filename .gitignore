@@ -1,6 +1,5 @@
+tipi-compose.env
 app.env
-dynamic.yml
-traefik.yml
 
 traefik/etc/tls/*
 
