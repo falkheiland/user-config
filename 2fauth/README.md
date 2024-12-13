@@ -28,16 +28,14 @@
       - [x] Expose app on local network
       - [ ] Expose app on the internet
       - `Update`
-2. Editor / CLI
-    - rename `app.env.example` to `app.env`
-    - configute settings in `app.env`
-3. Authentik
+2. Authentik
     1. OAuth2
         1. Applications > Providers
             - Create: OAuth2/OpenID Provider
             - Authorization flow: default-provider-authorization-implicit-consent
             - Name: `2fauth-oauth2-provider`
             - Redirect URIs/Origins: `https://2fauth.local.example.com/socialite/callback/openid`
+            - **Resulting settings from this procedure are used in step 3!**
         2. Applications > Applications
             - Create
             - Name: `2fauth-oauth2-app`
@@ -65,6 +63,9 @@
             - authentik Embedded Outpost: Edit (icon)
             - add all applications: `>>`
             - `Update`
+3. Editor / CLI
+    - rename `app.env.example` to `app.env`
+    - configute settings in `app.env`
 4. Runtipi
     1. MyApps > 2FAuth
         - `Start`
