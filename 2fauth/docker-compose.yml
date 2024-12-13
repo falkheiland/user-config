@@ -1,7 +1,7 @@
 services:
   2fauth:
     environment:
-      # Timezone: Tipi
+      # Timezone: Runtipi
       - APP_TIMEZONE=${TZ}
       # URLs: [Loc]
       - ASSET_URL=https://2fauth.${LOCAL_DOMAIN}

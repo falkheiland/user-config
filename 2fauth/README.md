@@ -12,7 +12,7 @@
 
 ||Generic|IP:Port (IP)|Local domain (Loc)|Domain (Dom)|
 |-|-|-|-|-|
-|Timezone|tipi| | | |
+|Timezone|Runtipi| | | |
 |URLs|to (Loc)||||
 |LocalIPs|||x||
 |ForwardAuth|||x||
