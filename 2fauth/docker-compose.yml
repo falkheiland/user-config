@@ -1,16 +1,17 @@
-version: "3.7"
 services:
   2fauth:
     environment:
+      # Timezone: Tipi
+      - APP_TIMEZONE=${TZ}
+      # URLs: [Loc]
       - ASSET_URL=https://2fauth.${LOCAL_DOMAIN}
       - APP_URL=https://2fauth.${LOCAL_DOMAIN}
-      - APP_TIMEZONE=${TZ}
-      # OpenID (enabled)
+      # OAuth2: [Loc]
       - OPENID_AUTHORIZE_URL=${OPENID_AUTHORIZE_URL}
       - OPENID_TOKEN_URL=${OPENID_TOKEN_URL}
       - OPENID_USERINFO_URL=${OPENID_USERINFO_URL}
       - OPENID_CLIENT_ID=${OPENID_CLIENT_ID}
       - OPENID_CLIENT_SECRET=${OPENID_CLIENT_SECRET}
     labels:
-      # Local domain secure
+      # LocalIPs: [Loc], ForwardAuth: [Loc]
       traefik.http.routers.2fauth-local.middlewares: ipAllowList-local@file, forwardAuth-authentik@file
