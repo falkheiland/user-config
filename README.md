@@ -82,7 +82,7 @@ tree -a user-config/
 user-config/
 ...
 ├── authentik
-│   ├── app.env.template
+│   ├── app.env.example
 │   └── docker-compose.yml
 ...
 ├── crowdsec
@@ -93,7 +93,7 @@ user-config/
 ...
 ├── .gitignore
 ...
-├── tipi-compose.env.template
+├── tipi-compose.env.example
 ├── tipi-compose.yml
 ├── traefik
 │   └── etc
@@ -142,6 +142,8 @@ sudo ./runtipi-cli start --env-file user-config/tipi-compose.env
 - [Runtipi](./traefik/) (incl. traefik)
 - Apps
   - [2FAuth](./2fauth)
+
+***tbc***
 
 ## License
 
