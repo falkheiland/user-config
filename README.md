@@ -43,9 +43,11 @@ If this local domain is spoofed and is set to the public IP, than those services
 
 ## Installation
 
-this assumes runtipi was installed in the home directory of the user `user`
+- stop all apps in the runtipi GUI
+- open the bash on your server and follow these steps:
 
 ```bash
+# !!! this assumes runtipi was installed in your home directory.
 # change dir to the runtipi dir
 cd ~/runtipi
 # stop runtipi
@@ -72,6 +74,8 @@ app-data/traefik
 │               └── traefik-plugin-geoblock
 └── shared
 # clone the repo
+# !!! it is recommended to fork that repo to your own account and clone from there.
+# !!! this way you can work on and use your own configuration.
 git clone git@github.com:falkheiland/user-config.git
 # display the user-config dir structure (excerpt)
 tree -a user-config/
@@ -101,52 +105,51 @@ user-config/
 │       └── traefik.yml
 ...
 # Find all env example files and rename them for use in runtipi
-#!/bin/bash
-
-# Find all files ending with .example and rename them
-find . -type f -name "*.example" | while read file; do
-    new_file="${file%.example}"
-    mv "$file" "$new_file"
-    echo "Renamed: $file -> $new_file"
+find ./user-config -type f -name "*.example" | while read file; do
+    env_file="${file%.example}"
+    mv "$file" "$env_file"
+    echo "created env file $env_file"
 done
-
 # results (excerpt)
-Renamed: ./user-config/freshrss/app.env.example -> ./user-config/freshrss/app.env
+created env file ./user-config/freshrss/app.env
 ...
-Renamed: ./user-config/wekan/app.env.example -> ./user-config/wekan/app.env
+created env file ./user-config/tipi-compose.env
+...
 
 ```
-it is recommended to fork that repo to your own account and pull from there.
-This way you can work on and use your own configuration.
 
-```bash
-
-```
+Open and edit each of the files from the result above in an editor of your choice.
 
 ## Getting started
 
 ```bash
+# start runtipi using the tipi-compose.env env file
 sudo ./runtipi-cli start --env-file user-config/tipi-compose.env
 ```
 
+- open the traefik dashboard in your browser `http://<runtipi-IP>:8080/dashboard/#/`
+  - there should be no errors shown for Routers, Services and Middlewares
+  - if there are errors, fix them.
+- open the runtipi GUI
+- start the crowdsec app
+- start the Authentik app
+- open the Authentik GUI and make settings according to the README of each (used) app in the repo
+- start each app after making above settings
+- test the app
+
 ## Documentation
 
-- [Runtipi](#runtipi)
+- [Runtipi](./traefik/) (incl. traefik)
 - Apps
-  - [2FAuth](./2fauth/README.md)
-
-### Runtipi
-
+  - [2FAuth](./2fauth)
 
 ## License
 
+This project is licensed under the MIT License.
 
 ## ToDos
-
 
 ### Network segregation
 
 - have separate networks for front- and backends
-- with [docker version v28+](https://github.com/moby/moby/pull/48936) there will be the option to set gateway priorities for attached networks:
-
-  
+- with [docker version v28+](https://github.com/moby/moby/pull/48936) there will be the option to set gateway priorities for attached networks
