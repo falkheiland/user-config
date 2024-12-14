@@ -1,498 +1,155 @@
-# ToDos
+# user-configs
 
-## Custom environment variables
+## Table of contents
+
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Getting started](#getting-started)
+- [Documentation](#documentation)
+- [License](#license)
+- [ToDos](#todos)
+
+## Overview
+
+[Runtipi](https://runtipi.io) offers the opportunity to customize the configuration of
+[served apps](https://runtipi.io/docs/guides/customize-app-config) and the used
+[reverse proxy](https://runtipi.io/docs/guides/customize-compose-and-traefik).
+
+Runtipi is aimed at the use behind and via a VPN and or tunnel.
+This repo contains a opinionated user-config that aims at having Runtipi:
+- being used with a direct connection to the internet
+- having advanced configuration like SSO/MFA, IP restrictions etc.
+
+## Prerequisites
+
+- working [Runtipi](https://runtipi.io/docs/getting-started/installation) installation (tested with v3.7.4)
+- installed [Authentik](https://github.com/goauthentik/authentik) app (tested with 2024.10.5)
+- installed [crowdsec](https://github.com/crowdsecurity/crowdsec) app and a [account](https://www.crowdsec.net/)
+- a domain managed via [Cloudflare](https://cloudflare.com) DNS with a wildcard entry (ie *.example.com) pointing at your  public IP address
+
+
+It is also a good measure to follow up on OS hardening.
+This highly depends on the used host OS and the hosting itself and is not part of this repo.
+
+Since this comes up a lot, here are still 2 things related to security, when Runtipi is used directly on the internet:
+- [ufw on ubuntu](https://github.com/chaifeng/ufw-docker?tab=readme-ov-file#problem):
+  > But when Docker is installed, Docker bypass the UFW rules and the published ports can be accessed from outside
+  - follow the steps from the link above
+  - use your instance behind an additional firewall / nat router.
+- Runtipi offers the ability to expose services to the local domain.
+If this local domain is spoofed and is set to the public IP, than those services are exposed!
+  - use a traefik middleware that restricts the access to the effected traefik routers to local ip addresses
+
+## Installation
+
+- stop all apps in the runtipi GUI
+- open the bash on your server and follow these steps:
 
 ```bash
-sudo ./runtipi-cli start --env-file user-config/tipi-compose.env
-```
-## DNS challenge - wildcard certificates
-
-https://github.com/steveiliop56/notes/tree/main/runtipi-traefik-dns-challenge
-
-## network segregation
-
-- have separate networks for front- and backends
-- with docker version v28+ there will be the option to set gateway priorities for attached networks:
-
-  https://github.com/moby/moby/pull/48936
-
-
-# user-config
-
-required runtipi version: >= v3.1.1
-
-## misc
-
-stop tipi
-
-```
-sudo  ./runtipi-cli stop
-```
-
-stop all containers (in case above command hangs )
-
-```
+# !!! this assumes runtipi was installed in your home directory.
+# change dir to the runtipi dir
+cd ~/runtipi
+# stop runtipi
+./runtipi-cli stop
+# stop all containers (in case above command hangs )
 docker stop $(docker ps -a -q)
-```
-
-start tipi
-
-```
-sudo ./runtipi-cli start
-```
-
-restart tipi
-
-```
-sudo ./runtipi-cli restart
-```
-
-## traefik
-
-```
-user@tipi:~/runtipi/user-config$ tree -L 5 -a /home/user/runtipi/app-data/traefik
-/home/user/runtipi/app-data/traefik
-├── dynamic
-│   └── dynamic.yml
-├── plugins
-│   └── src
-│       └── github.com
-│           └── nscuro
-│               └── traefik-plugin-geoblock
-├── shared
-│   └── acme.json
-├── tls
-│   ├── cert.pem
-│   ├── tipi.example.com.txt
-│   ├── key.pem
-│   └── tipi.lan.txt
-└── traefik.yml
-```
-
-### logrotate
-
-user-config/tipi-compose.yml:
-
-```yml
-  runtipi-reverse-proxy:
-    volumes:
-      - /var/log/traefik/:/var/log/
-```
-
-app-data/traefik/traefik.yml:
-
-```yml
-log:
-  filePath: "/var/log/traefik.log"
-  level: ERROR
-
-accessLog:
-  filePath: "/var/log/access.log"
-```
-sudo mkdir /var/log/traefik
-sudo vim /etc/logrotate.d/traefik
-```
-
-/etc/logrotate.d/traefik:
-```
-
-```
-/var/log/traefik/*.log {
-        daily
-        compress
-        delaycompress
-        logrotate 7
-        postrotate
-        docker kill --signal="USR1" runtipi-reverse-proxy
-        endscript
-}
-```
-
-### traefik middleware ipAllowList
-
-As a default, runtipis configuration of traefik makes any app accessible from the internet!
-Adding a traefik middleware ipAllowList restricts access to local routers to specified networks only.
-
-app-data/traefik/dynamic/dynamic.yml:
-
-```yml
-http:
-  middlewares:
-    local-ipallowlist:
-      ipAllowList:
-        sourceRange:
-          - "192.168.1.0/24" # local IP Range
-          #- "10.0.0.0/8" # 1/3 all private IP ranges
-          #- "172.16.0.0/12" # 2/3 all private IP ranges
-          #- "192.168.0.0/16" # 3/3 all private IP ranges
-```
-
-example runtipi dashboard / api / worker:
-
-user-config/tipi-compose.yml:
-
-```yml
-  runtipi:
-    labels:
-    # ---- Dashboard ----- #
-      # Secure
-      traefik.http.routers.dashboard-local.middlewares: ipAllowList-local@file
-
-      # ---- Worker ----- #
-      # Secure
-      traefik.http.routers.worker-local.middlewares: ipAllowList-local@file
-      traefik.http.routers.worker-api-local.middlewares: ipAllowList-local@file
-```
-
-### traefik-plugin-geoblock
-
-
-https://traefik.io/blog/using-private-plugins-in-traefik-proxy-2-5/
-
-```bash
-~/runtipi/app-data/traefik
-mkdir -p plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/
-cd plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/
+# change dir to the app-data
+cd app-data
+# create dir structure for traefik app-data and install traefik plugin geoblock
+mkdir -p traefik/shared
+mkdir -p traefik/plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/
+cd traefik/plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/
 wget https://github.com/nscuro/traefik-plugin-geoblock/releases/download/v0.14.0/traefik-plugin-geoblock-0.14.0.tar.gz
 tar -xzvf traefik-plugin-geoblock-0.14.0.tar.gz
-```
-
-
-
-https://github.com/nscuro/traefik-plugin-geoblock/releases/
-
-manual installation required:
-
-```
-mkdir -p app-data/traefik/plugins/src/github.com/nscuro/traefik-plugin-geoblock
-
-cd app-data/traefik/plugins/src/github.com/nscuro/traefik-plugin-geoblock
-
-wget https://github.com/nscuro/traefik-plugin-geoblock/releases/download/v0.13.0/traefik-plugin-geoblock-0.13.0.tar.gz
-
-tar -zxvf traefik-plugin-geoblock-0.13.0.tar.gz
-
-rm traefik-plugin-geoblock-0.13.0.tar.gz
-```
-user-config/tipi-compose.yml:
-
-```yml
-version: '3.7'
-
-services:
-  runtipi-reverse-proxy:
-    volumes:
-      - ./app-data/traefik:/etc/traefik
-      - ./app-data/traefik/shared:/shared
-```
-app-data/traefik/traefik.yml:
-
-```yml
-experimental:
-  plugins:
-    traefik-plugin-geoblock:
-      moduleName: "github.com/nscuro/traefik-plugin-geoblock"
-      version: "v0.13.0"
-```
-
-app-data/traefik/dynamic/dynamic.yml:
-
-```yml
-http:
-  middlewares:
-    geoblock:
-      plugin:
-        traefik-plugin-geoblock:
-          # Enable this plugin?
-          enabled: true
-          # Path to ip2location database file
-          databaseFilePath:  /etc/traefik/plugins/src/github.com/nscuro/traefik-plugin-geoblock/IP2LOCATION-LITE-DB1.IPV6.BIN
-          # Whitelist of countries to allow (ISO 3166-1 alpha-2)
-          allowedCountries: [ "DE" ]
-          # Blocklist of countries to block (ISO 3166-1 alpha-2)
-          # blockedCountries: [ "RU" ]
-          # Default allow indicates that if an IP is in neither block list nor allow lists, it should be allowed.
-          defaultAllow: false
-          # Allow requests from private / internal networks?
-          allowPrivate: true
-          # HTTP status code to return for disallowed requests (default: 403)
-          disallowedStatusCode: 204
-          # Add CIDR to be whitelisted, even if in a non-allowed country
-          # allowedIPBlocks: ["66.249.64.0/19"]
-          # Add CIDR to be blacklisted, even if in an allowed country or IP block
-          # blockedIPBlocks: ["66.249.64.5/32"]
-```
-
-### non-tipi-app
-
-if you want to use traefik to expose a non-tipi-app, f.i. the GUI of a switch or a NAS in your internal network:
-
-app-data/traefik/dynamic/dynamic.yml:
-
-```yml
-http:
-  middlewares:
-    default-https-redirect:
-      redirectScheme:
-        scheme: https
-        permanent: true
-
-  routers:
-    non-tipi-app:
-      entryPoints:
-        - "web"
-      rule: "Host(`non-tipi-app.example.com`)"
-      middlewares:
-       - default-https-redirect@file
-      service: non-tipi-app
-    non-tipi-app-secure:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`non-tipi-app.example.com`)"
-      middlewares:
-        - plugin-geoblock@file
-      tls:
-        options: sniStrictFalse@file
-        certresolver: myresolver
-      service: non-tipi-app
-
-  services:
-    non-tipi-app:
-      loadBalancer:
-        serversTransport: insecuretransport
-        servers:
-          - url: "https://192.168.0.100:1234"
-        passHostHeader: true
-
-tls:
-  options:
-    sniStrictFalse:
-      minVersion: VersionTLS13 #VersionTLS12
-      cipherSuites:
-        - TLS_AES_128_GCM_SHA256
-        - TLS_AES_256_GCM_SHA384
-        - TLS_CHACHA20_POLY1305_SHA256
-      curvePreferences:
-        - CurveP521
-        - CurveP384
-      sniStrict: false
-```
-
-### prometheus
-
-app-data/traefik/traefik.yml:
-
-```yml
-metrics:
-  prometheus:
-    manualRouting: true
-    addEntryPointsLabels: true
-    addRoutersLabels: true
-    addServicesLabels: true
-```
-
-### tls options
-
-```yml
-tls:
-  options:
-    default:
-      minVersion: VersionTLS13
-      cipherSuites:
-        - TLS_AES_128_GCM_SHA256
-        - TLS_AES_256_GCM_SHA384
-        - TLS_CHACHA20_POLY1305_SHA256
-      curvePreferences:
-        - CurveP521
-        - CurveP384
-      sniStrict: true
-```
-
-## complete traefik.yml
-
-```yml
-api:
-  dashboard: true
-  insecure: true
-  debug: false
-
-providers:
-  docker:
-    endpoint: 'unix:///var/run/docker.sock'
-    watch: true
-    exposedByDefault: false
-  file:
-    directory: /etc/traefik/dynamic
-    watch: true
-
-entryPoints:
-  web:
-    address: ':80'
-
-  websecure:
-    address: ':443'
-    http:
-      tls:
-        certResolver: myresolver
-
-certificatesResolvers:
-  myresolver:
-    acme:
-      email: user@example.com
-      storage: /shared/acme.json
-      httpChallenge:
-        entryPoint: web
-
-log:
-  filePath: "/var/log/traefik.log"
-  level: ERROR #DEBUG
-
-accessLog:
-  filePath: "/var/log/access.log"
-
-metrics:
-  prometheus:
-    manualRouting: true
-    addEntryPointsLabels: true
-    addRoutersLabels: true
-    addServicesLabels: true
-
-experimental:
-  plugins:
-    traefik-plugin-geoblock:
-      moduleName: "github.com/nscuro/traefik-plugin-geoblock"
-      version: "v0.13.0"
-```
-
-## complete dynamic.yml
-
-```yml
-http:
-  serversTransports:
-    insecuretransport:
-      insecureSkipVerify: true
-  middlewares:
-    # Note: when used in docker-compose.yml all dollar signs in the hash need to be doubled for escaping.
-    # To create a user:password pair, the following command can be used:
-    # echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g
-    #
-    # Also note that dollar signs should NOT be doubled when they not evaluated (e.g. Ansible docker_container module).
-    default-https-redirect:
-      redirectScheme:
-        scheme: https
-        permanent: true
-    basicAuth-default:
-      basicAuth:
-        users:
-          - "user:$apr1$f.TtPBq.$KSde9T457Nn8Q9hUuHf.k/"
-    secHeaders:
-      headers:
-        browserXssFilter: true
-        contentTypeNosniff: true
-        frameDeny: true
-        stsIncludeSubdomains: true
-        stsPreload: true
-        stsSeconds: 31536000
-        customRequestHeaders:
-          X-Frame-Options: "SAMEORIGIN"
-        customFrameOptionsValue: "SAMEORIGIN"
-    authentik:
-      forwardAuth:
-        address: http://authentik:9000/outpost.goauthentik.io/auth/traefik
-        trustForwardHeader: true
-        authResponseHeaders:
-          - X-authentik-username
-          - X-authentik-groups
-          - X-authentik-email
-          - X-authentik-name
-          - X-authentik-uid
-          - X-authentik-jwt
-          - X-authentik-meta-jwks
-          - X-authentik-meta-outpost
-          - X-authentik-meta-provider
-          - X-authentik-meta-app
-          - X-authentik-meta-version
-    geoblock:
-      plugin:
-        traefik-plugin-geoblock:
-          # Enable this plugin?
-          enabled: true
-          # Path to ip2location database file
-          #databaseFilePath: /plugins-storage/sources/gop-1769341418/src/github.com/nscuro/traefik-plugin-geoblock/IP2LOCATION-LITE-DB1.IPV6.BIN
-          databaseFilePath:  /plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/IP2LOCATION-LITE-DB1.IPV6.BIN
-          # Whitelist of countries to allow (ISO 3166-1 alpha-2)
-          allowedCountries: [ "DE" ]
-          # Blocklist of countries to block (ISO 3166-1 alpha-2)
-          # blockedCountries: [ "RU" ]
-          # Default allow indicates that if an IP is in neither block list nor allow lists, it should be allowed.
-          defaultAllow: false
-          # Allow requests from private / internal networks?
-          allowPrivate: true
-          # HTTP status code to return for disallowed requests (default: 403)
-          disallowedStatusCode: 204
-          # Add CIDR to be whitelisted, even if in a non-allowed country
-          # allowedIPBlocks: ["66.249.64.0/19"]
-          # Add CIDR to be blacklisted, even if in an allowed country or IP block
-          # blockedIPBlocks: ["66.249.64.5/32"]
-    local-ipallowlist:
-      ipAllowList:
-        sourceRange:
-          - "192.168.1.0/24" # local IP Range
-          #- "10.0.0.0/8" # 1/3 all private IP ranges
-          #- "172.16.0.0/12" # 2/3 all private IP ranges
-          #- "192.168.0.0/16" # 3/3 all private IP ranges
-
-  routers:
-    non-tipi-app:
-      entryPoints:
-        - "web"
-      rule: "Host(`non-tipi-app.example.com`)"
-      middlewares:
-       - default-https-redirect@file
-      service: non-tipi-app
-    non-tipi-app-secure:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`non-tipi-app.example.com`)"
-      middlewares:
-        - plugin-geoblock@file
-      tls:
-        options: sniStrictFalse@file
-        certresolver: myresolver
-      service: non-tipi-app
-
-  services:
-    non-tipi-app:
-      loadBalancer:
-        serversTransport: insecuretransport
-        servers:
-          - url: "https://192.168.0.100:1234"
-        passHostHeader: true
-
-tls:
-  options:
-    default:
-      minVersion: VersionTLS13 #VersionTLS12
-      cipherSuites:
-        - TLS_AES_128_GCM_SHA256
-        - TLS_AES_256_GCM_SHA384
-        - TLS_CHACHA20_POLY1305_SHA256
-      curvePreferences:
-        - CurveP521
-        - CurveP384
-      sniStrict: true
-    sniStrictFalse:
-      minVersion: VersionTLS13 #VersionTLS12
-      cipherSuites:
-        - TLS_AES_128_GCM_SHA256
-        - TLS_AES_256_GCM_SHA384
-        - TLS_CHACHA20_POLY1305_SHA256
-      curvePreferences:
-        - CurveP521
-        - CurveP384
-      sniStrict: false
-  certificates:
-    - certFile: /etc/traefik/tls/cert.pem
-      keyFile: /etc/traefik/tls/key.pem
+rm traefik-plugin-geoblock-0.14.0.tar.gz
+cd ~/runtipi
+# display the traefik app-data dir structure
+tree -L 5 -a app-data/traefik
+app-data/traefik
+├── plugins-local
+│   └── src
+│       └── github.com
+│           └── nscuro
+│               └── traefik-plugin-geoblock
+└── shared
+# clone the repo
+# !!! it is recommended to fork that repo to your own account and clone from there.
+# !!! this way you can work on and use your own configuration.
+git clone git@github.com:falkheiland/user-config.git
+# display the user-config dir structure (excerpt)
+tree -a user-config/
+user-config/
+...
+├── authentik
+│   ├── app.env.template
+│   └── docker-compose.yml
+...
+├── crowdsec
+│   └── docker-compose.yml
+...
+├── .git
+│   ├── branches
+...
+├── .gitignore
+...
+├── tipi-compose.env.template
+├── tipi-compose.yml
+├── traefik
+│   └── etc
+│       ├── dynamic
+│       │   ├── dynamic.yml
+│       │   └── .gitkeep
+│       ├── tls
+│       │   └── .gitkeep
+│       └── traefik.yml
+...
+# Find all env example files and rename them for use in runtipi
+find ./user-config -type f -name "*.example" | while read file; do
+    env_file="${file%.example}"
+    mv "$file" "$env_file"
+    echo "created env file $env_file"
+done
+# results (excerpt)
+created env file ./user-config/freshrss/app.env
+...
+created env file ./user-config/tipi-compose.env
+...
 
 ```
+
+Open and edit each of the files from the result above in an editor of your choice.
+
+## Getting started
+
+```bash
+# start runtipi using the tipi-compose.env env file
+sudo ./runtipi-cli start --env-file user-config/tipi-compose.env
+```
+
+- open the traefik dashboard in your browser `http://<runtipi-IP>:8080/dashboard/#/`
+  - there should be no errors shown for Routers, Services and Middlewares
+  - if there are errors, fix them.
+- open the runtipi GUI
+- start the crowdsec app
+- start the Authentik app
+- open the Authentik GUI and make settings according to the README of each (used) app in the repo
+- start each app after making above settings
+- test the app
+
+## Documentation
+
+- [Runtipi](./traefik/) (incl. traefik)
+- Apps
+  - [2FAuth](./2fauth)
+
+## License
+
+This project is licensed under the MIT License.
+
+## ToDos
+
+### Network segregation
+
+- have separate networks for front- and backends
+- with [docker version v28+](https://github.com/moby/moby/pull/48936) there will be the option to set gateway priorities for attached networks
