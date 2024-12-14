@@ -5,3 +5,4 @@ services:
     labels:
       # Websecure
       traefik.http.routers.it-tools.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
+      traefik.http.routers.it-tools.tls.certresolver: ''

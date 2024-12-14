@@ -4,7 +4,12 @@ services:
   authentik:
     labels:
       # Websecure
+      traefik.http.routers.authentik-insecure.rule: HostRegexp(`^.+\.${CATCHALL_DOMAIN}$`)
+      traefik.http.routers.authentik-insecure.priority: 1
+      traefik.http.routers.authentik.rule: HostRegexp(`^.+\.${CATCHALL_DOMAIN}$`)
+      traefik.http.routers.authentik.priority: 1
       traefik.http.routers.authentik.middlewares: plugin-geoblock@file
+      traefik.http.routers.authentik.tls.certresolver: ''
       # Local domain secure
       traefik.http.routers.authentik-local.middlewares: ipAllowList-local@file
 

@@ -4,6 +4,8 @@ services:
   homeassistant-1:
     ports: !reset []
     labels:
+      # Websecure
+      traefik.http.routers.homeassistant.tls.certresolver: ''
       # Local domain
       traefik.http.routers.homeassistant-local-insecure.rule: Host(`homeassistant-1.${LOCAL_DOMAIN}`)
       # Local domain secure

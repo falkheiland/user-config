@@ -28,6 +28,8 @@ services:
       traefik.http.routers.dashboard.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
       # Websecure
       traefik.http.routers.dashboard-secure.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
+      traefik.http.routers.dashboard-secure.tls.domains[0].main: ${WILDCARD_DOMAIN}
+      traefik.http.routers.dashboard-secure.tls.domains[0].sans: "*.${WILDCARD_DOMAIN}"
       # Secure
       traefik.http.routers.dashboard-local.middlewares: ipAllowList-local@file
 
@@ -38,6 +40,7 @@ services:
       traefik.http.routers.socket-insecure.rule: Host(`${DOMAIN}`) && PathPrefix(`/api/socket.io`)
       traefik.http.routers.socket-secure.rule: Host(`${DOMAIN}`) && PathPrefix(`/api/socket.io`)
       traefik.http.routers.socket-secure.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
+      traefik.http.routers.socket-secure.tls.certresolver: ''
       # Local domain
       traefik.http.routers.socket-local-insecure.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/api/socket.io`)
       # Secure

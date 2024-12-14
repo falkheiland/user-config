@@ -20,5 +20,7 @@ services:
       - LOG_LEVEL=warn # options are: "trace", "debug", "info", "warn", "error" or "off".
       - EXTENDED_LOGGING=false
     labels:
+      # WebSecure
+      traefik.http.routers.vaultwarden.tls.certresolver: ''
       # Local domain secure
       traefik.http.routers.vaultwarden-local.middlewares: ipAllowList-local@file
