@@ -27,10 +27,6 @@ services:
       # Local ip
       traefik.http.routers.dashboard.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
       # Websecure
-      traefik.http.routers.dashboard-insecure.rule: HostRegexp(`^.+\.${WILDCARD_DOMAIN}$`)
-      traefik.http.routers.dashboard-insecure.priority: 1
-      traefik.http.routers.dashboard-secure.rule: HostRegexp(`^.+\.${WILDCARD_DOMAIN}$`)
-      traefik.http.routers.dashboard-secure.priority: 1
       traefik.http.routers.dashboard-secure.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
       traefik.http.routers.dashboard-secure.tls.domains[0].main: ${WILDCARD_DOMAIN}
       traefik.http.routers.dashboard-secure.tls.domains[0].sans: "*.${WILDCARD_DOMAIN}"
