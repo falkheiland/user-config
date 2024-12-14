@@ -1,25 +1,3 @@
-# ToDos
-
-## Custom environment variables
-
-```bash
-sudo ./runtipi-cli start --env-file user-config/tipi-compose.env
-```
-## DNS challenge - wildcard certificates
-
-https://github.com/steveiliop56/notes/tree/main/runtipi-traefik-dns-challenge
-
-## network segregation
-
-- have separate networks for front- and backends
-- with docker version v28+ there will be the option to set gateway priorities for attached networks:
-
-  https://github.com/moby/moby/pull/48936
-
-
-# user-config
-
-required runtipi version: >= v3.1.1
 
 ## misc
 
