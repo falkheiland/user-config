@@ -88,7 +88,6 @@ http:
         - forwardAuth-authentik@file
       tls:
         options: sniStrictFalse@file
-        certresolver: myresolver
       service: service01
 
   services:

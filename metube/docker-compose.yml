@@ -12,3 +12,4 @@ services:
     labels:
       # Websecure
       traefik.http.routers.metube.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
+      traefik.http.routers.metube.tls.certresolver: ''

@@ -25,6 +25,7 @@ services:
     labels:
       # Websecure
       traefik.http.routers.linkwarden.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
+      traefik.http.routers.linkwarden.tls.certresolver: ''
       # Local domain secure
       traefik.http.routers.linkwarden-local.middlewares: ipAllowList-none@file
 
