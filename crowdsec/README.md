@@ -4,7 +4,7 @@
 
 [Crowdsec Docker Compose Guide Part 1: Powerful IPS with Firewall Bouncer](https://www.smarthomebeginner.com/crowdsec-docker-compose-1-fw-bouncer/)
 
-> Note that Firewall Bouncer is to be installed on the Docker (where runtipi runs) as a native app.
+> Note that Firewall Bouncer is to be installed on the Docker host (where runtipi runs) as a native app.
 
 
 tipi host:
