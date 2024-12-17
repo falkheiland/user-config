@@ -70,7 +70,62 @@ http:
         ipStrategy:
           excludedIPs:
             - '{{env "IPALLOWLIST_NONE_EXCLUDEDIPS"}}'
-
+    rateLimit-default:
+        rateLimit:
+          average: 100
+          burst: 50
+    headers-secure:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - OPTIONS
+          - PUT
+        accessControlMaxAge: 100
+        hostsProxyHeaders:
+          - "X-Forwarded-Host"
+        stsSeconds: 63072000
+        stsIncludeSubdomains: true
+        stsPreload: true
+        # forceSTSHeader: true # This is a good thing but it can be tricky. Enable after everything works.
+        customFrameOptionsValue: SAMEORIGIN # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+        contentTypeNosniff: true
+        browserXssFilter: true
+        referrerPolicy: "same-origin"
+        permissionsPolicy: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), vr=()"
+        customResponseHeaders:
+          X-Robots-Tag: "none,noarchive,nosnippet,notranslate,noimageindex," # disable search engines from indexing home server
+          server: "" # hide server info from visitors
+    # chains
+    chain-localDomain:
+      chain:
+        middlewares:
+          - ipAllowList-local
+          - rateLimit-default
+          - headers-secure
+    chain-localDomain-auth:
+      chain:
+        middlewares:
+          - ipAllowList-local
+          - rateLimit-default
+          - headers-secure
+          - forwardAuth-authentik@file
+    chain-localDomain-deny:
+      chain:
+        middlewares:
+          - ipAllowList-none
+    chain-Domain:
+      chain:
+        middlewares:
+          - plugin-geoblock@file
+          - rateLimit-default
+          - headers-secure
+    chain-Domain-auth:
+      chain:
+        middlewares:
+          - plugin-geoblock@file
+          - rateLimit-default
+          - headers-secure
+          - forwardAuth-authentik@file
   routers:
     service01:
       entryPoints:
@@ -84,8 +139,7 @@ http:
         - "websecure"
       rule: 'Host(`{{env "SERVICE01_FQDN"}}`)'
       middlewares:
-        - plugin-geoblock@file
-        - forwardAuth-authentik@file
+        - chain-Domain-auth@file
       tls:
         options: sniStrictFalse@file
       service: service01

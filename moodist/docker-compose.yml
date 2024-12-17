@@ -1,8 +1,6 @@
-version: "3.7"
-
 services:
   moodist:
     labels:
       # Websecure
-      traefik.http.routers.moodist.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
+      traefik.http.routers.moodist.middlewares: chain-Domain-auth@file
       traefik.http.routers.moodist.tls.certresolver: ''

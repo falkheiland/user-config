@@ -14,4 +14,4 @@ services:
       - OPENID_CLIENT_SECRET=${OPENID_CLIENT_SECRET}
     labels:
       # LocalIPs: [Loc], ForwardAuth: [Loc]
-      traefik.http.routers.2fauth-local.middlewares: ipAllowList-local@file, forwardAuth-authentik@file
+      traefik.http.routers.2fauth-local.middlewares: chain-localDomain-auth@file

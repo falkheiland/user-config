@@ -27,7 +27,7 @@ services:
       # Local ip
       traefik.http.routers.dashboard.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
       # Websecure
-      traefik.http.routers.dashboard-secure.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
+      traefik.http.routers.dashboard-secure.middlewares: chain-Domain-auth@file
       traefik.http.routers.dashboard-secure.tls.domains[0].main: ${WILDCARD_DOMAIN}
       traefik.http.routers.dashboard-secure.tls.domains[0].sans: "*.${WILDCARD_DOMAIN}"
       # Secure
@@ -39,10 +39,10 @@ services:
       # Websecure
       traefik.http.routers.socket-insecure.rule: Host(`${DOMAIN}`) && PathPrefix(`/api/socket.io`)
       traefik.http.routers.socket-secure.rule: Host(`${DOMAIN}`) && PathPrefix(`/api/socket.io`)
-      traefik.http.routers.socket-secure.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
+      traefik.http.routers.socket-secure.middlewares: chain-Domain-auth@file
       traefik.http.routers.socket-secure.tls.certresolver: ''
       # Local domain
       traefik.http.routers.socket-local-insecure.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/api/socket.io`)
       # Secure
       traefik.http.routers.socket-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/api/socket.io`)
-      traefik.http.routers.socket-local.middlewares: ipAllowList-local@file
+      traefik.http.routers.socket-local.middlewares: chain-localDomain@file

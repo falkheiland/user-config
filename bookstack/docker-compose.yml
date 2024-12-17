@@ -2,7 +2,7 @@ services:
   bookstack:
     labels:
       # Websecure
-      traefik.http.routers.bookstack.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
+      traefik.http.routers.bookstack.middlewares: chain-Domain-auth@file
       traefik.http.routers.bookstack.tls.certresolver: ''
 
   dbbackup:

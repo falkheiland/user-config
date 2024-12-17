@@ -1,8 +1,6 @@
-version: "3"
-
 services:
   it-tools:
     labels:
       # Websecure
-      traefik.http.routers.it-tools.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
+      traefik.http.routers.it-tools.middlewares: chain-Domain-auth@file
       traefik.http.routers.it-tools.tls.certresolver: ''

@@ -1,7 +1,5 @@
-version: '3.7'
 services:
   paperless-ngx:
-    ports: !reset []
     volumes:
       - ${APP_USER_DATA_DIR}/tipi/paperlessngx/media:/usr/src/paperless/media
       - ${APP_USER_DATA_DIR}/tipi/paperlessngx/export:/usr/src/paperless/export
@@ -32,10 +30,10 @@ services:
       PAPERLESS_DISABLE_REGULAR_LOGIN: true
     labels:
       # Websecure
-      traefik.http.routers.paperless-ngx.middlewares: plugin-geoblock@file, forwardAuth-authentik@file
+      traefik.http.routers.paperless-ngx.middlewares: chain-Domain-auth@file
       traefik.http.routers.paperless-ngx.tls.certresolver: ''
       # Local domain secure
-      traefik.http.routers.paperless-ngx-local.middlewares: ipAllowList-local@file
+      traefik.http.routers.paperless-ngx-local.middlewares: chain-localDomain@file
 
   db:
     image: docker.io/library/postgres:15
