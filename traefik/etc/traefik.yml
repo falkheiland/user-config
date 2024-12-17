@@ -35,7 +35,18 @@ certificatesResolvers:
           - "1.1.1.1:53"
           - "1.0.0.1:53"
 log:
-  level: ERROR
+  level: INFO
+
+accessLog:
+  format: json
+  bufferingSize: 100
+  filters:
+    statusCodes:
+      - "204-299"
+      - "400-499"
+      - "500-599"
+    retryAttempts: true
+    minDuration: "10ms"
 
 metrics:
   prometheus:
