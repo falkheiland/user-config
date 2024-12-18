@@ -1,5 +1,8 @@
 services:
   ddns-updater:
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
     environment:
       - TZ=${TZ}
       - SHOUTRRR_ADDRESSES=pushover://shoutrrr:${PUSHOVER_APITOKEN}@${PUSHOVER_USERKEY}/?devices=${PUSHOVER_DEVICES}

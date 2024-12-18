@@ -6,17 +6,16 @@
 
 |IP:Port (IP)|Local domain (Loc)|Domain (Dom)|
 |-|-|-|
-| |x| |
+| | |x |
 
 ## Settings
 
-||Generic|IP:Port (IP)|Local domain (Loc)|Domain (Dom)|
-|-|-|-|-|-|
-|Timezone|Runtipi| | | |
-|URLs|to (Loc)||||
-|LocalIPs|||x||
-|ForwardAuth|||x||
-|OAuth2|||x||
+||Generic|IP:Port (IP)|Local domain (Loc)|Domain (Dom)|Domain (DomL)|
+|-|-|-|-|-|-|
+|Timezone|Runtipi| | | | |
+|URLs|to (Dom)|||||
+|ForwardAuth||||x||
+|OAuth2||||x|x|
 
 ## Usage
 
@@ -25,8 +24,8 @@
     - `Stop`
     - `Settings`
       - [ ] Open port
-      - [x] Expose app on local network
-      - [ ] Expose app on the internet
+      - [ ] Expose app on local network
+      - [x] Expose app on the internet
       - `Update`
 2. Authentik
     1. OAuth2
@@ -65,7 +64,7 @@
             - `Update`
 3. Editor / CLI
     - rename `app.env.example` to `app.env`
-    - configute settings in `app.env`
+    - configure settings in `app.env`
 4. Runtipi
     1. MyApps > 2FAuth
         - `Start`

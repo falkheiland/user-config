@@ -143,6 +143,16 @@ http:
       tls:
         options: sniStrictFalse@file
       service: service01
+    service01secure-privip:
+      entryPoints:
+        - "websecure"
+      rule: 'Host(`{{env "SERVICE01_FQDN"}}`) && ClientIP(`{{env "PRIVATE_IPV4"}}`)'
+      middlewares:
+        - chain-Domain@file
+      tls:
+        options: sniStrictFalse@file
+      service: service01
+      priority: 100
 
   services:
     service01:

@@ -1,0 +1,13 @@
+services:
+  hello-world:
+    labels:
+      # Websecure
+      traefik.http.routers.hello-world.middlewares: chain-Domain-auth@file
+      traefik.http.routers.hello-world.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.hello-world-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.hello-world-privip.middlewares: chain-Domain@file
+      traefik.http.routers.hello-world-privip.entrypoints: websecure
+      traefik.http.routers.hello-world-privip.service: hello-world
+      traefik.http.routers.hello-world-privip.priority: 100
+      traefik.http.routers.hello-world-privip.tls.certresolver: ''

@@ -23,6 +23,13 @@ services:
       # Websecure
       traefik.http.routers.linkwarden.middlewares: chain-Domain-auth@file
       traefik.http.routers.linkwarden.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.linkwarden-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.linkwarden-privip.middlewares: chain-Domain@file
+      traefik.http.routers.linkwarden-privip.entrypoints: websecure
+      traefik.http.routers.linkwarden-privip.service: linkwarden
+      traefik.http.routers.linkwarden-privip.priority: 100
+      traefik.http.routers.linkwarden-privip.tls.certresolver: ''
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9

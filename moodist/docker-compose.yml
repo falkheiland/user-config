@@ -4,3 +4,10 @@ services:
       # Websecure
       traefik.http.routers.moodist.middlewares: chain-Domain-auth@file
       traefik.http.routers.moodist.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.moodist-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.moodist-privip.middlewares: chain-Domain@file
+      traefik.http.routers.moodist-privip.entrypoints: websecure
+      traefik.http.routers.moodist-privip.service: moodist
+      traefik.http.routers.moodist-privip.priority: 100
+      traefik.http.routers.moodist-privip.tls.certresolver: ''

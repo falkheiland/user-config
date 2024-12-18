@@ -3,15 +3,23 @@ services:
     environment:
       # Timezone: Runtipi
       - APP_TIMEZONE=${TZ}
-      # URLs: [Loc]
-      - ASSET_URL=https://2fauth.${LOCAL_DOMAIN}
-      - APP_URL=https://2fauth.${LOCAL_DOMAIN}
-      # OAuth2: [Loc]
+      # URLs: [Ws]
+      - ASSET_URL=https://${APP_DOMAIN}
+      - APP_URL=https://${APP_DOMAIN}
+      # OAuth2: [Ws]
       - OPENID_AUTHORIZE_URL=${OPENID_AUTHORIZE_URL}
       - OPENID_TOKEN_URL=${OPENID_TOKEN_URL}
       - OPENID_USERINFO_URL=${OPENID_USERINFO_URL}
       - OPENID_CLIENT_ID=${OPENID_CLIENT_ID}
       - OPENID_CLIENT_SECRET=${OPENID_CLIENT_SECRET}
     labels:
-      # LocalIPs: [Loc], ForwardAuth: [Loc]
-      traefik.http.routers.2fauth-local.middlewares: chain-localDomain-auth@file
+      # Websecure: [Dom], ForwardAuth: [Dom]
+      traefik.http.routers.2fauth.middlewares: chain-Domain-auth@file
+      traefik.http.routers.2fauth.tls.certresolver: ''
+      # WebSecure local: IP [DomL]
+      traefik.http.routers.2fauth-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.2fauth-privip.middlewares: chain-Domain@file
+      traefik.http.routers.2fauth-privip.entrypoints: websecure
+      traefik.http.routers.2fauth-privip.service: 2fauth
+      traefik.http.routers.2fauth-privip.priority: 100
+      traefik.http.routers.2fauth-privip.tls.certresolver: ''

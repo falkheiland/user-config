@@ -11,6 +11,7 @@ services:
       IPALLOWLIST_NONE_EXCLUDEDIPS:
       SERVICE01_FQDN:
       SERVICE01_URL:
+      PRIVATE_IPV4:
     ports:
       - 8080:8080
     volumes:

@@ -4,3 +4,10 @@ services:
       # Websecure
       traefik.http.routers.it-tools.middlewares: chain-Domain-auth@file
       traefik.http.routers.it-tools.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.it-tools-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.it-tools-privip.middlewares: chain-Domain@file
+      traefik.http.routers.it-tools-privip.entrypoints: websecure
+      traefik.http.routers.it-tools-privip.service: it-tools
+      traefik.http.routers.it-tools-privip.priority: 100
+      traefik.http.routers.it-tools-privip.tls.certresolver: ''
