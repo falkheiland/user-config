@@ -123,8 +123,7 @@ Open and edit each of the files from the result above in an editor of your choic
 ## Getting started
 
 ```bash
-# start runtipi using the tipi-compose.env env file
-sudo ./runtipi-cli start --env-file user-config/tipi-compose.env
+sudo ./runtipi-cli start
 ```
 
 - open the traefik dashboard in your browser `http://<runtipi-IP>:8080/dashboard/#/`
