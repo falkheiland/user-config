@@ -108,7 +108,7 @@ http:
           - ipAllowList-local
           - rateLimit-default
           - headers-secure
-          - forwardAuth-authentik@file
+          - forwardAuth-authentik
     chain-localDomain-deny:
       chain:
         middlewares:
@@ -116,41 +116,41 @@ http:
     chain-Domain:
       chain:
         middlewares:
-          - plugin-geoblock@file
+          - plugin-geoblock
           - rateLimit-default
           - headers-secure
     chain-Domain-auth:
       chain:
         middlewares:
-          - plugin-geoblock@file
+          - plugin-geoblock
           - rateLimit-default
           - headers-secure
-          - forwardAuth-authentik@file
+          - forwardAuth-authentik
   routers:
     service01:
       entryPoints:
         - "web"
       rule: 'Host(`{{env "SERVICE01_FQDN"}}`)'
       middlewares:
-        - redirectScheme-default@file
+        - redirectScheme-default
       service: service01
     service01secure:
       entryPoints:
         - "websecure"
       rule: 'Host(`{{env "SERVICE01_FQDN"}}`)'
       middlewares:
-        - chain-Domain-auth@file
+        - chain-Domain-auth
       tls:
-        options: sniStrictFalse@file
+        options: sniStrictFalse
       service: service01
     service01secure-privip:
       entryPoints:
         - "websecure"
       rule: 'Host(`{{env "SERVICE01_FQDN"}}`) && ClientIP(`{{env "PRIVATE_IPV4"}}`)'
       middlewares:
-        - chain-Domain@file
+        - chain-Domain
       tls:
-        options: sniStrictFalse@file
+        options: sniStrictFalse
       service: service01
       priority: 100
 
