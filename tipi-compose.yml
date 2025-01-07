@@ -1,6 +1,6 @@
 services:
   runtipi-reverse-proxy:
-    #image: traefik:v3.2.3
+    image: traefik:v3.2.3
     env_file: ./user-config/tipi-compose.env
     ports:
       - 8080:8080
