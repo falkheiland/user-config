@@ -1,11 +1,13 @@
 services:
   homeassistant-1:
-    ports: !reset []
     labels:
       # Websecure
-      traefik.http.routers.homeassistant.tls.certresolver: ''
-      # Local domain
-      traefik.http.routers.homeassistant-local-insecure.rule: Host(`homeassistant-1.${LOCAL_DOMAIN}`)
-      # Local domain secure
-      traefik.http.routers.homeassistant-local.rule: Host(`homeassistant-1.${LOCAL_DOMAIN}`)
-      traefik.http.routers.homeassistant-local.middlewares: chain-localDomain@file
+      traefik.http.routers.homeassistant-1.middlewares: chain-Domain-auth@file
+      traefik.http.routers.homeassistant-1.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.homeassistant-1-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.homeassistant-1-privip.middlewares: chain-Domain@file
+      traefik.http.routers.homeassistant-1-privip.entrypoints: websecure
+      traefik.http.routers.homeassistant-1-privip.service: homeassistant-1
+      traefik.http.routers.homeassistant-1-privip.priority: 100
+      traefik.http.routers.homeassistant-1-privip.tls.certresolver: ''

@@ -1,6 +1,5 @@
 services:
   nocodb:
-    ports: !reset []
     environment:
       - NC_DISABLE_TELE=true
     labels:
@@ -14,8 +13,6 @@ services:
       traefik.http.routers.nocodb-privip.service: nocodb
       traefik.http.routers.nocodb-privip.priority: 100
       traefik.http.routers.nocodb-privip.tls.certresolver: ''
-      # Local domain secure
-      traefik.http.routers.nocodb-local.middlewares: chain-localDomain-deny@file
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
