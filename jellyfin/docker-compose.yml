@@ -1,8 +1,5 @@
 services:
   jellyfin:
-    volumes:
-      - ${APP_USER_DATA_DIR}/music/:/media/music
-      - ${APP_USER_DATA_DIR}/video/:/media/video
     labels:
       # Websecure
       traefik.http.routers.jellyfin.middlewares: chain-Domain-auth@file

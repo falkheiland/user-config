@@ -1,0 +1,31 @@
+services:
+  authentik-fh:
+    labels:
+      # Websecure
+      traefik.http.routers.authentik-fh-insecure.rule: HostRegexp(`^.+\.${CATCHALL_DOMAIN}$`)
+      traefik.http.routers.authentik-fh-insecure.priority: 1
+      traefik.http.routers.authentik-fh.rule: HostRegexp(`^.+\.${CATCHALL_DOMAIN}$`)
+      traefik.http.routers.authentik-fh.priority: 1
+      traefik.http.routers.authentik-fh.middlewares: chain-Domain@file
+      traefik.http.routers.authentik-fh.tls.certresolver: ''
+
+  dbbackup:
+    image: tiredofit/db-backup:4.1.9
+    container_name: authentik-fh-db-backup
+    environment:
+      - DEFAULT_COMPRESSION=GZ
+      - DB01_TYPE=pgsql
+      - DB01_HOST=authentik-fh-db
+      - DB01_NAME=authentik
+      - DB01_USER=authentik
+      - DB01_PASS=${AUTHENTIK_DB_PASSWORD}
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      - DEFAULT_CLEANUP_TIME=1440
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${APP_DATA_DIR}/data/db-backup:/backup
+    depends_on:
+      - authentik-fh-db
+    networks:
+      - tipi_main_network

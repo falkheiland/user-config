@@ -1,0 +1,6 @@
+services:
+  arkanum-fh:
+    labels:
+      # Websecure
+      traefik.http.routers.arkanum-fh.middlewares: chain-Domain-auth@file
+      traefik.http.routers.arkanum-fh.tls.certresolver: ''

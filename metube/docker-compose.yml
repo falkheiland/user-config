@@ -2,7 +2,7 @@ services:
   metube:
     image: ghcr.io/alexta69/metube:2024-12-08
     volumes:
-      - ${APP_USER_DATA_DIR}/video/youtube/:/downloads
+      - ${ROOT_FOLDER_HOST}/media/data/video/youtube/:/downloads
     environment:
       - DOWNLOAD_DIRS_INDEXABLE=true
       - DELETE_FILE_ON_TRASHCAN=true

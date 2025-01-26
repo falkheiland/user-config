@@ -4,8 +4,6 @@ services:
       ND_BASEURL: "https://navidrome.${LOCAL_DOMAIN}"
       ND_REVERSEPROXYUSERHEADER: "X-authentik-username" #"Remote-User"
       ND_REVERSEPROXYWHITELIST: "0.0.0.0/0"
-    volumes:
-      - ${APP_USER_DATA_DIR}/music:/music:ro
     labels:
       # Websecure
       traefik.http.routers.navidrome.middlewares: chain-Domain-auth@file

@@ -1,5 +1,6 @@
 services:
   authentik:
+    ports: !reset []
     labels:
       # Websecure
       traefik.http.routers.authentik-insecure.rule: HostRegexp(`^.+\.${CATCHALL_DOMAIN}$`)

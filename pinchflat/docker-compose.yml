@@ -1,7 +1,7 @@
 services:
   pinchflat:
     volumes:
-      - ${APP_USER_DATA_DIR}/video/youtube/:/downloads
+      - ${ROOT_FOLDER_HOST}/media/data/video/youtube/:/downloads
     labels:
       # Websecure
       traefik.http.routers.pinchflat.middlewares: chain-Domain-auth@file

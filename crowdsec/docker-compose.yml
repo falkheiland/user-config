@@ -12,8 +12,14 @@ services:
     environment:
       - COLLECTIONS= crowdsecurity/apache2 firix/authentik crowdsecurity/http-cve gauth-fr/immich crowdsecurity/iptables xs539/joplin-server crowdsecurity/linux crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/whitelist-good-actors
   crowdsec-dashboard:
-    ports: !reset []
     labels:
-      # Local domain secure
-      traefik.http.routers.crowdsec-local.middlewares: chain-localDomain@file
-      traefik.http.routers.crowdsec.tls.certresolver: ''
+      # Websecure
+      traefik.http.routers.crowdsec-dashboard.middlewares: chain-Domain-auth@file
+      traefik.http.routers.crowdsec-dashboard.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.crowdsec-dashboard-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.crowdsec-dashboard-privip.middlewares: chain-Domain@file
+      traefik.http.routers.crowdsec-dashboard-privip.entrypoints: websecure
+      traefik.http.routers.crowdsec-dashboard-privip.service: crowdsec-dashboard
+      traefik.http.routers.crowdsec-dashboard-privip.priority: 100
+      traefik.http.routers.crowdsec-dashboard-privip.tls.certresolver: ''
