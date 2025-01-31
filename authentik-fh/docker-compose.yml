@@ -1,5 +1,6 @@
 services:
   authentik-fh:
+    pull_policy: missing
     labels:
       # Websecure
       traefik.http.routers.authentik-fh-insecure.rule: HostRegexp(`^.+\.${CATCHALL_DOMAIN}$`)
@@ -12,22 +13,26 @@ services:
       wud.tag.include: '^\d+\.\d+\.\d+$$'
 
   authentik-fh-worker:
+    pull_policy: missing
     labels:
       # WUD
       wud.tag.include: '^\d+\.\d+\.\d+$$'
 
   authentik-fh-db:
+    pull_policy: missing
     labels:
       # WUD
       wud.tag.include: '^12-alpine$$'
 
   authentik-fh-redis:
+    pull_policy: missing
     labels:
       # WUD
       wud.tag.include: '^alpine$$'
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
+    pull_policy: missing
     container_name: authentik-fh-db-backup
     environment:
       - DEFAULT_COMPRESSION=GZ

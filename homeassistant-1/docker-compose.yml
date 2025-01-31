@@ -1,5 +1,6 @@
 services:
   homeassistant-1:
+    pull_policy: missing
     labels:
       # Websecure
       traefik.http.routers.homeassistant-1.middlewares: chain-Domain-auth@file

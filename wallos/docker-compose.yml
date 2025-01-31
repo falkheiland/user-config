@@ -1,5 +1,6 @@
 services:
   wallos:
+    pull_policy: missing
     labels:
       # Websecure
       traefik.http.routers.wallos.middlewares: chain-Domain-auth@file

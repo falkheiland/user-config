@@ -1,5 +1,6 @@
 services:
   crowdsec:
+    pull_policy: missing
     ports:
       # crowdsec-bouncer-tipi
       - "8081:8080" # TODO: ${APP_PORT}:8080 #8081
@@ -16,6 +17,7 @@ services:
       wud.tag.include: '^v\d+\.\d+\.\d+$$'
 
   crowdsec-dashboard:
+    pull_policy: missing
     labels:
       # Websecure
       traefik.http.routers.crowdsec-dashboard.middlewares: chain-Domain-auth@file
@@ -31,6 +33,7 @@ services:
       wud.tag.include: '^$$'
 
   crowdsec-bouncer-traefik:
+    pull_policy: missing
     labels:
       # WUD
       wud.tag.include: '^latest$$'
