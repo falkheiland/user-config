@@ -11,3 +11,5 @@ services:
       traefik.http.routers.wallos-privip.service: wallos
       traefik.http.routers.wallos-privip.priority: 100
       traefik.http.routers.wallos-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

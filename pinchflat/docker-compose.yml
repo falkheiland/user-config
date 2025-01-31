@@ -6,3 +6,5 @@ services:
       # Websecure
       traefik.http.routers.pinchflat.middlewares: chain-Domain-auth@file
       traefik.http.routers.pinchflat.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'

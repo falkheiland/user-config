@@ -13,6 +13,20 @@ services:
       traefik.http.routers.nocodb-privip.service: nocodb
       traefik.http.routers.nocodb-privip.priority: 100
       traefik.http.routers.nocodb-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+
+  nocodb-db:
+    image: postgres:16
+    labels:
+      # WUD
+      wud.tag.include: '^16$$'
+
+  nocodb-redis:
+    image: redis:alpine
+    labels:
+      # WUD
+      wud.tag.include: '^alpine$$'
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
@@ -34,3 +48,6 @@ services:
       - nocodb-db
     networks:
       - tipi_main_network
+    labels:
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

@@ -11,6 +11,10 @@ services:
       - ${APP_DATA_DIR}/data/crowdsec:/etc/crowdsec
     environment:
       - COLLECTIONS= crowdsecurity/apache2 firix/authentik crowdsecurity/http-cve gauth-fr/immich crowdsecurity/iptables xs539/joplin-server crowdsecurity/linux crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/whitelist-good-actors
+    labels:
+      # WUD
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'
+
   crowdsec-dashboard:
     labels:
       # Websecure
@@ -23,3 +27,10 @@ services:
       traefik.http.routers.crowdsec-dashboard-privip.service: crowdsec-dashboard
       traefik.http.routers.crowdsec-dashboard-privip.priority: 100
       traefik.http.routers.crowdsec-dashboard-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^$$'
+
+  crowdsec-bouncer-traefik:
+    labels:
+      # WUD
+      wud.tag.include: '^latest$$'

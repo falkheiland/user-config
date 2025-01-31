@@ -13,9 +13,14 @@ services:
       # Websecure
       traefik.http.routers.joplin.middlewares: chain-Domain@file
       traefik.http.routers.joplin.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
 
   db-joplin:
     image: postgres:15
+    labels:
+      # WUD
+      wud.tag.include: '^15$$'
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
@@ -37,3 +42,6 @@ services:
       - db-joplin
     networks:
       - tipi_main_network
+    labels:
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

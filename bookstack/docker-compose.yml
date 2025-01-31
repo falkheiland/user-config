@@ -4,6 +4,14 @@ services:
       # Websecure
       traefik.http.routers.bookstack.middlewares: chain-Domain-auth@file
       traefik.http.routers.bookstack.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+
+  bookstack-db:
+    image: lscr.io/linuxserver/mariadb
+    labels:
+      # WUD
+      wud.tag.include: '^$$'
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
@@ -23,3 +31,6 @@ services:
       - ${APP_DATA_DIR}/data/db-backup:/backup
     depends_on:
       - bookstack-db
+    labels:
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

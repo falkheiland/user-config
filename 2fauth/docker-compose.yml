@@ -23,3 +23,5 @@ services:
       traefik.http.routers.2fauth-privip.service: 2fauth
       traefik.http.routers.2fauth-privip.priority: 100
       traefik.http.routers.2fauth-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

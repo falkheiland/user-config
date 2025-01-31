@@ -30,6 +30,14 @@ services:
       traefik.http.routers.linkwarden-privip.service: linkwarden
       traefik.http.routers.linkwarden-privip.priority: 100
       traefik.http.routers.linkwarden-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+
+  linkwarden-db:
+    image: postgres:16-alpine
+    labels:
+      # WUD
+      wud.tag.include: '^16-alpine$$'
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
@@ -51,3 +59,6 @@ services:
       - linkwarden-db
     networks:
       - tipi_main_network
+    labels:
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

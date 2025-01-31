@@ -6,9 +6,21 @@ services:
       # Websecure
       traefik.http.routers.immich.middlewares: chain-Domain-auth@file
       traefik.http.routers.immich.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'
+
   immich-machine-learning:
     volumes:
       - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
+    labels:
+      # WUD
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'
+
+  immich-redis:
+    labels:
+      # WUD
+      wud.tag.include: '^\d+\.\d+$$'
+
   immich-db-backup:
     image: tiredofit/db-backup:4.1.9
     container_name: immich-db-backup
@@ -29,3 +41,6 @@ services:
       - immich-db
     networks:
       - tipi_main_network
+    labels:
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

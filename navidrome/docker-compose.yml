@@ -15,3 +15,5 @@ services:
       traefik.http.routers.navidrome-privip.service: navidrome
       traefik.http.routers.navidrome-privip.priority: 100
       traefik.http.routers.navidrome-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

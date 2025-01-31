@@ -11,3 +11,5 @@ services:
       traefik.http.routers.jellyfin-privip.service: jellyfin
       traefik.http.routers.jellyfin-privip.priority: 100
       traefik.http.routers.jellyfin-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d{2,2}\.\d+\.\d+$$'

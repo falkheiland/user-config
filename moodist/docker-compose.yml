@@ -11,3 +11,5 @@ services:
       traefik.http.routers.moodist-privip.service: moodist
       traefik.http.routers.moodist-privip.priority: 100
       traefik.http.routers.moodist-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

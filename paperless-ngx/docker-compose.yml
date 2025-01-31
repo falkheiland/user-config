@@ -39,9 +39,24 @@ services:
       traefik.http.routers.paperless-ngx-privip.service: paperless-ngx
       traefik.http.routers.paperless-ngx-privip.priority: 100
       traefik.http.routers.paperless-ngx-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+
+  broker:
+    labels:
+      # WUD
+      wud.tag.include: '^\d+$$'
 
   db:
     image: docker.io/library/postgres:15
+    labels:
+      # WUD
+      wud.tag.include: '^\d+$$'
+
+  gotenberg:
+    labels:
+      # WUD
+      wud.tag.include: '^\d+\.\d+$$'
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
@@ -63,3 +78,6 @@ services:
       - db
     networks:
       - tipi_main_network
+    labels:
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

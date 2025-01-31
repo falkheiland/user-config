@@ -12,3 +12,5 @@ services:
       # Websecure
       traefik.http.routers.ddns-updater.middlewares: chain-Domain-auth@file
       traefik.http.routers.ddns-updater.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'

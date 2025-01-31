@@ -19,6 +19,12 @@ services:
       # Websecure
       traefik.http.routers.wekan.middlewares: chain-Domain-auth@file
       traefik.http.routers.wekan.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^v\d+\.\d+$$'
+  wekan-db:
+    labels:
+      # WUD
+      wud.tag.include: '^\d+$$'
   dbbackup:
     image: tiredofit/db-backup:4.1.9
     container_name: wekan-db-backup
@@ -37,3 +43,6 @@ services:
       - wekan-db
     networks:
       - tipi_main_network
+    labels:
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

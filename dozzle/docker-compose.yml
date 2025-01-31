@@ -4,3 +4,5 @@ services:
       # Websecure
       traefik.http.routers.dozzle.middlewares: chain-Domain-auth@file
       traefik.http.routers.dozzle.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'

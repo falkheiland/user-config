@@ -25,3 +25,5 @@ services:
       # Websecure
       traefik.http.routers.freshrss.middlewares: freshrss,chain-Domain-auth@file
       traefik.http.routers.freshrss.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

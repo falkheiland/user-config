@@ -27,3 +27,5 @@ services:
       traefik.http.routers.vaultwarden-privip.service: vaultwarden
       traefik.http.routers.vaultwarden-privip.priority: 100
       traefik.http.routers.vaultwarden-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

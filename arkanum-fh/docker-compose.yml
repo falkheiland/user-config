@@ -1,6 +1,9 @@
 services:
   arkanum-fh:
+    image: ghcr.io/ocram85/arkanum:1.8.3
     labels:
       # Websecure
       traefik.http.routers.arkanum-fh.middlewares: chain-Domain-auth@file
       traefik.http.routers.arkanum-fh.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

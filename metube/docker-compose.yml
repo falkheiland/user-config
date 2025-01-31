@@ -10,3 +10,5 @@ services:
       # Websecure
       traefik.http.routers.metube.middlewares: chain-Domain-auth@file
       traefik.http.routers.metube.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+-\d+-\d+$$'

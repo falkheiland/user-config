@@ -11,3 +11,5 @@ services:
       traefik.http.routers.homeassistant-1-privip.service: homeassistant-1
       traefik.http.routers.homeassistant-1-privip.priority: 100
       traefik.http.routers.homeassistant-1-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^\d+\.\d+\.\d+$$'

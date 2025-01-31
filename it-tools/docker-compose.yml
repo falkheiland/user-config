@@ -11,3 +11,5 @@ services:
       traefik.http.routers.it-tools-privip.service: it-tools
       traefik.http.routers.it-tools-privip.priority: 100
       traefik.http.routers.it-tools-privip.tls.certresolver: ''
+      # WUD
+      wud.tag.include: '^latest$$'

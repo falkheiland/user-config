@@ -9,6 +9,14 @@ services:
       - ./user-config/traefik/etc:/etc/traefik
       - ./app-data/traefik/plugins-local:/plugins-local
       - ./app-data/traefik/shared:/shared
+    labels:
+      # WUD
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'
+
+  runtipi-db:
+    labels:
+      # WUD
+      wud.tag.include: '^\d+$$'
 
   runtipi:
     labels:
@@ -37,3 +45,5 @@ services:
       # Secure
       traefik.http.routers.socket-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/api/socket.io`)
       traefik.http.routers.socket-local.middlewares: chain-localDomain@file
+      # WUD
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'
