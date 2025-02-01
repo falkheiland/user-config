@@ -12,5 +12,7 @@ services:
       traefik.http.routers.homeassistant-1-privip.service: homeassistant-1
       traefik.http.routers.homeassistant-1-privip.priority: 100
       traefik.http.routers.homeassistant-1-privip.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/home-assistant/core/releases/tag/$${major}.$${minor}.$${patch}

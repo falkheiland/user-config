@@ -1,5 +1,6 @@
 services:
   vaultwarden:
+    pull_policy: missing
     environment:
       - SIGNUPS_ALLOWED=false # Change to false after first login
       - INVITATIONS_ALLOWED=false # Send invitation using admin page
@@ -27,5 +28,7 @@ services:
       traefik.http.routers.vaultwarden-privip.service: vaultwarden
       traefik.http.routers.vaultwarden-privip.priority: 100
       traefik.http.routers.vaultwarden-privip.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/dani-garcia/vaultwarden/releases/tag/$${major}.$${minor}.$${patch}

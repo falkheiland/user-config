@@ -1,5 +1,6 @@
 services:
   paperless-ngx:
+    pull_policy: missing
     volumes:
       - ${APP_USER_DATA_DIR}/tipi/paperlessngx/media:/usr/src/paperless/media
       - ${APP_USER_DATA_DIR}/tipi/paperlessngx/export:/usr/src/paperless/export
@@ -39,26 +40,43 @@ services:
       traefik.http.routers.paperless-ngx-privip.service: paperless-ngx
       traefik.http.routers.paperless-ngx-privip.priority: 100
       traefik.http.routers.paperless-ngx-privip.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/paperless-ngx/paperless-ngx/releases/tag/v$${major}.$${minor}.$${patch}
 
   broker:
+    pull_policy: missing
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+$$'
+      wud.watch: false
+      wud.watch.digest: true
+      wud.display.name: paperless-ngx-broker
+      wud.link.template: https://github.com/redis/redis/releases/tag/$${major}.$${minor}.$${patch}
 
   db:
     image: docker.io/library/postgres:15
+    pull_policy: missing
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+$$'
+      wud.watch: false
+      wud.watch.digest: true
+      wud.display.name: paperless-ngx-db
+      wud.link.template: https://github.com/gotenberg/gotenberg/releases/tag/v$${major}.$${minor}.$${patch}
 
   gotenberg:
+    pull_policy: missing
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+$$'
+      wud.watch: true
+      wud.display.name: paperless-ngx-gotenberg
+      wud.link.template: https://github.com/gotenberg/gotenberg/releases/tag/v$${major}.$${minor}.$${patch}
 
   dbbackup:
+    pull_policy: missing
     image: tiredofit/db-backup:4.1.9
     container_name: paperless-ngx-db-backup
     environment:
@@ -79,5 +97,7 @@ services:
     networks:
       - tipi_main_network
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}

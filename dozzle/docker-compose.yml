@@ -1,8 +1,11 @@
 services:
   dozzle:
+    pull_policy: missing
     labels:
       # Websecure
       traefik.http.routers.dozzle.middlewares: chain-Domain-auth@file
       traefik.http.routers.dozzle.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^v\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/amir20/dozzle/releases/tag/v$${major}.$${minor}.$${patch}

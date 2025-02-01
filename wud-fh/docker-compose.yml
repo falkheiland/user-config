@@ -1,5 +1,6 @@
 services:
   wud-fh:
+    pull_policy: missing
     environment:
       - WUD_REGISTRY_HUB_PUBLIC_LOGIN=${WUD_REGISTRY_HUB_PUBLIC_LOGIN}
       - WUD_REGISTRY_HUB_PUBLIC_PASSWORD=${WUD_REGISTRY_HUB_PUBLIC_PASSWORD}
@@ -16,5 +17,7 @@ services:
       traefik.http.routers.wud-fh-privip.service: wud-fh
       traefik.http.routers.wud-fh-privip.priority: 100
       traefik.http.routers.wud-fh-privip.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/getwud/wud/releases/tag/$${major}.$${minor}.$${patch}

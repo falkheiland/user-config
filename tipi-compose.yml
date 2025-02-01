@@ -1,6 +1,7 @@
 services:
   runtipi-reverse-proxy:
-    image: traefik:v3.2.3
+    pull_policy: missing
+    image: traefik:v3.3.3
     env_file: ./user-config/tipi-compose.env
     ports:
       - 8080:8080
@@ -10,15 +11,22 @@ services:
       - ./app-data/traefik/plugins-local:/plugins-local
       - ./app-data/traefik/shared:/shared
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^v\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/traefik/traefik/releases/tag/v$${major}.$${minor}.$${patch}
 
   runtipi-db:
+    pull_policy: missing
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+$$'
+      wud.watch: false
+      wud.watch.digest: true
+      wud.link.template: https://github.com/postgres/postgres/releases/tag/REL_$${major}_$${minor}
 
   runtipi:
+    pull_policy: missing
     labels:
       # ---- General ----- #
 
@@ -45,5 +53,7 @@ services:
       # Secure
       traefik.http.routers.socket-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/api/socket.io`)
       traefik.http.routers.socket-local.middlewares: chain-localDomain@file
-      # WUD
+      # WUD-FH
       wud.tag.include: '^v\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/runtipi/runtipi/releases/tag/v$${major}.$${minor}.$${patch}

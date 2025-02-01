@@ -1,5 +1,6 @@
 services:
   linkwarden:
+    pull_policy: missing
     environment:
       # https://docs.linkwarden.app/self-hosting/environment-variables
       #- PAGINATION_TAKE_COUNT=
@@ -30,16 +31,23 @@ services:
       traefik.http.routers.linkwarden-privip.service: linkwarden
       traefik.http.routers.linkwarden-privip.priority: 100
       traefik.http.routers.linkwarden-privip.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/linkwarden/linkwarden/releases/tag/v$${major}.$${minor}.$${patch}
 
   linkwarden-db:
+    pull_policy: missing
     image: postgres:16-alpine
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^16-alpine$$'
+      wud.watch.digest: true
+      wud.watch: true
+      wud.link.template: https://github.com/postgres/postgres/tag/REL_$${major}_$${minor}
 
   dbbackup:
+    pull_policy: missing
     image: tiredofit/db-backup:4.1.9
     container_name: linkwarden-db-backup
     environment:
@@ -60,5 +68,7 @@ services:
     networks:
       - tipi_main_network
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}

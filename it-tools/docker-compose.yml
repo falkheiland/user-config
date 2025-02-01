@@ -1,5 +1,6 @@
 services:
   it-tools:
+    pull_policy: missing
     labels:
       # Websecure
       traefik.http.routers.it-tools.middlewares: chain-Domain-auth@file
@@ -11,5 +12,8 @@ services:
       traefik.http.routers.it-tools-privip.service: it-tools
       traefik.http.routers.it-tools-privip.priority: 100
       traefik.http.routers.it-tools-privip.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^latest$$'
+      wud.watch: true
+      wud.watch.digest: true
+      wud.link.template: https://github.com/CorentinTh/it-tools/releases/releases

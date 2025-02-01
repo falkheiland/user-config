@@ -1,5 +1,6 @@
 services:
   2fauth:
+    pull_policy: missing
     environment:
       # Timezone: Runtipi
       - APP_TIMEZONE=${TZ}
@@ -23,5 +24,7 @@ services:
       traefik.http.routers.2fauth-privip.service: 2fauth
       traefik.http.routers.2fauth-privip.priority: 100
       traefik.http.routers.2fauth-privip.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/Bubka/2FAuth/releases/tag/v$${major}.$${minor}.$${patch}

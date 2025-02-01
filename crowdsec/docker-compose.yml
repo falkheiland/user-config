@@ -13,8 +13,10 @@ services:
     environment:
       - COLLECTIONS= crowdsecurity/apache2 firix/authentik crowdsecurity/http-cve gauth-fr/immich crowdsecurity/iptables xs539/joplin-server crowdsecurity/linux crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/whitelist-good-actors
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^v\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/crowdsecurity/crowdsec/releases/tag/v$${major}.$${minor}.$${patch}
 
   crowdsec-dashboard:
     pull_policy: missing
@@ -29,11 +31,15 @@ services:
       traefik.http.routers.crowdsec-dashboard-privip.service: crowdsec-dashboard
       traefik.http.routers.crowdsec-dashboard-privip.priority: 100
       traefik.http.routers.crowdsec-dashboard-privip.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^$$'
+      wud.watch: false
+      wud.watch.digest: true
 
   crowdsec-bouncer-traefik:
     pull_policy: missing
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^latest$$'
+      wud.watch: true
+      wud.watch.digest: true

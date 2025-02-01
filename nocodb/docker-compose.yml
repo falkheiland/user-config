@@ -1,5 +1,6 @@
 services:
   nocodb:
+    pull_policy: missing
     environment:
       - NC_DISABLE_TELE=true
     labels:
@@ -13,22 +14,32 @@ services:
       traefik.http.routers.nocodb-privip.service: nocodb
       traefik.http.routers.nocodb-privip.priority: 100
       traefik.http.routers.nocodb-privip.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/nocodb/nocodb/releases/tag/$${major}.$${minor}.$${patch}
 
   nocodb-db:
+    pull_policy: missing
     image: postgres:16
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^16$$'
+      wud.watch: false
+      wud.watch.digest: true
+      wud.link.template: https://github.com/postgres/postgres/releases/tag/REL_$${major}_$${minor}
 
   nocodb-redis:
     image: redis:alpine
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^alpine$$'
+      wud.watch: true
+      wud.watch.digest: true
+      wud.link.template: https://github.com/redis/redis/releases/tag/$${major}.$${minor}.$${patch}
 
   dbbackup:
+    pull_policy: missing
     image: tiredofit/db-backup:4.1.9
     container_name: nocodb-db-backup
     environment:
@@ -49,5 +60,7 @@ services:
     networks:
       - tipi_main_network
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}

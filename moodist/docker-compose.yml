@@ -1,5 +1,6 @@
 services:
   moodist:
+    pull_policy: missing
     labels:
       # Websecure
       traefik.http.routers.moodist.middlewares: chain-Domain-auth@file
@@ -11,5 +12,7 @@ services:
       traefik.http.routers.moodist-privip.service: moodist
       traefik.http.routers.moodist-privip.priority: 100
       traefik.http.routers.moodist-privip.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/remvze/moodist/blob/main/CHANGELOG.md

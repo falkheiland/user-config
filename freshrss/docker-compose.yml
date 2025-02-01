@@ -1,5 +1,6 @@
 services:
   freshrss:
+    pull_policy: missing
     image: freshrss/freshrss:1.25.0
     environment:
       - TZ=${TIMEZONE}
@@ -25,5 +26,7 @@ services:
       # Websecure
       traefik.http.routers.freshrss.middlewares: freshrss,chain-Domain-auth@file
       traefik.http.routers.freshrss.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/FreshRSS/FreshRSS/releases/tag/$${major}.$${minor}.$${patch}

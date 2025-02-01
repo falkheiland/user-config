@@ -1,5 +1,6 @@
 services:
   wekan:
+    pull_policy: missing
     environment:
       - OAUTH2_ENABLED=true
       - OAUTH2_LOGIN_STYLE=redirect
@@ -19,14 +20,22 @@ services:
       # Websecure
       traefik.http.routers.wekan.middlewares: chain-Domain-auth@file
       traefik.http.routers.wekan.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^v\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/wekan/wekan/releases/tag/v$${major}.$${minor}
+
   wekan-db:
+    pull_policy: missing
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+$$'
+      wud.watch: false
+      wud.watch.digest: true
+
   dbbackup:
     image: tiredofit/db-backup:4.1.9
+    pull_policy: missing
     container_name: wekan-db-backup
     environment:
       - DEFAULT_COMPRESSION=GZ
@@ -44,5 +53,7 @@ services:
     networks:
       - tipi_main_network
     labels:
-      # WUD
+      # WUD-FH-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}

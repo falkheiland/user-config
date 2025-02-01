@@ -1,5 +1,6 @@
 services:
   metube:
+    pull_policy: missing
     image: ghcr.io/alexta69/metube:2024-12-08
     volumes:
       - ${ROOT_FOLDER_HOST}/media/data/video/youtube/:/downloads
@@ -10,5 +11,7 @@ services:
       # Websecure
       traefik.http.routers.metube.middlewares: chain-Domain-auth@file
       traefik.http.routers.metube.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+-\d+-\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/alexta69/metube/pkgs/container/metube

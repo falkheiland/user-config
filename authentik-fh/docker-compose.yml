@@ -9,26 +9,34 @@ services:
       traefik.http.routers.authentik-fh.priority: 1
       traefik.http.routers.authentik-fh.middlewares: chain-Domain@file
       traefik.http.routers.authentik-fh.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/goauthentik/authentik/releases/tag/$${major}.$${minor}.$${patch}
 
   authentik-fh-worker:
     pull_policy: missing
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/goauthentik/authentik/releases/tag/$${major}.$${minor}.$${patch}
 
   authentik-fh-db:
     pull_policy: missing
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^12-alpine$$'
+      wud.watch: true
+      wud.watch.digest: true
 
   authentik-fh-redis:
     pull_policy: missing
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^alpine$$'
+      wud.watch: true
+      wud.watch.digest: true
 
   dbbackup:
     image: tiredofit/db-backup:4.1.9
@@ -52,5 +60,7 @@ services:
     networks:
       - tipi_main_network
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}

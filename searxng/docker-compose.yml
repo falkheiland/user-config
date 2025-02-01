@@ -1,5 +1,6 @@
 services:
   searxng:
+    #pull_policy: missing
     labels:
       # Websecure
       traefik.http.routers.searxng.middlewares: chain-Domain-auth@file
@@ -11,6 +12,7 @@ services:
       traefik.http.routers.searxng-privip.service: searxng
       traefik.http.routers.searxng-privip.priority: 100
       traefik.http.routers.searxng-privip.tls.certresolver: ''
-      # WUD
-      wud.tag.include: '^\d+\.\d+\.\d+-\d+-.*$$'
-      wud.tag.transform: '^(\d+\.\d+\.\d+-\d+)-.*$$ => $$1'
+      # WUD-FH
+      wud.tag.include: '^latest+$$'
+      wud.watch: true
+      wud.watch.digest: true

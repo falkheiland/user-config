@@ -1,5 +1,6 @@
 services:
   joplin:
+    pull_policy: missing
     environment:
       - MAILER_ENABLED=1
       - MAILER_HOST=${MAILER_HOST}
@@ -13,16 +14,24 @@ services:
       # Websecure
       traefik.http.routers.joplin.middlewares: chain-Domain@file
       traefik.http.routers.joplin.tls.certresolver: ''
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/flosoft/docker-joplin-server/releases/tag/v$${major}.$${minor}.$${patch}
 
   db-joplin:
+    pull_policy: missing
     image: postgres:15
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^15$$'
+      wud.display.name: joplin-db
+      wud.watch.digest: true
+      wud.watch: false
+      wud.link.template: https://github.com/postgres/postgres/releases/tag/REL_$${major}_$${minor}
 
   dbbackup:
+    pull_policy: missing
     image: tiredofit/db-backup:4.1.9
     container_name: joplin-db-backup
     environment:
@@ -43,5 +52,7 @@ services:
     networks:
       - tipi_main_network
     labels:
-      # WUD
+      # WUD-FH
       wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}
