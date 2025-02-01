@@ -1,7 +1,7 @@
 services:
   metube:
+    image: ghcr.io/alexta69/metube:2025-01-27
     pull_policy: missing
-    image: ghcr.io/alexta69/metube:2024-12-08
     volumes:
       - ${ROOT_FOLDER_HOST}/media/data/video/youtube/:/downloads
     environment:

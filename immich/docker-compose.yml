@@ -13,6 +13,7 @@ services:
       wud.link.template: https://github.com/immich-app/immich/releases/tag/v$${major}.$${minor}.$${patch}
 
   immich-machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:v1.125.7
     pull_policy: missing
     volumes:
       - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
@@ -27,9 +28,17 @@ services:
     labels:
       # WUD
       wud.tag.include: '^\d+\.\d+$$'
-      wud.watch: true
+      wud.watch: false
       wud.watch.digest: true
       wud.link.template: https://github.com/redis/redis/releases/tag/$${major}.$${minor}.$${patch}
+
+  immich-db:
+    pull_policy: missing
+    labels:
+      # WUD
+      # pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+      wud.tag.include: '^pg14-v\d+\.\d+\.\d+\@.+$$'
+      wud.watch: true
 
   immich-db-backup:
     pull_policy: missing

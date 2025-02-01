@@ -67,6 +67,7 @@ services:
       wud.link.template: https://github.com/gotenberg/gotenberg/releases/tag/v$${major}.$${minor}.$${patch}
 
   gotenberg:
+    image: gotenberg/gotenberg:8.16
     pull_policy: missing
     labels:
       # WUD-FH
@@ -74,6 +75,15 @@ services:
       wud.watch: true
       wud.display.name: paperless-ngx-gotenberg
       wud.link.template: https://github.com/gotenberg/gotenberg/releases/tag/v$${major}.$${minor}.$${patch}
+
+  tika:
+    pull_policy: missing
+    labels:
+      # WUD-FH
+      wud.tag.include: '^latest$$'
+      wud.watch: true
+      wud.watch.digest: true
+      wud.display.name: paperless-ngx-tika
 
   dbbackup:
     pull_policy: missing

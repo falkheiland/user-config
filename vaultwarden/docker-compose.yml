@@ -1,5 +1,6 @@
 services:
   vaultwarden:
+    image: vaultwarden/server:1.33.0
     pull_policy: missing
     environment:
       - SIGNUPS_ALLOWED=false # Change to false after first login
