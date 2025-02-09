@@ -64,7 +64,7 @@ services:
       wud.watch: false
       wud.watch.digest: true
       wud.display.name: paperless-ngx-db
-      wud.link.template: https://github.com/gotenberg/gotenberg/releases/tag/v$${major}.$${minor}.$${patch}
+      wud.link.template: https://github.com/postgres/postgres/tag/REL_$${major}_$${minor}
 
   gotenberg:
     image: gotenberg/gotenberg:8.16
