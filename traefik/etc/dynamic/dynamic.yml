@@ -93,7 +93,7 @@ http:
         referrerPolicy: "same-origin"
         permissionsPolicy: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), vr=()"
         customResponseHeaders:
-          X-Robots-Tag: "none,noarchive,nosnippet,notranslate,noimageindex," # disable search engines from indexing home server
+          X-Robots-Tag: "none,noarchive,nosnippet,notranslate,noimageindex,noindex,nofollow" # disable search engines from indexing home server
           server: "" # hide server info from visitors
     # chains
     chain-localDomain:

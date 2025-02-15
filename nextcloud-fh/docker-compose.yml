@@ -11,7 +11,7 @@ services:
     pull_policy: missing
     labels:
       # Websecure
-      traefik.http.routers.nextcloud-fh-web.middlewares: chain-Domain-auth@file
+      traefik.http.routers.nextcloud-fh-web.middlewares: chain-Domain@file
       traefik.http.routers.nextcloud-fh-web.tls.certresolver: ''
       # # WebSecure local IP
       traefik.http.routers.nextcloud-fh-web-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
