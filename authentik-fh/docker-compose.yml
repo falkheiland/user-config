@@ -37,30 +37,3 @@ services:
       wud.tag.include: '^alpine$$'
       wud.watch: true
       wud.watch.digest: true
-
-  dbbackup:
-    image: tiredofit/db-backup:4.1.9
-    pull_policy: missing
-    container_name: authentik-fh-db-backup
-    environment:
-      - DEFAULT_COMPRESSION=GZ
-      - DB01_TYPE=pgsql
-      - DB01_HOST=authentik-fh-db
-      - DB01_NAME=authentik
-      - DB01_USER=authentik
-      - DB01_PASS=${AUTHENTIK_DB_PASSWORD}
-      - CONTAINER_ENABLE_MONITORING=FALSE
-      - DEFAULT_CLEANUP_TIME=1440
-    restart: unless-stopped
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${APP_DATA_DIR}/data/db-backup:/backup
-    depends_on:
-      - authentik-fh-db
-    networks:
-      - tipi_main_network
-    labels:
-      # WUD-FH
-      wud.tag.include: '^\d+\.\d+\.\d+$$'
-      wud.watch: true
-      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}

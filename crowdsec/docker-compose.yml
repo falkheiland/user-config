@@ -1,5 +1,6 @@
 services:
   crowdsec:
+    image: crowdsecurity/crowdsec:v1.6.5
     pull_policy: missing
     ports:
       # crowdsec-bouncer-tipi
@@ -19,6 +20,7 @@ services:
       wud.link.template: https://github.com/crowdsecurity/crowdsec/releases/tag/v$${major}.$${minor}.$${patch}
 
   crowdsec-dashboard:
+    image: metabase/metabase
     pull_policy: missing
     labels:
       # Websecure

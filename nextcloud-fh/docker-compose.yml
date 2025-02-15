@@ -1,12 +1,9 @@
 services:
   nextcloud-fh:
     pull_policy: missing
-    #container_name: nextcloud_fh
-    # environment:
-    #   TRUSTED_PROXIES: [ '127.0.0.1', '172.16.0.0/12' ]
     labels:
       # WUD-FH
-      wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.tag.include: '^\d+\.\d+\.\d+\-fpm\-alpine$$'
       wud.watch: true
       wud.link.template: https://github.com/nextcloud/server/releases/tag/v$${major}.$${minor}.$${patch}
 
@@ -15,7 +12,6 @@ services:
     labels:
       # Websecure
       traefik.http.routers.nextcloud-fh-web.middlewares: chain-Domain-auth@file
-      #traefik.http.routers.nextcloud-fh-web.middlewares: chain-Domain@file
       traefik.http.routers.nextcloud-fh-web.tls.certresolver: ''
       # # WebSecure local IP
       traefik.http.routers.nextcloud-fh-web-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
@@ -34,7 +30,7 @@ services:
     pull_policy: missing
     labels:
       # WUD-FH
-      wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.tag.include: '^\d+\.\d+\.\d+\-fpm\-alpine$$'
       wud.watch: true
       wud.link.template: https://github.com/nextcloud/server/releases/tag/v$${major}.$${minor}.$${patch}
 

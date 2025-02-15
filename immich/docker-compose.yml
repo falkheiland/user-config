@@ -13,7 +13,7 @@ services:
       wud.link.template: https://github.com/immich-app/immich/releases/tag/v$${major}.$${minor}.$${patch}
 
   immich-machine-learning:
-    #image: ghcr.io/immich-app/immich-machine-learning:v1.125.7
+    image: ghcr.io/immich-app/immich-machine-learning:v1.126.1
     pull_policy: missing
     volumes:
       - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
@@ -39,30 +39,3 @@ services:
       # pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
       wud.tag.include: '^pg14-v\d+\.\d+\.\d+\@.+$$'
       wud.watch: true
-
-  immich-db-backup:
-    pull_policy: missing
-    image: tiredofit/db-backup:4.1.9
-    container_name: immich-db-backup
-    environment:
-      - DEFAULT_COMPRESSION=GZ
-      - DB01_TYPE=pgsql
-      - DB01_HOST=immich-db
-      - DB01_NAME=immich
-      - DB01_USER=tipi
-      - DB01_PASS=${DB_PASSWORD}
-      - CONTAINER_ENABLE_MONITORING=FALSE
-      - DEFAULT_CLEANUP_TIME=1440
-    restart: unless-stopped
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${APP_DATA_DIR}/data/db-backup:/backup
-    depends_on:
-      - immich-db
-    networks:
-      - tipi_main_network
-    labels:
-      # WUD
-      wud.tag.include: '^\d+\.\d+\.\d+$$'
-      wud.watch: true
-      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}

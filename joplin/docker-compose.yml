@@ -29,30 +29,3 @@ services:
       wud.watch.digest: true
       wud.watch: false
       wud.link.template: https://github.com/postgres/postgres/releases/tag/REL_$${major}_$${minor}
-
-  dbbackup:
-    pull_policy: missing
-    image: tiredofit/db-backup:4.1.9
-    container_name: joplin-db-backup
-    environment:
-      - DEFAULT_COMPRESSION=GZ
-      - DB01_TYPE=pgsql
-      - DB01_HOST=db-joplin
-      - DB01_NAME=joplin
-      - DB01_USER=tipi
-      - DB01_PASS=${JOPLIN_DB_PASSWORD}
-      - CONTAINER_ENABLE_MONITORING=FALSE
-      - DEFAULT_CLEANUP_TIME=1440
-    restart: unless-stopped
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${APP_DATA_DIR}/data/db-backup:/backup
-    depends_on:
-      - db-joplin
-    networks:
-      - tipi_main_network
-    labels:
-      # WUD-FH
-      wud.tag.include: '^\d+\.\d+\.\d+$$'
-      wud.watch: true
-      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}

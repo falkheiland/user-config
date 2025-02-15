@@ -32,28 +32,3 @@ services:
       wud.tag.include: '^\d+$$'
       wud.watch: false
       wud.watch.digest: true
-
-  dbbackup:
-    image: tiredofit/db-backup:4.1.9
-    pull_policy: missing
-    container_name: wekan-db-backup
-    environment:
-      - DEFAULT_COMPRESSION=GZ
-      - DB01_TYPE=mongo
-      - DB01_HOST=wekan-db
-      - DB01_NAME=wekan
-      - CONTAINER_ENABLE_MONITORING=FALSE
-      - DEFAULT_CLEANUP_TIME=1440
-    restart: unless-stopped
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${APP_DATA_DIR}/data/db-backup:/backup
-    depends_on:
-      - wekan-db
-    networks:
-      - tipi_main_network
-    labels:
-      # WUD-FH-FH
-      wud.tag.include: '^\d+\.\d+\.\d+$$'
-      wud.watch: true
-      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}

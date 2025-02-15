@@ -1,0 +1,70 @@
+services:
+  db-backup-fh:
+    pull_policy: missing
+    environment:
+      - DEFAULT_CLEANUP_TIME=1440
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      - DEFAULT_SKIP_AVAILABILITY_CHECK=TRUE
+      # DB01 tipi
+      - DB01_TYPE=pgsql
+      - DB01_HOST=runtipi-db
+      - DB01_NAME=tipi
+      - DB01_USER=tipi
+      - DB01_PASS=${POSTGRES_PASSWORD}
+      # DB02 authentik-fh
+      - DB02_TYPE=pgsql
+      - DB02_HOST=authentik-fh-db
+      - DB02_NAME=authentik
+      - DB02_USER=authentik
+      - DB02_PASS=${AUTHENTIK_DB_PASSWORD}
+      # DB03 bookstack
+      - DB03_TYPE=mysql
+      - DB03_HOST=bookstack-db
+      - DB03_NAME=bookstackapp
+      - DB03_USER=tipi
+      - DB03_PASS=${BOOKSTACK_DB_PASS}
+      # DB04 immich
+      - DB04_TYPE=pgsql
+      - DB04_HOST=immich-db
+      - DB04_NAME=immich
+      - DB04_USER=tipi
+      - DB04_PASS=${IMMICH_DB_PASSWORD}
+      # DB05 joplin
+      - DB05_TYPE=pgsql
+      - DB05_HOST=db-joplin
+      - DB05_NAME=joplin
+      - DB05_USER=tipi
+      - DB05_PASS=${JOPLIN_DB_PASSWORD}
+      # DB06 linkwarden
+      - DB06_TYPE=pgsql
+      - DB06_HOST=linkwarden-db
+      - DB06_NAME=linkwarden
+      - DB06_USER=tipi
+      - DB06_PASS=${LINKWARDEN_DB_PASSWORD}
+      # DB07 nextcloud-fh
+      - DB07_TYPE=pgsql
+      - DB07_HOST=nextcloud-fh-db
+      - DB07_NAME=nextcloud
+      - DB07_USER=nextcloud
+      - DB07_PASS=${NEXTCLOUD_FH_DB_PASSWORD}
+      # DB08 nocodb
+      - DB08_TYPE=pgsql
+      - DB08_HOST=nocodb-db
+      - DB08_NAME=nocodb
+      - DB08_USER=postgres
+      - DB08_PASS=${NOCODB_DB_PASSWORD}
+      # DB09 paperless-ngx
+      - DB09_TYPE=pgsql
+      - DB09_HOST=db
+      - DB09_NAME=paperless
+      - DB09_USER=paperless
+      - DB09_PASS=${PAPERLESS_DB_PASSWORD}
+      # DB10 wekan
+      - DB10_TYPE=mongo
+      - DB10_HOST=wekan-db
+      - DB10_NAME=wekan
+    labels:
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}
