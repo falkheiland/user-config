@@ -148,6 +148,14 @@ sudo crontab -e
 @reboot cd /path/to/runtipi/; ./runtipi-cli start
 ```
 
+## Tipps
+
+start tipi app without tipi
+
+```
+docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowdsec/app.env --project-name crowdsec -f apps/crowdsec/docker-compose.yml -f repos/c5e7315954cfe5ab1eb1bf360ebada23b6a406ae66ae1e997854ad823f29aa7d/apps/docker-compose.common.yml --file user-config/crowdsec/docker-compose.yml up --detach --force-recreate --remove-orphans
+```
+
 ## Documentation
 
 - [Runtipi](./traefik/) (incl. traefik)
