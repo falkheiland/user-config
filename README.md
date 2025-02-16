@@ -136,6 +136,18 @@ sudo ./runtipi-cli start
 - start each app after making above settings
 - test the app
 
+## Configuration
+
+if you have configured automatic system updates with a reboot in ubuntu, you will possibly run into the problem, that the tipi containers are not started. for that reason you can use a @reboot entry in crontab:
+
+```
+sudo crontab -e
+```
+
+```
+@reboot cd /path/to/runtipi/; ./runtipi-cli start
+```
+
 ## Documentation
 
 - [Runtipi](./traefik/) (incl. traefik)
