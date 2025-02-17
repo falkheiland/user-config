@@ -3,6 +3,9 @@ services:
     pull_policy: missing
     environment:
       - NC_DISABLE_TELE=true
+      # to reset email and password
+      #- NC_ADMIN_EMAIL=admin@example.com
+      #- NC_ADMIN_PASSWORD=newpassword
     labels:
       # Websecure
       traefik.http.routers.nocodb.middlewares: chain-Domain-auth@file

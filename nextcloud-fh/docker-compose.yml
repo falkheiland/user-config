@@ -47,7 +47,7 @@ services:
     pull_policy: missing
     labels:
       # WUD-FH # postgres:16-alpine
-      wud.tag.include: '^\d+\-alpine$$'
+      wud.tag.include: '^16\-alpine$$'
       wud.watch: true
       wud.watch.digest: true
       wud.link.template: https://github.com/postgres/postgres/tag/REL_$${major}_$${minor}

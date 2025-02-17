@@ -16,6 +16,8 @@ services:
       - OAUTH2_USERNAME_MAP=email
       - CORS=*
       - CORS_ALLOW_HEADERS=Authorization,Content-Type
+      - MAIL_URL=${MAIL_URL}
+      - MAIL_FROM=${MAIL_FROM}
     labels:
       # Websecure
       traefik.http.routers.wekan.middlewares: chain-Domain-auth@file
