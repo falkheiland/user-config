@@ -13,6 +13,13 @@ services:
       - WUD_TRIGGER_SMTP_MAIL_FROM=${WUD_TRIGGER_SMTP_MAIL_FROM}
       - WUD_TRIGGER_SMTP_MAIL_TO=${WUD_TRIGGER_SMTP_MAIL_TO}
       - WUD_TRIGGER_SMTP_MAIL_TLS_ENABLED=${WUD_TRIGGER_SMTP_MAIL_TLS_ENABLED}
+      # set basic auth to admin:<random value> to disable
+      - WUD_AUTH_BASIC_ADMIN_HASH=$$apr1$$ByFM2Pmi$$.2XCuU22T8Nq7D8dummy//
+      # OIDC (some error in formfield)
+      - WUD_AUTH_OIDC_0_CLIENTID=${WUD_AUTH_OIDC_0_CLIENTID}
+      - WUD_AUTH_OIDC_0_CLIENTSECRET=${WUD_AUTH_OIDC_0_CLIENTSECRET}
+      - WUD_AUTH_OIDC_0_DISCOVERY=${WUD_AUTH_OIDC_0_DISCOVERY}
+      - WUD_AUTH_OIDC_0_REDIRECT=${WUD_AUTH_OIDC_0_REDIRECT}
     labels:
       # Websecure
       traefik.http.routers.wud-fh.middlewares: chain-Domain-auth@file
