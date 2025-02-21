@@ -46,7 +46,7 @@ http:
           databaseFilePath: /plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/IP2LOCATION-LITE-DB1.IPV6.BIN
           # Whitelist of countries to allow (ISO 3166-1 alpha-2)
           # allowedCountries: [ "DE" ]
-          allowedCountries: [ '{{env "PLUGIN_GEOBLOCK_ALLOWEDCOUNTRIES"}}' ]
+          allowedCountries: {{ env "PLUGIN_GEOBLOCK_ALLOWEDCOUNTRIES" }}
           # Blocklist of countries to block (ISO 3166-1 alpha-2)
           # blockedCountries: [ "RU" ]
           # Default allow indicates that if an IP is in neither block list nor allow lists, it should be allowed.
