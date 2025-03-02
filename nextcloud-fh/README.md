@@ -1,5 +1,9 @@
 # nextcloud-fh
 
+## image repositories
+
+public.ecr.aws/docker/library/nextcloud:31.0.0-fpm-alpine
+
 ## occ
 
 example:

@@ -13,7 +13,7 @@ services:
       wud.link.template: https://github.com/immich-app/immich/releases/tag/v$${major}.$${minor}.$${patch}
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:v1.126.1
+    image: ghcr.io/immich-app/immich-machine-learning:v1.128.0
     pull_policy: missing
     volumes:
       - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload

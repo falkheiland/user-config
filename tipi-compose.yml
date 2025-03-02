@@ -1,7 +1,8 @@
 services:
   runtipi-reverse-proxy:
     pull_policy: missing
-    image: traefik:v3.3.3
+    #image: traefik:v3.3.4
+    image: public.ecr.aws/docker/library/traefik:v3.3.4
     env_file: ./user-config/tipi-compose.env
     ports:
       - 8080:8080
