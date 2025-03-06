@@ -1,6 +1,6 @@
 services:
   crowdsec:
-    image: crowdsecurity/crowdsec:v1.6.5
+    #image: crowdsecurity/crowdsec:v1.6.5
     pull_policy: missing
     ports:
       # crowdsec-bouncer-tipi

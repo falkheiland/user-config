@@ -46,6 +46,12 @@ iptables_chains:
 sudo systemctl restart crowdsec-firewall-bouncer.service
 ```
 
+check for servicer failures
+
+```
+journalctl -u crowdsec-firewall-bouncer -n 50 --no-pager
+``` 
+
 ## cscli
 
 ### list collections:
