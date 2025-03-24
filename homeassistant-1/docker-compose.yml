@@ -1,6 +1,6 @@
 services:
   homeassistant-1:
-    image: ghcr.io/home-assistant/home-assistant:2025.3.0
+    #image: ghcr.io/home-assistant/home-assistant:2025.3.0
     pull_policy: missing
     labels:
       # Websecure

@@ -1,7 +1,7 @@
 services:
   freshrss:
     pull_policy: missing
-    image: freshrss/freshrss:1.26.0
+    image: freshrss/freshrss:1.26.1
     environment:
       - TZ=${TIMEZONE}
       - CRON_MIN=5,20,35,50

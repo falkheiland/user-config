@@ -1,6 +1,7 @@
 services:
   searxng:
-    #pull_policy: missing
+    image: searxng/searxng:2025.3.11-3fe602a46
+    pull_policy: missing
     labels:
       # Websecure
       traefik.http.routers.searxng.middlewares: chain-Domain-auth@file
