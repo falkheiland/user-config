@@ -67,7 +67,7 @@ services:
       wud.link.template: https://github.com/postgres/postgres/tag/REL_$${major}_$${minor}
 
   gotenberg:
-    image: gotenberg/gotenberg:8.19
+    image: gotenberg/gotenberg:8.20
     pull_policy: missing
     labels:
       # WUD-FH
