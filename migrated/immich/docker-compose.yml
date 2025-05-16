@@ -1,0 +1,42 @@
+services:
+  immich:
+    image: ghcr.io/immich-app/immich-server:v1.132.1
+    pull_policy: missing
+    volumes:
+      - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
+    labels:
+      # Websecure
+      traefik.http.routers.immich-migrated.middlewares: chain-Domain-auth@file
+      traefik.http.routers.immich-migrated.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/immich-app/immich/releases/tag/v$${major}.$${minor}.$${patch}
+
+  immich-machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:v1.132.1
+    pull_policy: missing
+    volumes:
+      - ${APP_USER_DATA_DIR}/immich:/usr/src/app/upload
+    labels:
+      # WUD
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/immich-app/immich/releases/tag/v$${major}.$${minor}.$${patch}
+
+  immich-redis:
+    pull_policy: missing
+    labels:
+      # WUD
+      wud.tag.include: '^\d+\.\d+$$'
+      wud.watch: false
+      wud.watch.digest: true
+      wud.link.template: https://github.com/redis/redis/releases/tag/$${major}.$${minor}.$${patch}
+
+  immich-db:
+    pull_policy: missing
+    labels:
+      # WUD
+      # pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+      wud.tag.include: '^pg14-v\d+\.\d+\.\d+\@.+$$'
+      wud.watch: true

@@ -1,0 +1,17 @@
+services:
+  ntfy:
+    environment:
+      - TZ=Europe/Berlin
+      - NTFY_CACHE_FILE=/var/cache/ntfy/cache.db
+      - NTFY_AUTH_FILE=/etc/ntfy/user.db
+      - NTFY_AUTH_DEFAULT_ACCESS=deny-all
+      - NTFY_BEHIND_PROXY=true
+      - NTFY_ATTACHMENT_CACHE_DIR=/var/cache/ntfy/attachments
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    user: 1000:1000
+    labels:
+      # Websecure
+      traefik.http.routers.ntfy.middlewares: basicAuth-default@file, plugin-geoblock@file
+      # # Local domain secure
+      # traefik.http.routers.ntfy-local.middlewares: basicAuth-default@file, ipAllowList-local@file

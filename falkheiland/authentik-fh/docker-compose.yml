@@ -1,0 +1,39 @@
+services:
+  authentik-fh:
+    pull_policy: missing
+    labels:
+      # Websecure
+      traefik.http.routers.authentik-fh-falkheiland-insecure.rule: HostRegexp(`^.+\.${CATCHALL_DOMAIN}$`)
+      traefik.http.routers.authentik-fh-falkheiland-insecure.priority: 1
+      traefik.http.routers.authentik-fh-falkheiland.rule: HostRegexp(`^.+\.${CATCHALL_DOMAIN}$`)
+      traefik.http.routers.authentik-fh-falkheiland.priority: 1
+      traefik.http.routers.authentik-fh-falkheiland.middlewares: chain-Domain@file
+      traefik.http.routers.authentik-fh-falkheiland.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/goauthentik/authentik/releases/tag/$${major}.$${minor}.$${patch}
+
+  authentik-fh-worker:
+    pull_policy: missing
+    labels:
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/goauthentik/authentik/releases/tag/$${major}.$${minor}.$${patch}
+
+  authentik-fh-db:
+    pull_policy: missing
+    labels:
+      # WUD-FH
+      wud.tag.include: '^12-alpine$$'
+      wud.watch: true
+      wud.watch.digest: true
+
+  authentik-fh-redis:
+    pull_policy: missing
+    labels:
+      # WUD-FH
+      wud.tag.include: '^alpine$$'
+      wud.watch: true
+      wud.watch.digest: true

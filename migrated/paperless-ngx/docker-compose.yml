@@ -1,0 +1,86 @@
+services:
+  paperless-ngx:
+    pull_policy: missing
+    volumes:
+      - ${APP_USER_DATA_DIR}/tipi/paperlessngx/media:/usr/src/paperless/media
+      - ${APP_USER_DATA_DIR}/tipi/paperlessngx/export:/usr/src/paperless/export
+      - ${APP_USER_DATA_DIR}/scan:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_TIME_ZONE: Europe/Berlin
+      PAPERLESS_OCR_LANGUAGE: deu+eng
+      PAPERLESS_CONSUMER_POLLING: 300
+      PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
+      PAPERLESS_SOCIALACCOUNT_PROVIDERS: >
+        {
+          "openid_connect": {
+            "APPS": [
+              {
+                "provider_id": "authentik",
+                "name": "Authentik",
+                "client_id": "${OAUTH2_CLIENT_ID}",
+                "secret": "${OAUTH2_SECRET}",
+                "settings": {
+                  "server_url": "${OAUTH2_SERVER_URL}/application/o/paperless-ngx/.well-known/openid-configuration"
+                }
+              }
+            ],
+            "OAUTH_PKCE_ENABLED": "True"
+          }
+        }
+      PAPERLESS_REDIRECT_LOGIN_TO_SSO: true
+      PAPERLESS_DISABLE_REGULAR_LOGIN: true
+    labels:
+      # Websecure
+      traefik.http.routers.paperless-ngx-migrated.middlewares: chain-Domain-auth@file
+      traefik.http.routers.paperless-ngx-migrated.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.paperless-ngx-migrated-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.paperless-ngx-migrated-privip.middlewares: chain-Domain@file
+      traefik.http.routers.paperless-ngx-migrated-privip.entrypoints: websecure
+      traefik.http.routers.paperless-ngx-migrated-privip.service: paperless-ngx-migrated
+      traefik.http.routers.paperless-ngx-migrated-privip.priority: 100
+      traefik.http.routers.paperless-ngx-migrated-privip.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/paperless-ngx/paperless-ngx/releases/tag/v$${major}.$${minor}.$${patch}
+
+  broker:
+    pull_policy: missing
+    labels:
+      # WUD-FH
+      wud.tag.include: '^\d+$$'
+      wud.watch: false
+      wud.watch.digest: true
+      wud.display.name: paperless-ngx-broker
+      wud.link.template: https://github.com/redis/redis/releases/tag/$${major}.$${minor}.$${patch}
+
+  db:
+    image: docker.io/library/postgres:15
+    pull_policy: missing
+    labels:
+      # WUD-FH
+      wud.tag.include: '^\d+$$'
+      wud.watch: false
+      wud.watch.digest: true
+      wud.display.name: paperless-ngx-db
+      wud.link.template: https://github.com/postgres/postgres/tag/REL_$${major}_$${minor}
+
+  gotenberg:
+    image: gotenberg/gotenberg:8.20
+    pull_policy: missing
+    labels:
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+$$'
+      wud.watch: true
+      wud.display.name: paperless-ngx-gotenberg
+      wud.link.template: https://github.com/gotenberg/gotenberg/releases/tag/v$${major}.$${minor}.$${patch}
+
+  tika:
+    pull_policy: missing
+    labels:
+      # WUD-FH
+      wud.tag.include: '^latest$$'
+      wud.watch: true
+      wud.watch.digest: true
+      wud.display.name: paperless-ngx-tika

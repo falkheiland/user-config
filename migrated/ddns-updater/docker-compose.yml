@@ -1,0 +1,19 @@
+services:
+  ddns-updater:
+    pull_policy: missing
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+    environment:
+      - TZ=${TZ}
+      - SHOUTRRR_ADDRESSES=pushover://shoutrrr:${PUSHOVER_APITOKEN}@${PUSHOVER_USERKEY}/?devices=${PUSHOVER_DEVICES}
+    volumes:
+      - ${APP_DATA_DIR}/data:/updater/data
+    labels:
+      # Websecure
+      traefik.http.routers.ddns-updater-migrated.middlewares: chain-Domain-auth@file
+      traefik.http.routers.ddns-updater-migrated.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/qdm12/ddns-updater/releases/tag/v$${major}.$${minor}.$${patch}

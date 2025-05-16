@@ -1,0 +1,19 @@
+services:
+  it-tools:
+    pull_policy: missing
+    labels:
+      # Websecure
+      traefik.http.routers.it-tools-migrated.middlewares: chain-Domain-auth@file
+      traefik.http.routers.it-tools-migrated.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.it-tools-migrated-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.it-tools-migrated-privip.middlewares: chain-Domain@file
+      traefik.http.routers.it-tools-migrated-privip.entrypoints: websecure
+      traefik.http.routers.it-tools-migrated-privip.service: it-tools-migrated
+      traefik.http.routers.it-tools-migrated-privip.priority: 100
+      traefik.http.routers.it-tools-migrated-privip.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^latest$$'
+      wud.watch: true
+      wud.watch.digest: true
+      wud.link.template: https://github.com/CorentinTh/it-tools/releases/releases

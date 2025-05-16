@@ -1,0 +1,57 @@
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec:v1.6.8
+    pull_policy: missing
+    ports:
+      # crowdsec-bouncer-tipi
+      - "8081:8080" # TODO: ${APP_PORT}:8080 #8081
+    volumes: !override
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/log:/var/log:ro
+      - ${APP_DATA_DIR}/data/crowdsec/db:/var/lib/crowdsec/data
+      - ${APP_DATA_DIR}/data/crowdsec:/etc/crowdsec
+    networks:
+      crowdsec_migrated_network:
+        gw_priority: 0
+      tipi_main_network:
+        gw_priority: 1
+    environment:
+      - COLLECTIONS= crowdsecurity/apache2 firix/authentik crowdsecurity/http-cve gauth-fr/immich crowdsecurity/iptables xs539/joplin-server crowdsecurity/linux crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/whitelist-good-actors
+    labels:
+      # WUD-FH
+      wud.tag.include: '^v\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/crowdsecurity/crowdsec/releases/tag/v$${major}.$${minor}.$${patch}
+
+  crowdsec-dashboard:
+    image: metabase/metabase
+    pull_policy: missing
+    labels:
+      # Websecure
+      traefik.http.routers.crowdsec-migrated.middlewares: chain-Domain-auth@file
+      traefik.http.routers.crowdsec-migrated.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.crowdsec-migrated-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.crowdsec-migrated-privip.middlewares: chain-Domain@file
+      traefik.http.routers.crowdsec-migrated-privip.entrypoints: websecure
+      traefik.http.routers.crowdsec-migrated-privip.service: crowdsec-migrated
+      traefik.http.routers.crowdsec-migrated-privip.priority: 100
+      traefik.http.routers.crowdsec-migrated-privip.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^$$'
+      wud.watch: false
+      wud.watch.digest: true
+
+  crowdsec-bouncer-traefik:
+    pull_policy: missing
+    networks:
+      crowdsec_migrated_network:
+        gw_priority: 0
+      tipi_main_network:
+        gw_priority: 1
+    labels:
+      # WUD-FH
+      wud.tag.include: '^latest$$'
+      wud.watch: true
+      wud.watch.digest: true

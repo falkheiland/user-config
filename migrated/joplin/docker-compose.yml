@@ -1,0 +1,31 @@
+services:
+  joplin:
+    pull_policy: missing
+    environment:
+      - MAILER_ENABLED=1
+      - MAILER_HOST=${MAILER_HOST}
+      - MAILER_PORT=587
+      - MAILER_SECURITY=starttls
+      - MAILER_AUTH_USER=${MAILER_AUTH_USER}
+      - MAILER_AUTH_PASSWORD=${MAILER_AUTH_PASSWORD}
+      - MAILER_NOREPLY_NAME=joplin
+      - MAILER_NOREPLY_EMAIL=noreply.joplin@${APP_DOMAIN}
+    labels:
+      # Websecure
+      traefik.http.routers.joplin-migrated.middlewares: chain-Domain@file
+      traefik.http.routers.joplin-migrated.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/flosoft/docker-joplin-server/releases/tag/v$${major}.$${minor}.$${patch}
+
+  db-joplin:
+    pull_policy: missing
+    image: postgres:15
+    labels:
+      # WUD-FH
+      wud.tag.include: '^15$$'
+      wud.display.name: joplin-db
+      wud.watch.digest: true
+      wud.watch: false
+      wud.link.template: https://github.com/postgres/postgres/releases/tag/REL_$${major}_$${minor}

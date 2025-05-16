@@ -1,0 +1,30 @@
+services:
+  2fauth:
+    pull_policy: missing
+    environment:
+      # Timezone: Runtipi
+      - APP_TIMEZONE=${TZ}
+      # URLs: [Ws]
+      - ASSET_URL=https://${APP_DOMAIN}
+      - APP_URL=https://${APP_DOMAIN}
+      # OAuth2: [Ws]
+      - OPENID_AUTHORIZE_URL=${OPENID_AUTHORIZE_URL}
+      - OPENID_TOKEN_URL=${OPENID_TOKEN_URL}
+      - OPENID_USERINFO_URL=${OPENID_USERINFO_URL}
+      - OPENID_CLIENT_ID=${OPENID_CLIENT_ID}
+      - OPENID_CLIENT_SECRET=${OPENID_CLIENT_SECRET}
+    labels:
+      # Websecure: [Dom], ForwardAuth: [Dom]
+      traefik.http.routers.2fauth-migrated.middlewares: chain-Domain-auth@file
+      traefik.http.routers.2fauth-migrated.tls.certresolver: ''
+      # WebSecure local: IP [DomL]
+      traefik.http.routers.2fauth-migrated-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.2fauth-migrated-privip.middlewares: chain-Domain@file
+      traefik.http.routers.2fauth-migrated-privip.entrypoints: websecure
+      traefik.http.routers.2fauth-migrated-privip.service: 2fauth-migrated
+      traefik.http.routers.2fauth-migrated-privip.priority: 100
+      traefik.http.routers.2fauth-migrated-privip.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/Bubka/2FAuth/releases/tag/v$${major}.$${minor}.$${patch}

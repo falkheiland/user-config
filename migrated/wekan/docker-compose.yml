@@ -1,0 +1,36 @@
+services:
+  wekan:
+    pull_policy: missing
+    environment:
+      - OAUTH2_ENABLED=true
+      - OAUTH2_LOGIN_STYLE=redirect
+      - OAUTH2_CLIENT_ID=${OAUTH2_CLIENT_ID}
+      - OAUTH2_SERVER_URL=${OAUTH2_SERVER_URL}
+      - OAUTH2_AUTH_ENDPOINT=/application/o/authorize/
+      - OAUTH2_USERINFO_ENDPOINT=/application/o/userinfo/
+      - OAUTH2_TOKEN_ENDPOINT=/application/o/token/
+      - OAUTH2_SECRET=${OAUTH2_SECRET}
+      - OAUTH2_FULLNAME_MAP=given_name
+      - OAUTH2_EMAIL_MAP=email
+      - OAUTH2_ID_MAP=sub
+      - OAUTH2_USERNAME_MAP=email
+      - CORS=*
+      - CORS_ALLOW_HEADERS=Authorization,Content-Type
+      - MAIL_URL=${MAIL_URL}
+      - MAIL_FROM=${MAIL_FROM}
+    labels:
+      # Websecure
+      traefik.http.routers.wekan-migrated.middlewares: chain-Domain-auth@file
+      traefik.http.routers.wekan-migrated.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^v\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/wekan/wekan/releases/tag/v$${major}.$${minor}
+
+  wekan-db:
+    pull_policy: missing
+    labels:
+      # WUD-FH
+      wud.tag.include: '^\d+$$'
+      wud.watch: false
+      wud.watch.digest: true

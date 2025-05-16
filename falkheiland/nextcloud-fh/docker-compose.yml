@@ -1,0 +1,53 @@
+services:
+  nextcloud-fh:
+    pull_policy: missing
+    labels:
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+\.\d+\-fpm\-alpine$$'
+      wud.watch: true
+      wud.link.template: https://github.com/nextcloud/server/releases/tag/v$${major}.$${minor}.$${patch}
+
+  nextcloud-fh-web:
+    pull_policy: missing
+    labels:
+      # Websecure
+      traefik.http.routers.nextcloud-fh-falkheiland.middlewares: chain-Domain@file
+      traefik.http.routers.nextcloud-fh-falkheiland.tls.certresolver: ''
+      # # WebSecure local IP
+      traefik.http.routers.nextcloud-fh-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.nextcloud-fh-falkheiland-privip.middlewares: chain-Domain@file
+      traefik.http.routers.nextcloud-fh-falkheiland-privip.entrypoints: websecure
+      traefik.http.routers.nextcloud-fh-falkheiland-privip.service: nextcloud-fh-falkheiland
+      traefik.http.routers.nextcloud-fh-falkheiland-privip.priority: 100
+      traefik.http.routers.nextcloud-fh-falkheiland-privip.tls.certresolver: ''
+      # WUD-FH nginx:latest
+      wud.tag.include: '^latest$$'
+      wud.watch: true
+      wud.watch.digest: true
+      wud.link.template: https://github.com/nginx/nginx/releases/tag/release-$${major}.$${minor}.$${patch}
+
+  nextcloud-fh-cron:
+    pull_policy: missing
+    labels:
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+\.\d+\-fpm\-alpine$$'
+      wud.watch: true
+      wud.link.template: https://github.com/nextcloud/server/releases/tag/v$${major}.$${minor}.$${patch}
+
+  nextcloud-fh-redis:
+    pull_policy: missing
+    labels:
+      # WUD-FH # redis:alpine
+      wud.tag.include: '^alpine$$'
+      wud.watch: true
+      wud.watch.digest: true
+      wud.link.template: https://github.com/redis/redis/releases/tag/$${major}.$${minor}.$${patch}
+
+  nextcloud-fh-db:
+    pull_policy: missing
+    labels:
+      # WUD-FH # postgres:16-alpine
+      wud.tag.include: '^16\-alpine$$'
+      wud.watch: true
+      wud.watch.digest: true
+      wud.link.template: https://github.com/postgres/postgres/tag/REL_$${major}_$${minor}

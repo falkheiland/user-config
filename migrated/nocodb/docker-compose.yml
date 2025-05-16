@@ -1,0 +1,68 @@
+services:
+  nocodb:
+    pull_policy: missing
+    environment:
+      - NC_DISABLE_TELE=true
+      # to reset email and password
+      #- NC_ADMIN_EMAIL=admin@example.com
+      #- NC_ADMIN_PASSWORD=newpassword
+    labels:
+      # Websecure
+      traefik.http.routers.nocodb-migrated.middlewares: chain-Domain-auth@file
+      traefik.http.routers.nocodb-migrated.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.nocodb-migrated-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.nocodb-migrated-privip.middlewares: chain-Domain@file
+      traefik.http.routers.nocodb-migrated-privip.entrypoints: websecure
+      traefik.http.routers.nocodb-migrated-privip.service: nocodb-migrated
+      traefik.http.routers.nocodb-migrated-privip.priority: 100
+      traefik.http.routers.nocodb-migrated-privip.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/nocodb/nocodb/releases/tag/$${major}.$${minor}.$${patch}
+
+  nocodb-db:
+    pull_policy: missing
+    image: postgres:16
+    labels:
+      # WUD-FH
+      wud.tag.include: '^16$$'
+      wud.watch: false
+      wud.watch.digest: true
+      wud.link.template: https://github.com/postgres/postgres/releases/tag/REL_$${major}_$${minor}
+
+  nocodb-redis:
+    image: redis:alpine
+    labels:
+      # WUD-FH
+      wud.tag.include: '^alpine$$'
+      wud.watch: true
+      wud.watch.digest: true
+      wud.link.template: https://github.com/redis/redis/releases/tag/$${major}.$${minor}.$${patch}
+  # dbbackup:
+  #   pull_policy: missing
+  #   image: tiredofit/db-backup:4.1.9
+  #   container_name: nocodb-db-backup
+  #   environment:
+  #     - DEFAULT_COMPRESSION=GZ
+  #     - DB01_TYPE=pgsql
+  #     - DB01_HOST=nocodb-db
+  #     - DB01_NAME=nocodb
+  #     - DB01_USER=postgres
+  #     - DB01_PASS=${NOCODB_DB_PASSWORD}
+  #     - CONTAINER_ENABLE_MONITORING=FALSE
+  #     - DEFAULT_CLEANUP_TIME=1440
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - ${APP_DATA_DIR}/data/db-backup:/backup
+  #   depends_on:
+  #     - nocodb-db
+  #   networks:
+  #     - tipi_main_network
+  #   labels:
+  #     # WUD-FH
+  #     wud.tag.include: '^\d+\.\d+\.\d+$$'
+  #     wud.watch: true
+  #     wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}

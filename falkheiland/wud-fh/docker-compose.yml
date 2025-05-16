@@ -1,0 +1,37 @@
+services:
+  wud-fh:
+    pull_policy: missing
+    environment:
+      - WUD_REGISTRY_HUB_PUBLIC_LOGIN=${WUD_REGISTRY_HUB_PUBLIC_LOGIN}
+      - WUD_REGISTRY_HUB_PUBLIC_PASSWORD=${WUD_REGISTRY_HUB_PUBLIC_PASSWORD}
+      - WUD_REGISTRY_LSCR_PRIVATE_USERNAME=${WUD_REGISTRY_LSCR_PRIVATE_USERNAME}
+      - WUD_REGISTRY_LSCR_PRIVATE_TOKEN=${WUD_REGISTRY_LSCR_PRIVATE_TOKEN}
+      - WUD_TRIGGER_SMTP_MAIL_HOST=${WUD_TRIGGER_SMTP_MAIL_HOST}
+      - WUD_TRIGGER_SMTP_MAIL_PORT=${WUD_TRIGGER_SMTP_MAIL_PORT}
+      - WUD_TRIGGER_SMTP_MAIL_USER=${WUD_TRIGGER_SMTP_MAIL_USER}
+      - WUD_TRIGGER_SMTP_MAIL_PASS=${WUD_TRIGGER_SMTP_MAIL_PASS}
+      - WUD_TRIGGER_SMTP_MAIL_FROM=${WUD_TRIGGER_SMTP_MAIL_FROM}
+      - WUD_TRIGGER_SMTP_MAIL_TO=${WUD_TRIGGER_SMTP_MAIL_TO}
+      - WUD_TRIGGER_SMTP_MAIL_TLS_ENABLED=${WUD_TRIGGER_SMTP_MAIL_TLS_ENABLED}
+      # set basic auth to admin:<random value> to disable
+      - WUD_AUTH_BASIC_ADMIN_HASH=$$apr1$$ByFM2Pmi$$.2XCuU22T8Nq7D8dummy//
+      # OIDC (some error in formfield)
+      - WUD_AUTH_OIDC_0_CLIENTID=${WUD_AUTH_OIDC_0_CLIENTID}
+      - WUD_AUTH_OIDC_0_CLIENTSECRET=${WUD_AUTH_OIDC_0_CLIENTSECRET}
+      - WUD_AUTH_OIDC_0_DISCOVERY=${WUD_AUTH_OIDC_0_DISCOVERY}
+      - WUD_AUTH_OIDC_0_REDIRECT=${WUD_AUTH_OIDC_0_REDIRECT}
+    labels:
+      # Websecure
+      traefik.http.routers.wud-fh-falkheiland.middlewares: chain-Domain-auth@file
+      traefik.http.routers.wud-fh-falkheiland.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.wud-fh-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.wud-fh-falkheiland-privip.middlewares: chain-Domain@file
+      traefik.http.routers.wud-fh-falkheiland-privip.entrypoints: websecure
+      traefik.http.routers.wud-fh-falkheiland-privip.service: wud-fh-falkheiland
+      traefik.http.routers.wud-fh-falkheiland-privip.priority: 100
+      traefik.http.routers.wud-fh-falkheiland-privip.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/getwud/wud/releases/tag/$${major}.$${minor}.$${patch}
