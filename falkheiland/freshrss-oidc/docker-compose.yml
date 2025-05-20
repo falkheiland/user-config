@@ -1,0 +1,10 @@
+services:
+  freshrss:
+    labels:
+      # Websecure
+      traefik.http.routers.freshrss-oidc-falkheiland-dev.middlewares: freshrss-oidc-falkheiland-dev-M1, freshrss-oidc-falkheiland-dev-M2, chain-Domain-auth@file
+      traefik.http.routers.freshrss-oidc-falkheiland-dev.tls.certresolver: ''
+      # WUD-FH
+      wud.tag.include: '^\d+\.\d+\.\d+$$'
+      wud.watch: true
+      wud.link.template: https://github.com/FreshRSS/FreshRSS/releases/tag/$${major}.$${minor}.$${patch}

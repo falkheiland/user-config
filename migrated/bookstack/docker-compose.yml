@@ -12,32 +12,15 @@ services:
   bookstack-db:
     pull_policy: missing
     image: lscr.io/linuxserver/mariadb
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
     labels:
       # WUD-FH
       wud.tag.include: '^$$'
       wud.watch: false
       wud.watch.digest: true
-  # dbbackup:
-  #   pull_policy: missing
-  #   image: tiredofit/db-backup:4.1.9
-  #   container_name: bookstack-db-backup
-  #   environment:
-  #     - DEFAULT_COMPRESSION=GZ
-  #     - DB01_TYPE=mysql
-  #     - DB01_HOST=bookstack-db
-  #     - DB01_NAME=bookstackapp
-  #     - DB01_USER=tipi
-  #     - DB01_PASS=${BOOKSTACK_DB_PASS}
-  #     - CONTAINER_ENABLE_MONITORING=FALSE
-  #     - DEFAULT_CLEANUP_TIME=1440
-  #   restart: unless-stopped
-  #   volumes:
-  #     - /etc/localtime:/etc/localtime:ro
-  #     - ${APP_DATA_DIR}/data/db-backup:/backup
-  #   depends_on:
-  #     - bookstack-db
-  #   labels:
-  #     # WUD-FH
-  #     wud.tag.include: '^\d+\.\d+\.\d+$$'
-  #     wud.watch: true
-  #     wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}
+
+networks:
+  shared_docker-db-backup_network:
+    external: true

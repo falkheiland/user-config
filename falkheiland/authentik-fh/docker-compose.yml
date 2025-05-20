@@ -24,6 +24,9 @@ services:
 
   authentik-fh-db:
     pull_policy: missing
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
     labels:
       # WUD-FH
       wud.tag.include: '^12-alpine$$'
@@ -37,3 +40,7 @@ services:
       wud.tag.include: '^alpine$$'
       wud.watch: true
       wud.watch.digest: true
+
+networks:
+  shared_docker-db-backup_network:
+    external: true

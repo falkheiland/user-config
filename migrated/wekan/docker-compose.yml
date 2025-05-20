@@ -29,8 +29,15 @@ services:
 
   wekan-db:
     pull_policy: missing
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
     labels:
       # WUD-FH
       wud.tag.include: '^\d+$$'
       wud.watch: false
       wud.watch.digest: true
+
+networks:
+  shared_docker-db-backup_network:
+    external: true

@@ -1,10 +1,7 @@
 services:
-  db-backup-fh:
+  docker-db-backup:
     pull_policy: missing
     environment:
-      - DEFAULT_CLEANUP_TIME=1440
-      - CONTAINER_ENABLE_MONITORING=FALSE
-      - DEFAULT_SKIP_AVAILABILITY_CHECK=TRUE
       # DB01 tipi
       - DB01_TYPE=pgsql
       - DB01_HOST=runtipi-db
@@ -63,8 +60,10 @@ services:
       - DB10_TYPE=mongo
       - DB10_HOST=wekan-db
       - DB10_NAME=wekan
-    labels:
-      # WUD-FH
-      wud.tag.include: '^\d+\.\d+\.\d+$$'
-      wud.watch: true
-      wud.link.template: https://github.com/tiredofit/docker-db-backup/releases/tag/$${major}.$${minor}.$${patch}
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
+
+networks:
+  shared_docker-db-backup_network:
+    external: true

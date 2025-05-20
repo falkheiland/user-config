@@ -45,9 +45,16 @@ services:
 
   nextcloud-fh-db:
     pull_policy: missing
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
     labels:
       # WUD-FH # postgres:16-alpine
       wud.tag.include: '^16\-alpine$$'
       wud.watch: true
       wud.watch.digest: true
       wud.link.template: https://github.com/postgres/postgres/tag/REL_$${major}_$${minor}
+
+networks:
+  shared_docker-db-backup_network:
+    external: true

@@ -39,9 +39,16 @@ services:
   linkwarden-db:
     pull_policy: missing
     image: postgres:16-alpine
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
     labels:
       # WUD-FH
       wud.tag.include: '^16-alpine$$'
       wud.watch.digest: true
       wud.watch: true
       wud.link.template: https://github.com/postgres/postgres/tag/REL_$${major}_$${minor}
+
+networks:
+  shared_docker-db-backup_network:
+    external: true

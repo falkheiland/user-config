@@ -35,8 +35,15 @@ services:
 
   immich-db:
     pull_policy: missing
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
     labels:
       # WUD
       # pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
       wud.tag.include: '^pg14-v\d+\.\d+\.\d+\@.+$$'
       wud.watch: true
+
+networks:
+  shared_docker-db-backup_network:
+    external: true

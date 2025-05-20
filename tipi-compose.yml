@@ -19,6 +19,9 @@ services:
 
   runtipi-db:
     pull_policy: missing
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
     labels:
       # WUD-FH
       wud.tag.include: '^\d+$$'
@@ -58,3 +61,7 @@ services:
       wud.tag.include: '^v\d+\.\d+\.\d+$$'
       wud.watch: true
       wud.link.template: https://github.com/runtipi/runtipi/releases/tag/v$${major}.$${minor}.$${patch}
+
+networks:
+  shared_docker-db-backup_network:
+    external: true

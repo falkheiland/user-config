@@ -22,6 +22,9 @@ services:
   db-joplin:
     pull_policy: missing
     image: postgres:15
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
     labels:
       # WUD-FH
       wud.tag.include: '^15$$'
@@ -29,3 +32,7 @@ services:
       wud.watch.digest: true
       wud.watch: false
       wud.link.template: https://github.com/postgres/postgres/releases/tag/REL_$${major}_$${minor}
+
+networks:
+  shared_docker-db-backup_network:
+    external: true

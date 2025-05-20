@@ -58,6 +58,9 @@ services:
   db:
     image: docker.io/library/postgres:15
     pull_policy: missing
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
     labels:
       # WUD-FH
       wud.tag.include: '^\d+$$'
@@ -84,3 +87,7 @@ services:
       wud.watch: true
       wud.watch.digest: true
       wud.display.name: paperless-ngx-tika
+
+networks:
+  shared_docker-db-backup_network:
+    external: true
