@@ -1,5 +1,6 @@
 tipi-compose.env
 app.env
+cup.json
 
 traefik/etc/tls/*
 
