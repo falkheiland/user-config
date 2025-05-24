@@ -8,9 +8,9 @@ services:
       - DB01_NAME=tipi
       - DB01_USER=tipi
       - DB01_PASS=${POSTGRES_PASSWORD}
-      # DB02 authentik-fh
+      # DB02 authentik
       - DB02_TYPE=pgsql
-      - DB02_HOST=authentik-fh-db
+      - DB02_HOST=authentik-db
       - DB02_NAME=authentik
       - DB02_USER=authentik
       - DB02_PASS=${AUTHENTIK_DB_PASSWORD}
@@ -38,12 +38,12 @@ services:
       - DB06_NAME=linkwarden
       - DB06_USER=tipi
       - DB06_PASS=${LINKWARDEN_DB_PASSWORD}
-      # DB07 nextcloud-fh
+      # DB07 nextcloud-fpm
       - DB07_TYPE=pgsql
-      - DB07_HOST=nextcloud-fh-db
+      - DB07_HOST=nextcloud-db
       - DB07_NAME=nextcloud
       - DB07_USER=nextcloud
-      - DB07_PASS=${NEXTCLOUD_FH_DB_PASSWORD}
+      - DB07_PASS=${NEXTCLOUD_DB_PASSWORD}
       # DB08 nocodb
       - DB08_TYPE=pgsql
       - DB08_HOST=nocodb-db

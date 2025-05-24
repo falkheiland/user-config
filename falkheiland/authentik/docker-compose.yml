@@ -1,0 +1,26 @@
+services:
+  authentik:
+    pull_policy: missing
+    labels:
+      # Websecure
+      traefik.http.routers.authentik-falkheiland-insecure.rule: HostRegexp(`^.+\.${CATCHALL_DOMAIN}$`)
+      traefik.http.routers.authentik-falkheiland-insecure.priority: 1
+      traefik.http.routers.authentik-falkheiland.rule: HostRegexp(`^.+\.${CATCHALL_DOMAIN}$`)
+      traefik.http.routers.authentik-falkheiland.priority: 1
+      traefik.http.routers.authentik-falkheiland.middlewares: chain-Domain@file
+      traefik.http.routers.authentik-falkheiland.tls.certresolver: ''
+  authentik-worker:
+    pull_policy: missing
+
+  authentik-db:
+    pull_policy: missing
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
+
+  authentik-redis:
+    pull_policy: missing
+
+networks:
+  shared_docker-db-backup_network:
+    external: true

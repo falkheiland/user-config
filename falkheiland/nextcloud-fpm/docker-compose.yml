@@ -1,0 +1,36 @@
+services:
+  nextcloud:
+    pull_policy: missing
+
+  nextcloud-web:
+    pull_policy: missing
+    labels:
+      # Websecure
+      traefik.http.routers.nextcloud-fpm-falkheiland.middlewares: chain-Domain@file
+      traefik.http.routers.nextcloud-fpm-falkheiland.tls.certresolver: ''
+      # # WebSecure local IP
+      traefik.http.routers.nextcloud-fpm-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.nextcloud-fpm-falkheiland-privip.middlewares: chain-Domain@file
+      traefik.http.routers.nextcloud-fpm-falkheiland-privip.entrypoints: websecure
+      traefik.http.routers.nextcloud-fpm-falkheiland-privip.service: nextcloud-fpm-falkheiland
+      traefik.http.routers.nextcloud-fpm-falkheiland-privip.priority: 100
+      traefik.http.routers.nextcloud-fpm-falkheiland-privip.tls.certresolver: ''
+
+  nextcloud-cron:
+    pull_policy: missing
+
+  nextcloud-redis:
+    pull_policy: missing
+
+  nextcloud-db:
+    pull_policy: missing
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
+
+networks:
+  nextcloud-fpm_falkheiland_network:
+    external: false
+    ipam: !reset []
+  shared_docker-db-backup_network:
+    external: true
