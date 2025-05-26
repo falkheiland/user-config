@@ -1,7 +1,9 @@
 services:
   docker-db-backup:
+    # Ensure the image is not pulled if present
     pull_policy: missing
     environment:
+      # Environment variables for the database backups
       # DB01 tipi
       - DB01_TYPE=pgsql
       - DB01_HOST=runtipi-db
@@ -56,14 +58,16 @@ services:
       - DB09_NAME=paperless
       - DB09_USER=paperless
       - DB09_PASS=${PAPERLESS_DB_PASSWORD}
-      # DB10 wekan
+      # DB09 paperless-ngx
       - DB10_TYPE=mongo
       - DB10_HOST=wekan-db
       - DB10_NAME=wekan
     networks:
+      # The network to connect to the shared docker-db-backup network
       shared_docker-db-backup_network:
         gw_priority: 0
 
 networks:
+  # The shared network for the docker-db-backup service
   shared_docker-db-backup_network:
     external: true
