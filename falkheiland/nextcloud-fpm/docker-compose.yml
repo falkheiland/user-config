@@ -32,7 +32,7 @@ services:
 networks:
   nextcloud-fpm_falkheiland_network:
     external: false
-    # Reset to default IPAM configuration
+    # Reset to default IPAM configuration to match nextclouds default trusted proxies
     ipam: !reset []
   # This network is shared with the docker-db-backup app
   shared_docker-db-backup_network:
