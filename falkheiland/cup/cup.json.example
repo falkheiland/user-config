@@ -1,9 +1,0 @@
-{
-  "refresh_interval": "0 6,12,18 * * * *",
-  "registries": {
-    "public.ecr.aws": {
-      "ignore": true
-    }
-  },
-  "ignore_update_type": "major"
-}

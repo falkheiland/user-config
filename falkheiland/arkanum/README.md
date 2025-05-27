@@ -22,29 +22,29 @@ App Name: arkanum
         1. Applications > Providers
             - Create: OAuth2/OpenID Provider
             - Authorization flow: default-provider-authorization-implicit-consent
-            - Name: `2fauth-oauth2-provider`
-            - Redirect URIs/Origins: `https://2fauth.local.example.com/socialite/callback/openid`
+            - Name: `arkanum-oauth2-provider`
+            - Redirect URIs/Origins: `https://arkanum.example.com/socialite/callback/openid`
             - **Resulting settings from this procedure are used in step 3!**
         2. Applications > Applications
             - Create
-            - Name: `2fauth-oauth2-app`
-            - Provider: `2fauth-oauth2-provider`
+            - Name: `arkanum-oauth2-app`
+            - Provider: `arkanum-oauth2-provider`
             - UI settings: Open in new tab
             - download [icon (png)](https://selfh.st/icons/)
             - Icon: Browse (downloaded icon)
     2. ForwardAuth
         1. Applications > Providers
             - Create: Proxy Provider
-            - Name: `2fauth-forwardauth-provider`
-            - Slug: `2fauth`
+            - Name: `arkanum-forwardauth-provider`
+            - Slug: `arkanum`
             - Authorization flow: default-provider-authorization-implicit-consent
             - [x] Forward auth (single application)
-            - External host: `https://2fauth.local.example.com/`
+            - External host: `https://arkanum.example.com/`
         2. Applications > Applications
             - Create
-            - Name: `2fauth-forwardauth-app`
-            - Slug: `2fauth-forwardauth-app`
-            - Provider: `2fauth-forwardauth-provider`
+            - Name: `arkanum-forwardauth-app`
+            - Slug: `arkanum-forwardauth-app`
+            - Provider: `arkanum-forwardauth-provider`
             - UI settings: Open in new tab
             - download [icon (png)](https://selfh.st/icons/)
             - Icon: Browse (downloaded icon)
@@ -56,5 +56,5 @@ App Name: arkanum
     - rename `app.env.example` to `app.env`
     - configure settings in `app.env`
 4. Runtipi
-    1. MyApps > 2FAuth
+    1. MyApps > arkanum
         - `Start`

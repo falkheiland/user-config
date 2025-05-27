@@ -1,9 +1,6 @@
 services:
   cup:
     pull_policy: missing
-    volumes:
-      - ${RUNTIPI_APP_DATA_PATH}/user-config/${APP_STORE_ID}/${APP_NAME}/cup.json:/config/cup.json
-    command: -c /config/cup.json serve
     labels:
       # Websecure
       traefik.http.routers.cup-falkheiland.middlewares: chain-Domain-auth@file
