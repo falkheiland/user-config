@@ -6,6 +6,16 @@ App Store ID: falkheiland
 
 App Name: arkanum
 
+## Used by
+
+- [x] Browser
+- [ ] App
+
+## Authentik Provider
+
+- [ ] OAuth2
+- [x] ForwardAuth
+
 ## Usage
 
 1. Runtipi
