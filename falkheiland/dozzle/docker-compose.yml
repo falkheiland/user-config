@@ -1,9 +1,9 @@
 services:
-  cup:
+  dozzle:
     pull_policy: missing
     labels:
       # Websecure
       # Use the chain-Domain-auth middleware for domain handling
-      traefik.http.routers.cup-falkheiland.middlewares: chain-Domain-auth@file
+      traefik.http.routers.dozzle-falkheiland.middlewares: chain-Domain-auth@file
       # Use the default certresolver
-      traefik.http.routers.cup-falkheiland.tls.certresolver: ''
+      traefik.http.routers.dozzle-falkheiland.tls.certresolver: ''
