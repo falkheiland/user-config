@@ -18,21 +18,7 @@ App Name: arkanum
       - [x] Expose app on the internet
       - `Update`
 2. Authentik
-    1. OAuth2
-        1. Applications > Providers
-            - Create: OAuth2/OpenID Provider
-            - Authorization flow: default-provider-authorization-implicit-consent
-            - Name: `arkanum-oauth2-provider`
-            - Redirect URIs/Origins: `https://arkanum.example.com/socialite/callback/openid`
-            - **Resulting settings from this procedure are used in step 3!**
-        2. Applications > Applications
-            - Create
-            - Name: `arkanum-oauth2-app`
-            - Provider: `arkanum-oauth2-provider`
-            - UI settings: Open in new tab
-            - download [icon (png)](https://selfh.st/icons/)
-            - Icon: Browse (downloaded icon)
-    2. ForwardAuth
+    1. ForwardAuth
         1. Applications > Providers
             - Create: Proxy Provider
             - Name: `arkanum-forwardauth-provider`
@@ -52,9 +38,6 @@ App Name: arkanum
             - authentik Embedded Outpost: Edit (icon)
             - add all applications: `>>`
             - `Update`
-3. Editor / CLI
-    - rename `app.env.example` to `app.env`
-    - configure settings in `app.env`
-4. Runtipi
+3. Runtipi
     1. MyApps > arkanum
         - `Start`

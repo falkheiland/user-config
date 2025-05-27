@@ -3,6 +3,5 @@ services:
     pull_policy: missing
     labels:
       # Websecure
-      #traefik.http.routers.arkanum-falkheiland.middlewares: chain-Domain-auth@file
-      traefik.http.routers.arkanum-falkheiland.middlewares: chain-Domain@file
+      traefik.http.routers.arkanum-falkheiland.middlewares: chain-Domain-auth@file
       traefik.http.routers.arkanum-falkheiland.tls.certresolver: ''
