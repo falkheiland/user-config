@@ -1,10 +1,9 @@
 # Arkanum
 
-App Store URL: https://github.com/falkheiland/runtipi-appstore/tree/prod
+## App Store
 
-App Store ID: falkheiland
-
-App Name: arkanum
+- URL: https://github.com/falkheiland/runtipi-appstore/tree/prod
+- ID: falkheiland
 
 ## Used by
 

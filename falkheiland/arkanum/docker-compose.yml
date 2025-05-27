@@ -1,7 +1,10 @@
 services:
   arkanum:
+    # Ensure the image is not pulled if present
     pull_policy: missing
     labels:
       # Websecure
+      # Use the chain-Domain-auth middleware for domain handling
       traefik.http.routers.arkanum-falkheiland.middlewares: chain-Domain-auth@file
+      # Use the default certresolver
       traefik.http.routers.arkanum-falkheiland.tls.certresolver: ''
