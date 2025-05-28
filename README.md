@@ -162,6 +162,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
   - falkheiland
     - [Arkanum](./falkheiland/arkanum/)
     - [Authentik](./falkheiland/authentik/)
+    - [Crowdsec](./falkheiland/crowdsec/)
     - [Cup](./falkheiland/cup/)
     - [docker-db-backup](./falkheiland/docker-db-backup/)
     - [dozzle](./falkheiland/dozzle/)
