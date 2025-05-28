@@ -1,5 +1,7 @@
 # user-configs
 
+This is the repository for my Custom Tipi user-config.
+
 ## Table of contents
 
 - [Overview](#overview)
@@ -12,19 +14,23 @@
 
 ## Overview
 
-[Runtipi](https://runtipi.io) offers the opportunity to customize the configuration of
+[Runtipi](https://runtipi.io) (also referred to just tipi) offers the opportunity to customize the configuration of
 [served apps](https://runtipi.io/docs/guides/customize-app-config) and the used
-[reverse proxy](https://runtipi.io/docs/guides/customize-compose-and-traefik).
+[traefik reverse proxy](https://runtipi.io/docs/guides/customize-compose-and-traefik).
 
 Runtipi is aimed at the use behind and via a VPN and or tunnel.
 This repo contains a opinionated user-config that aims at having Runtipi:
-- being used with a direct connection to the internet
+- being used with a direct connection to the internet behind a NAT router
 - having advanced configuration like SSO/MFA, IP restrictions etc.
+
+Placeholders used in this guide, app specific descriptions and in *.example files:
+- example.com: actual domain name
+- 192.168.1.0/24: actual private ip address range
 
 ## Prerequisites
 
-- working [Runtipi](https://runtipi.io/docs/getting-started/installation) installation (tested with v3.7.4)
-- installed [Authentik](https://github.com/goauthentik/authentik) app (tested with 2024.10.5)
+- working [Runtipi](https://runtipi.io/docs/getting-started/installation) installation (tested with v4.1.0)
+- installed [Authentik](https://github.com/goauthentik/authentik) app (tested with 2025.4.1)
 - installed [crowdsec](https://github.com/crowdsecurity/crowdsec) app and a [account](https://www.crowdsec.net/)
 - a domain managed via [Cloudflare](https://cloudflare.com) DNS with a wildcard entry (ie *.example.com) pointing at your  public IP address
 
@@ -57,9 +63,9 @@ docker stop $(docker ps -a -q)
 # change dir to the app-data
 cd app-data
 # create dir structure for traefik app-data and install traefik plugin geoblock
-mkdir -p traefik/shared
-mkdir -p traefik/plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/
-cd traefik/plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/
+mkdir -p app-data/traefik/shared
+mkdir -p app-data/traefik/plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/
+cd app-data/traefik/plugins-local/src/github.com/nscuro/traefik-plugin-geoblock/
 wget https://github.com/nscuro/traefik-plugin-geoblock/releases/download/v0.14.0/traefik-plugin-geoblock-0.14.0.tar.gz
 tar -xzvf traefik-plugin-geoblock-0.14.0.tar.gz
 rm traefik-plugin-geoblock-0.14.0.tar.gz
@@ -78,31 +84,22 @@ app-data/traefik
 # !!! this way you can work on and use your own configuration.
 git clone git@github.com:falkheiland/user-config.git
 # display the user-config dir structure (excerpt)
-tree -a user-config/
+# tree -a -d -L 2 user-config/
 user-config/
+├── _archive
 ...
-├── authentik
-│   ├── app.env.example
-│   └── docker-compose.yml
+├── falkheiland
+│   ├── arkanum
 ...
-├── crowdsec
-│   └── docker-compose.yml
-...
+├── falkheiland-dev
 ├── .git
-│   ├── branches
 ...
-├── .gitignore
+├── migrated
+│   ├── 2fauth
 ...
-├── tipi-compose.env.example
-├── tipi-compose.yml
-├── traefik
-│   └── etc
-│       ├── dynamic
-│       │   ├── dynamic.yml
-│       │   └── .gitkeep
-│       ├── tls
-│       │   └── .gitkeep
-│       └── traefik.yml
+│   └── wekan
+└── traefik
+    └── etc
 ...
 # Find all env example files and rename them for use in runtipi
 find ./user-config -type f -name "*.example" | while read file; do
@@ -111,7 +108,7 @@ find ./user-config -type f -name "*.example" | while read file; do
     echo "created env file $env_file"
 done
 # results (excerpt)
-created env file ./user-config/freshrss/app.env
+created env file ./user-config/falkheiland/authentik/app.env
 ...
 created env file ./user-config/tipi-compose.env
 ...
@@ -160,34 +157,27 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
 
 - [Runtipi](./traefik/) (incl. traefik)
 - Apps
-  - [2FAuth](./2fauth)
+  - migrated
+    - [2FAuth](./migrated/2fauth/)
+  - falkheiland
+    - [Arkanum](./falkheiland/arkanum/)
+    - [Authentik](./falkheiland/authentik/)
+    - [Cup](./falkheiland/cup/)
+    - [docker-db-backup](./falkheiland/docker-db-backup/)
+    - [dozzle](./falkheiland/dozzle/)
+    - [freshrss-oidc](./falkheiland/freshrss-oidc/)
+    - [nextcloud-fpm](./falkheiland/nextcloud-fpm/)
 
 ***tbc***
+
+## Contribution
+
+Issues and PRs are welcome.
+
+## Contact
+
+use channel `user-configs` on the [Runtipi Discord](https://discord.gg/Bu9qEPnHsc).
 
 ## License
 
 This project is licensed under the MIT License.
-
-## ToDos
-
-### Network segregation
-
-- have separate networks for front- and backends
-- with [docker version v28+](https://github.com/moby/moby/pull/48936) there will be the option to set gateway priorities for attached networks
-
-### traefik tls path
-
-- from user-config to app-data
-  `sudo cp ~/runtipi/traefik/tls/* ~/runtipi/user-config/traefik/etc/tls`
-- autogenerated self signed certs hardcoded in tipi?
-- maybe link in `~/runtipi/user-config/tipi-compose.yml`:
-  ```yaml
-  services:
-  runtipi-reverse-proxy:
-    volumes:
-      ...
-      - ./user-config/traefik/etc:/etc/traefik
-      # add this, because ss cert hard coded?
-      - ./traefik/tls:/etc/traefik/tls
-      ...
-  ```
