@@ -116,7 +116,7 @@ created env file ./user-config/tipi-compose.env
 
 ```
 
-Open and edit each of the files from the result above in an editor of your choice.
+Open and edit each of the files from the result above in an editor of your choice. The `./user-config/tipi-compose.env` contains the necessary env vars for the traefik reverse proxy - it is essential to edit this properly.
 
 ## Getting started
 
@@ -156,7 +156,6 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
 
 ## Documentation
 
-- [Runtipi](./traefik/) (incl. traefik)
 - Apps
   - migrated
     - [2FAuth](./migrated/2fauth/)

@@ -1,35 +1,34 @@
 services:
   runtipi-reverse-proxy:
+    # Ensure the image is not pulled if present
     pull_policy: missing
+    # Use a custom image tag to use a newer Traefik version then tipi's default
     image: traefik:v3.4.0
-    #image: public.ecr.aws/docker/library/traefik:v3.3.4
+    # Use custom env file to set the environment variables
     env_file: ./user-config/tipi-compose.env
     ports:
+      # Expose the Traefik dashboard on port 8080
       - 8080:8080
     volumes:
+      # Use the time from the host system
       - /etc/localtime:/etc/localtime:ro
+      # Use custom configuration files
       - ./user-config/traefik/etc:/etc/traefik
+      # custom plugins directory
       - ./app-data/traefik/plugins-local:/plugins-local
+      # custom shared directory
       - ./app-data/traefik/shared:/shared
-    labels:
-      # WUD-FH
-      wud.tag.include: '^v\d+\.\d+\.\d+$$'
-      wud.watch: true
-      wud.link.template: https://github.com/traefik/traefik/releases/tag/v$${major}.$${minor}.$${patch}
 
   runtipi-db:
+    # Ensure the image is not pulled if present
     pull_policy: missing
     networks:
+      # This network is shared with the docker-db-backup app
       shared_docker-db-backup_network:
         gw_priority: 0
-    labels:
-      # WUD-FH
-      wud.tag.include: '^\d+$$'
-      wud.watch: false
-      wud.watch.digest: true
-      wud.link.template: https://github.com/postgres/postgres/releases/tag/REL_$${major}_$${minor}
 
   runtipi:
+    # Ensure the image is not pulled if present
     pull_policy: missing
     labels:
       # ---- General ----- #
@@ -38,30 +37,36 @@ services:
       # Local ip
       traefik.http.routers.dashboard.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/`)
       # Websecure
+      # Use the chain-Domain-auth middleware for domain handling
       traefik.http.routers.dashboard-secure.middlewares: chain-Domain-auth@file
+      # Set the default certresolver to use the wildcard certificate
       traefik.http.routers.dashboard-secure.tls.domains[0].main: ${WILDCARD_DOMAIN}
       traefik.http.routers.dashboard-secure.tls.domains[0].sans: "*.${WILDCARD_DOMAIN}"
       # Secure
+      # Use the ipAllowList-local middleware for domain handling
       traefik.http.routers.dashboard-local.middlewares: ipAllowList-local@file
 
       # ---- Socket ----- #
       # Local ip
+      # Set the rule to match the internal IP or tipi.local domain
       traefik.http.routers.socket.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/api/socket.io`)
       # Websecure
+      # Set the rule to match the domain and path prefix for insecure connections
       traefik.http.routers.socket-insecure.rule: Host(`${DOMAIN}`) && PathPrefix(`/api/socket.io`)
+      # Set the rule to match the domain and path prefix for secure connections
       traefik.http.routers.socket-secure.rule: Host(`${DOMAIN}`) && PathPrefix(`/api/socket.io`)
+      # Use the chain-Domain-auth middleware for domain handling
       traefik.http.routers.socket-secure.middlewares: chain-Domain-auth@file
+      # Use the default certresolver
       traefik.http.routers.socket-secure.tls.certresolver: ''
       # Local domain
       traefik.http.routers.socket-local-insecure.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/api/socket.io`)
       # Secure
       traefik.http.routers.socket-local.rule: (Host(`${INTERNAL_IP}`) || Host(`tipi.${LOCAL_DOMAIN}`)) && PathPrefix(`/api/socket.io`)
+      # Use the chain-localDomain middleware for domain handling
       traefik.http.routers.socket-local.middlewares: chain-localDomain@file
-      # WUD-FH
-      wud.tag.include: '^v\d+\.\d+\.\d+$$'
-      wud.watch: true
-      wud.link.template: https://github.com/runtipi/runtipi/releases/tag/v$${major}.$${minor}.$${patch}
 
 networks:
+  # This network is shared with the docker-db-backup app
   shared_docker-db-backup_network:
     external: true
