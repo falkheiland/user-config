@@ -1,0 +1,6 @@
+{
+  "yaml.schemas": {
+    "https://json.schemastore.org/traefik-v3.json": "**/traefik.yml",
+    "https://json.schemastore.org/traefik-v3-file-provider.json": "**/dynamic.yml"
+  }
+}
