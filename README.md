@@ -9,8 +9,9 @@ This is the repository for my Custom Tipi user-config.
 - [Installation](#installation)
 - [Getting started](#getting-started)
 - [Documentation](#documentation)
+- [Contribution](#contribution)
+- [Contact](#contact)
 - [License](#license)
-- [ToDos](#todos)
 
 ## Overview
 
