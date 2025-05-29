@@ -1,5 +1,6 @@
 services:
   dozzle:
+    # Ensure the image is not pulled if present
     pull_policy: missing
     labels:
       # Websecure

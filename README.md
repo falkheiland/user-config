@@ -164,6 +164,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [Authentik](./falkheiland/authentik/)
     - [Crowdsec](./falkheiland/crowdsec/)
     - [Cup](./falkheiland/cup/)
+    - [ddns-updater-cf](./falkheiland/ddns-updater-cf/)
     - [docker-db-backup](./falkheiland/docker-db-backup/)
     - [dozzle](./falkheiland/dozzle/)
     - [freshrss-oidc](./falkheiland/freshrss-oidc/)

@@ -1,9 +1,12 @@
 services:
   crowdsec:
+    # Ensure the image is not pulled if present
     pull_policy: missing
     ports:
       # crowdsec-bouncer-tipi
-      - "8081:8080" # TODO: ${APP_PORT}:8080 #8081
+      # TODO: Fix | ${APP_PORT}:8080 #8081
+      - "8081:8080"
+    # TODO: Feature | Add environment variables for crowdsec
     volumes: !override
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -13,19 +16,24 @@ services:
     networks:
       crowdsec_falkheiland_network:
         gw_priority: 0
+      # Add the tipi_main_network to allow communication with other services
       tipi_main_network:
         gw_priority: 1
     environment:
+      # TODO: Feature | Add Collections to crowdsec
       - COLLECTIONS= crowdsecurity/apache2 firix/authentik crowdsecurity/http-cve gauth-fr/immich crowdsecurity/iptables xs539/joplin-server crowdsecurity/linux crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/whitelist-good-actors
 
   crowdsec-dashboard:
-    image: metabase/metabase
+    # Ensure the image is not pulled if present
     pull_policy: missing
     labels:
       # Websecure
+      # Use the chain-Domain-auth middleware for domain handling
       traefik.http.routers.crowdsec-falkheiland.middlewares: chain-Domain-auth@file
+      # Use the default certresolver
       traefik.http.routers.crowdsec-falkheiland.tls.certresolver: ''
-      # WebSecure local IP
+      # # WebSecure local IP
+      # # Add new router for local IP access (tipi host crowdsec bouncerto stack)
       traefik.http.routers.crowdsec-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
       traefik.http.routers.crowdsec-falkheiland-privip.middlewares: chain-Domain@file
       traefik.http.routers.crowdsec-falkheiland-privip.entrypoints: websecure
@@ -34,9 +42,11 @@ services:
       traefik.http.routers.crowdsec-falkheiland-privip.tls.certresolver: ''
 
   crowdsec-bouncer-traefik:
+    # Ensure the image is not pulled if present
     pull_policy: missing
     networks:
       crowdsec_falkheiland_network:
         gw_priority: 0
+      # Add the tipi_main_network to allow communication with other services
       tipi_main_network:
         gw_priority: 1
