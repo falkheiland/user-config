@@ -168,6 +168,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [docker-db-backup](./falkheiland/docker-db-backup/)
     - [dozzle](./falkheiland/dozzle/)
     - [freshrss-oidc](./falkheiland/freshrss-oidc/)
+    - [immich](./falkheiland/immich/)
     - [nextcloud-fpm](./falkheiland/nextcloud-fpm/)
 
 ***tbc***

@@ -1,0 +1,23 @@
+services:
+  immich:
+    pull_policy: missing
+    labels:
+      # Websecure
+      traefik.http.routers.immich-falkheiland.middlewares: chain-Domain-auth@file
+      traefik.http.routers.immich-falkheiland.tls.certresolver: ''
+
+  immich-machine-learning:
+    pull_policy: missing
+
+  immich-redis:
+    pull_policy: missing
+
+  immich-db:
+    pull_policy: missing
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
+
+networks:
+  shared_docker-db-backup_network:
+    external: true
