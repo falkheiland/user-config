@@ -41,6 +41,14 @@
             - UI settings: Open in new tab
             - download [icon (png)](https://selfh.st/icons/)
             - Icon: Browse (downloaded icon)
+        3. Applications > Applications
+            - Create
+            - Name: `immich-forwardauth-app`
+            - Slug: `immich-forwardauth-app`
+            - Provider: `immich-forwardauth-provider`
+            - UI settings: Open in new tab
+            - download [icon (png)](https://selfh.st/icons/)
+            - Icon: Browse (downloaded icon)
 3. Immich
     1. immich UI
         - login
