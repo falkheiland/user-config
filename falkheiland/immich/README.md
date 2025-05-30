@@ -41,8 +41,8 @@
             - UI settings: Open in new tab
             - download [icon (png)](https://selfh.st/icons/)
             - Icon: Browse (downloaded icon)
-3. immich
-    2. immich UI
+3. Immich
+    1. immich UI
         - login
         - Administration -> Settings -> Authentification Settings -> OAuth
         - Login with OAuth: Enable
