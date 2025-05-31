@@ -54,7 +54,7 @@ services:
       - DB08_PASS=${NOCODB_DB_PASSWORD}
       # DB09 paperless-ngx
       - DB09_TYPE=pgsql
-      - DB09_HOST=db
+      - DB09_HOST=paperless-db
       - DB09_NAME=paperless
       - DB09_USER=paperless
       - DB09_PASS=${PAPERLESS_DB_PASSWORD}

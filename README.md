@@ -170,6 +170,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [Freshrss-OIDC](./falkheiland/freshrss-oidc/)
     - [Immich](./falkheiland/immich/)
     - [Nextcloud-FPM](./falkheiland/nextcloud-fpm/)
+    - [Paperless-ngx](./falkheiland/paperless-ngx/)]
 
 ***tbc***
 
