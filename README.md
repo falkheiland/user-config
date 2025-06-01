@@ -157,9 +157,8 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
 ## Documentation
 
 - Apps
-  - migrated
-    - [2FAuth](./migrated/2fauth/)
   - falkheiland
+    - [2FAuth](./falkheiland/2fauth/)
     - [Arkanum](./falkheiland/arkanum/)
     - [Authentik](./falkheiland/authentik/)
     - [Crowdsec](./falkheiland/crowdsec/)
