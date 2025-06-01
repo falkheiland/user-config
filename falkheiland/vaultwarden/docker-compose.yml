@@ -1,0 +1,14 @@
+services:
+  vaultwarden:
+    pull_policy: missing
+    labels:
+      # Websecure
+      traefik.http.routers.vaultwarden-falkheiland.middlewares: chain-Domain-auth@file
+      traefik.http.routers.vaultwarden-falkheiland.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.vaultwarden-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.vaultwarden-falkheiland-privip.middlewares: chain-Domain@file
+      traefik.http.routers.vaultwarden-falkheiland-privip.entrypoints: websecure
+      traefik.http.routers.vaultwarden-falkheiland-privip.service: vaultwarden-falkheiland
+      traefik.http.routers.vaultwarden-falkheiland-privip.priority: 100
+      traefik.http.routers.vaultwarden-falkheiland-privip.tls.certresolver: ''

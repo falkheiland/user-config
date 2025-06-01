@@ -171,6 +171,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [Immich](./falkheiland/immich/)
     - [Nextcloud-FPM](./falkheiland/nextcloud-fpm/)
     - [Paperless-ngx](./falkheiland/paperless-ngx/)
+    - [Vaultwarden](./falkheiland/vaultwarden/ )
 
 ***tbc***
 
