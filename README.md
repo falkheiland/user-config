@@ -170,6 +170,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [Freshrss-OIDC](./falkheiland/freshrss-oidc/)
     - [Home Assistant](./falkheiland/homeassistant/)
     - [Immich](./falkheiland/immich/)
+    - [IT-Tools](./falkheiland/it-tools/)
     - [Nextcloud-FPM](./falkheiland/nextcloud-fpm/)
     - [Paperless-ngx](./falkheiland/paperless-ngx/)
     - [Vaultwarden](./falkheiland/vaultwarden/ )

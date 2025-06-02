@@ -1,0 +1,14 @@
+services:
+  it-tools:
+    pull_policy: missing
+    labels:
+      # Websecure
+      traefik.http.routers.it-tools-falkheiland.middlewares: chain-Domain-auth@file
+      traefik.http.routers.it-tools-falkheiland.tls.certresolver: ''
+      # WebSecure local IP
+      traefik.http.routers.it-tools-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.it-tools-falkheiland-privip.middlewares: chain-Domain@file
+      traefik.http.routers.it-tools-falkheiland-privip.entrypoints: websecure
+      traefik.http.routers.it-tools-falkheiland-privip.service: it-tools-falkheiland
+      traefik.http.routers.it-tools-falkheiland-privip.priority: 100
+      traefik.http.routers.it-tools-falkheiland-privip.tls.certresolver: ''
