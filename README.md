@@ -161,6 +161,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [2FAuth](./falkheiland/2fauth/)
     - [Arkanum](./falkheiland/arkanum/)
     - [Authentik](./falkheiland/authentik/)
+    - [Bookstack](./falkheiland/bookstack/)
     - [Crowdsec](./falkheiland/crowdsec/)
     - [Cup](./falkheiland/cup/)
     - [DDNS-Updater-CF](./falkheiland/ddns-updater-cf/)

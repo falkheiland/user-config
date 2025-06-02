@@ -19,8 +19,8 @@ services:
       # DB03 bookstack
       - DB03_TYPE=mysql
       - DB03_HOST=bookstack-db
-      - DB03_NAME=bookstackapp
-      - DB03_USER=tipi
+      - DB03_NAME=bookstack
+      - DB03_USER=bookstack
       - DB03_PASS=${BOOKSTACK_DB_PASS}
       # DB04 immich
       - DB04_TYPE=pgsql

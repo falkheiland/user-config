@@ -1,0 +1,17 @@
+services:
+  bookstack:
+    pull_policy: missing
+    labels:
+      # Websecure
+      traefik.http.routers.bookstack-falkheiland.middlewares: chain-Domain-auth@file
+      traefik.http.routers.bookstack-falkheiland.tls.certresolver: ''
+
+  bookstack-db:
+    pull_policy: missing
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
+
+networks:
+  shared_docker-db-backup_network:
+    external: true
