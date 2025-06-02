@@ -168,6 +168,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [docker-db-backup](./falkheiland/docker-db-backup/)
     - [Dozzle](./falkheiland/dozzle/)
     - [Freshrss-OIDC](./falkheiland/freshrss-oidc/)
+    - [Home Assistant](./falkheiland/homeassistant/)
     - [Immich](./falkheiland/immich/)
     - [Nextcloud-FPM](./falkheiland/nextcloud-fpm/)
     - [Paperless-ngx](./falkheiland/paperless-ngx/)
