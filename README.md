@@ -172,6 +172,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [Immich](./falkheiland/immich/)
     - [IT-Tools](./falkheiland/it-tools/)
     - [Jellyfin](./falkheiland/jellyfin/)
+    - [Joplin Server](./falkheiland/joplin/)
     - [Nextcloud-FPM](./falkheiland/nextcloud-fpm/)
     - [Paperless-ngx](./falkheiland/paperless-ngx/)
     - [Vaultwarden](./falkheiland/vaultwarden/ )
