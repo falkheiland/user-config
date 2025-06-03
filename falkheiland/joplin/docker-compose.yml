@@ -1,0 +1,17 @@
+services:
+  joplin:
+    pull_policy: missing
+    labels:
+      # Websecure
+      traefik.http.routers.joplin-falkheiland.middlewares: chain-Domain@file
+      traefik.http.routers.joplin-falkheiland.tls.certresolver: ''
+
+  joplin-db:
+    pull_policy: missing
+    networks:
+      shared_docker-db-backup_network:
+        gw_priority: 0
+
+networks:
+  shared_docker-db-backup_network:
+    external: true

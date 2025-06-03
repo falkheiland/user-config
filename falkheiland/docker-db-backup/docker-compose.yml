@@ -30,9 +30,9 @@ services:
       - DB04_PASS=${IMMICH_DB_PASSWORD}
       # DB05 joplin
       - DB05_TYPE=pgsql
-      - DB05_HOST=db-joplin
+      - DB05_HOST=joplin-db
       - DB05_NAME=joplin
-      - DB05_USER=tipi
+      - DB05_USER=joplin
       - DB05_PASS=${JOPLIN_DB_PASSWORD}
       # DB06 linkwarden
       - DB06_TYPE=pgsql
