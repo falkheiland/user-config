@@ -9,6 +9,6 @@ services:
       traefik.http.routers.homeassistant-1-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
       traefik.http.routers.homeassistant-1-falkheiland-privip.middlewares: chain-Domain@file
       traefik.http.routers.homeassistant-1-falkheiland-privip.entrypoints: websecure
-      traefik.http.routers.homeassistant-1-falkheiland-privip.service: homeassistant-1-falkheiland
+      traefik.http.routers.homeassistant-1-falkheiland-privip.service: homeassistant-falkheiland
       traefik.http.routers.homeassistant-1-falkheiland-privip.priority: 100
       traefik.http.routers.homeassistant-1-falkheiland-privip.tls.certresolver: ''
