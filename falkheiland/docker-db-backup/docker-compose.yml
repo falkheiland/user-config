@@ -38,7 +38,7 @@ services:
       - DB06_TYPE=pgsql
       - DB06_HOST=linkwarden-db
       - DB06_NAME=linkwarden
-      - DB06_USER=tipi
+      - DB06_USER=linkwarden
       - DB06_PASS=${LINKWARDEN_DB_PASSWORD}
       # DB07 nextcloud-fpm
       - DB07_TYPE=pgsql
