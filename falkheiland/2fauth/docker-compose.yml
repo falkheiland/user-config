@@ -1,14 +1,10 @@
 services:
   2fauth:
+    # Ensure the image is not pulled if present
     pull_policy: missing
     labels:
-      # Websecure: [Dom], ForwardAuth: [Dom]
+      # Websecure:
+      # Use the chain-Domain-auth middleware for domain handling
       traefik.http.routers.2fauth-falkheiland.middlewares: chain-Domain-auth@file
+      # Use the default certresolver
       traefik.http.routers.2fauth-falkheiland.tls.certresolver: ''
-      # WebSecure local: IP [DomL]
-      traefik.http.routers.2fauth-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
-      traefik.http.routers.2fauth-falkheiland-privip.middlewares: chain-Domain@file
-      traefik.http.routers.2fauth-falkheiland-privip.entrypoints: websecure
-      traefik.http.routers.2fauth-falkheiland-privip.service: 2fauth-falkheiland
-      traefik.http.routers.2fauth-falkheiland-privip.priority: 100
-      traefik.http.routers.2fauth-falkheiland-privip.tls.certresolver: ''
