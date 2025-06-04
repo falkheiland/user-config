@@ -1,7 +1,7 @@
 services:
   dozzle:
-    # Ensure the image is not pulled if present
-    pull_policy: missing
+    # Ensure the image is always pulled
+    pull_policy: always
     labels:
       # Websecure
       # Use the chain-Domain-auth middleware for domain handling
