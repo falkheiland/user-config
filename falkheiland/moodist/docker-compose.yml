@@ -1,0 +1,18 @@
+services:
+  moodist:
+    # Ensure the image is not pulled if present
+    pull_policy: missing
+    labels:
+      # Websecure
+      # Use the chain-Domain-auth middleware for domain handling
+      traefik.http.routers.moodist-falkheiland.middlewares: chain-Domain-auth@file
+      # Use the default certresolver
+      traefik.http.routers.moodist-falkheiland.tls.certresolver: ''
+      # WebSecure local IP
+      # Use additional router for local access
+      traefik.http.routers.moodist-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.moodist-falkheiland-privip.middlewares: chain-Domain@file
+      traefik.http.routers.moodist-falkheiland-privip.entrypoints: websecure
+      traefik.http.routers.moodist-falkheiland-privip.service: moodist-falkheiland
+      traefik.http.routers.moodist-falkheiland-privip.priority: 100
+      traefik.http.routers.moodist-falkheiland-privip.tls.certresolver: ''

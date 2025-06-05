@@ -9,11 +9,10 @@ services:
       # Use the default certresolver
       traefik.http.routers.it-tools-falkheiland.tls.certresolver: ''
       # WebSecure local IP
-      # Use the chain-Domain middleware for domain handling
+      # Use additional router for local access
       traefik.http.routers.it-tools-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
       traefik.http.routers.it-tools-falkheiland-privip.middlewares: chain-Domain@file
       traefik.http.routers.it-tools-falkheiland-privip.entrypoints: websecure
       traefik.http.routers.it-tools-falkheiland-privip.service: it-tools-falkheiland
       traefik.http.routers.it-tools-falkheiland-privip.priority: 100
-      # Use the default certresolver
       traefik.http.routers.it-tools-falkheiland-privip.tls.certresolver: ''
