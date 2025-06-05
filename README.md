@@ -176,6 +176,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [Linkwarden](./falkheiland/linkwarden/)
     - [MeTube](./falkheiland/metube/)
     - [Moodist](./falkheiland/moodist/)
+    - [Navidrome](./falkheiland/navidrome/)
     - [Nextcloud-FPM](./falkheiland/nextcloud-fpm/)
     - [Paperless-ngx](./falkheiland/paperless-ngx/)
     - [Vaultwarden](./falkheiland/vaultwarden/ )
