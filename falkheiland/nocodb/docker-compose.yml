@@ -1,0 +1,35 @@
+services:
+  nocodb:
+    # Ensure the image is not pulled if present
+    pull_policy: missing
+    labels:
+      # Websecure
+      # Use the chain-Domain-auth middleware for domain handling
+      traefik.http.routers.nocodb-falkheiland.middlewares: chain-Domain-auth@file
+      # Use the default certresolver
+      traefik.http.routers.nocodb-falkheiland.tls.certresolver: ''
+      # WebSecure local IP
+      # Use additional router for local access
+      traefik.http.routers.nocodb-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.nocodb-falkheiland-privip.middlewares: chain-Domain@file
+      traefik.http.routers.nocodb-falkheiland-privip.entrypoints: websecure
+      traefik.http.routers.nocodb-falkheiland-privip.service: nocodb-falkheiland
+      traefik.http.routers.nocodb-falkheiland-privip.priority: 100
+      traefik.http.routers.nocodb-falkheiland-privip.tls.certresolver: ''
+
+  nocodb-db:
+    # Ensure the image is not pulled if present
+    pull_policy: missing
+    networks:
+      # This network is shared with the docker-db-backup app
+      shared_docker-db-backup_network:
+        gw_priority: 0
+
+  nocodb-redis:
+    # Ensure the image is not pulled if present
+    pull_policy: missing
+
+networks:
+  # This network is shared with the docker-db-backup ap
+  shared_docker-db-backup_network:
+    external: true

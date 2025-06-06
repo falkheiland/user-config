@@ -178,6 +178,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [Moodist](./falkheiland/moodist/)
     - [Navidrome](./falkheiland/navidrome/)
     - [Nextcloud-FPM](./falkheiland/nextcloud-fpm/)
+    - [NocoDB](./falkheiland/nocodb/)
     - [Paperless-ngx](./falkheiland/paperless-ngx/)
     - [Vaultwarden](./falkheiland/vaultwarden/ )
 
