@@ -180,6 +180,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [Nextcloud-FPM](./falkheiland/nextcloud-fpm/)
     - [NocoDB](./falkheiland/nocodb/)
     - [Paperless-ngx](./falkheiland/paperless-ngx/)
+    - [Pinchflat](./falkheiland/pinchflat/)
     - [Vaultwarden](./falkheiland/vaultwarden/ )
 
 ***tbc***
