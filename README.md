@@ -183,6 +183,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [Pinchflat](./falkheiland/pinchflat/)
     - [SearXNG](./falkheiland/searxng/)
     - [Vaultwarden](./falkheiland/vaultwarden/ )
+    - [Wallos](./falkheiland/wallos/)
 
 ***tbc***
 

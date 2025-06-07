@@ -1,0 +1,17 @@
+services:
+  wallos:
+    # Ensure the image is not pulled if present
+    pull_policy: missing
+    labels:
+      # Websecure
+      # Use the chain-Domain-auth middleware for domain handling
+      traefik.http.routers.wallos-falkheiland.middlewares: chain-Domain-auth@file
+      traefik.http.routers.wallos-falkheiland.tls.certresolver: ''
+      # WebSecure local IP
+      # Use additional router for local access
+      traefik.http.routers.wallos-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.wallos-falkheiland-privip.middlewares: chain-Domain@file
+      traefik.http.routers.wallos-falkheiland-privip.entrypoints: websecure
+      traefik.http.routers.wallos-falkheiland-privip.service: wallos-falkheiland
+      traefik.http.routers.wallos-falkheiland-privip.priority: 100
+      traefik.http.routers.wallos-falkheiland-privip.tls.certresolver: ''
