@@ -181,6 +181,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [NocoDB](./falkheiland/nocodb/)
     - [Paperless-ngx](./falkheiland/paperless-ngx/)
     - [Pinchflat](./falkheiland/pinchflat/)
+    - [SearXNG](./falkheiland/searxng/)
     - [Vaultwarden](./falkheiland/vaultwarden/ )
 
 ***tbc***

@@ -1,0 +1,15 @@
+services:
+  searxng:
+    labels:
+      # Websecure
+      # Use the chain-Domain-auth middleware for domain handling
+      traefik.http.routers.searxng-falkheiland.middlewares: chain-Domain-auth@file
+      traefik.http.routers.searxng-falkheiland.tls.certresolver: ''
+      # WebSecure local IP
+      # Use additional router for local access
+      traefik.http.routers.searxng-falkheiland-privip.rule: Host(`${APP_DOMAIN}`) && ClientIP(`${PRIVATE_IPV4}`)
+      traefik.http.routers.searxng-falkheiland-privip.middlewares: chain-Domain@file
+      traefik.http.routers.searxng-falkheiland-privip.entrypoints: websecure
+      traefik.http.routers.searxng-falkheiland-privip.service: searxng-falkheiland
+      traefik.http.routers.searxng-falkheiland-privip.priority: 100
+      traefik.http.routers.searxng-falkheiland-privip.tls.certresolver: ''
