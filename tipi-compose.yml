@@ -3,7 +3,7 @@ services:
     # Ensure the image is not pulled if present
     pull_policy: missing
     # Use a custom image tag to use a newer Traefik version then tipi's default
-    image: traefik:v3.4.0
+    image: traefik:v3.4.1
     # Use custom env file to set the environment variables
     env_file: ./user-config/tipi-compose.env
     ports:
