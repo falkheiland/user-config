@@ -184,6 +184,7 @@ docker compose --env-file app-data/crowdsec/app.env --env-file user-config/crowd
     - [SearXNG](./falkheiland/searxng/)
     - [Vaultwarden](./falkheiland/vaultwarden/ )
     - [Wallos](./falkheiland/wallos/)
+    - [Wekan](./falkheiland/wekan/)
 
 ***tbc***
 
