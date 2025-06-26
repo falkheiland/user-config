@@ -121,7 +121,7 @@ Open and edit each of the files from the result above in an editor of your choic
 ## Getting started
 
 ```bash
-sudo ./runtipi-cli start
+sudo ./runtipi-cli start --env-file user-config/tipi-compose.env
 ```
 
 - open the traefik dashboard in your browser `http://<runtipi-IP>:8080/dashboard/#/`
@@ -143,7 +143,7 @@ sudo crontab -e
 ```
 
 ```
-@reboot cd /path/to/runtipi/; ./runtipi-cli start
+@reboot cd /path/to/runtipi/; ./runtipi-cli start --env-file user-config/tipi-compose.env
 ```
 
 ## Tipps
