@@ -134,16 +134,35 @@ sudo ./runtipi-cli start --env-file user-config/tipi-compose.env
 - start each app after making above settings
 - test the app
 
-## Configuration
+## Service
 
-if you have configured automatic system updates with a reboot in ubuntu, you will possibly run into the problem, that the tipi containers are not started. for that reason you can use a @reboot entry in crontab:
-
-```
-sudo crontab -e
+```bash
+sudo vim /etc/systemd/system/tipi.service
 ```
 
 ```
-@reboot cd /path/to/runtipi/; ./runtipi-cli start --env-file user-config/tipi-compose.env
+[Unit]
+Description=Runtipi service
+Requires=docker.service multi-user.target
+After=docker.service network-online.target
+
+[Service]
+Restart=always
+RemainAfterExit=yes
+WorkingDirectory=/home/user/runtipi
+ExecStart=/home/user/runtipi/runtipi-cli start --env-file /home/user/runtipi/user-config/tipi-compose.env
+ExecStop=/home/user/runtipi/runtipi-cli stop
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable tipi.service
+sudo systemctl start tipi.service
+sudo systemctl status tipi.service
+journalctl -u tipi.service -f
 ```
 
 ## Tipps
