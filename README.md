@@ -8,6 +8,7 @@ This is the repository for my Custom Tipi user-config.
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Getting started](#getting-started)
+- [Running as Service](#running-as-service)
 - [Documentation](#documentation)
 - [Contribution](#contribution)
 - [Contact](#contact)
@@ -134,7 +135,7 @@ sudo ./runtipi-cli start --env-file user-config/tipi-compose.env
 - start each app after making above settings
 - test the app
 
-## Service
+## Running as Service
 
 ```bash
 sudo vim /etc/systemd/system/tipi.service
