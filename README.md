@@ -1,3 +1,5 @@
+Repository moved to <https://codeberg.org/falkheiland/user-config>
+
 # user-configs
 
 This is the repository for my Custom Tipi user-config.
